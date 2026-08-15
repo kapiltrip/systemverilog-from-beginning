@@ -58,109 +58,13 @@ Reserved for larger SystemVerilog or verification projects as the repository pro
 
 ## Learning Sequence
 
-### 01 — Simulation Basics
-
-[Study notes and source](Codes/01-simulation-basics/README.md) · [Run on EDA Playground](https://edaplayground.com/x/Ucnp)
-
-Introduces simulation-time fundamentals, `` `timescale ``, initialization, procedural delays, VCD waveform dumping, `$monitor`, and `$finish`.
-
-Key ideas:
-
-- time unit versus time precision;
-- concurrent execution of multiple `initial` blocks;
-- sequential execution inside an individual procedural block;
-- four-state initialization behavior;
-- observing a testbench through waveform and console output.
-
----
-
-### 02 — Clock Generation
-
-[Study notes and source](Codes/02-clock-generation/README.md) · [Run on EDA Playground](https://edaplayground.com/x/gi86)
-
-Builds a periodic clock and develops the timing reasoning required to understand edge-triggered simulation behavior.
-
-Key ideas:
-
-- periodic signal generation;
-- delay-based clock construction;
-- event sensitivity and signal transitions;
-- reasoning about simulation timestamps.
-
----
-
-### 03 — Phase-Shifted Clocks
-
-[Study notes and source](Codes/03-phase-shifted-clocks/README.md) · [Run on EDA Playground](https://edaplayground.com/x/gi8n)
-
-Extends basic clock generation to multiple clocks with controlled phase relationships.
-
-Key ideas:
-
-- clock period and phase;
-- relative timing between signals;
-- waveform-based verification of timing relationships.
-
----
-
-### 04 — Data Types and Time
-
-[Study notes and source](Codes/04-data-types-and-time/README.md) · [Run on EDA Playground](https://edaplayground.com/x/giAN)
-
-Explores SystemVerilog data representation together with simulator time-reporting functions.
-
-Key ideas:
-
-- commonly used SystemVerilog data types;
-- two-state versus four-state behavior;
-- `$time` and `$realtime`;
-- how time precision affects reported simulation values.
-
----
-
-### 05 — Fixed Arrays and `for` Loops
-
-[Study notes and source](Codes/05-fixed-arrays-and-for-loop/README.md) · [Run on EDA Playground](https://edaplayground.com/x/8k9Q)
-
-Introduces unpacked arrays, assignment patterns, array printing, and indexed procedural iteration.
-
-Key ideas:
-
-- fixed-size unpacked arrays;
-- fixed versus dynamic array behavior;
-- assignment patterns such as `'{...}`;
-- repetition and `default` initialization;
-- `$size` and `%p`;
-- array population with `for` loops.
-
----
-
-### 06 — Array Iteration
-
-[Study notes and source](Codes/06-array-iteration/README.md) · [Run on EDA Playground](https://edaplayground.com/x/GK3p)
-
-Continues array programming using SystemVerilog iteration constructs.
-
-Key ideas:
-
-- `foreach` traversal;
-- `repeat` loops;
-- choosing an iteration construct based on intent;
-- avoiding hard-coded array bounds where possible.
-
----
-
-### 07 — Whole-Array Copying
-
-[Study notes and source](Codes/07-array-copying/README.md) · [Run on EDA Playground](https://edaplayground.com/x/CafY)
-
-Demonstrates aggregate array operations and whole-array assignment.
-
-Key ideas:
-
-- copying compatible arrays;
-- aggregate assignment semantics;
-- observing complete data structures during simulation.
+1. **Simulation Basics** — timing, `` `timescale ``, `initial`, delays, VCD, `$monitor`, `$finish`. [Notes](Codes/01-simulation-basics/README.md) · [EDA Playground](https://edaplayground.com/x/Ucnp)
+2. **Clock Generation** — periodic clocks, delays, edges, and simulation timestamps. [Notes](Codes/02-clock-generation/README.md) · [EDA Playground](https://edaplayground.com/x/gi86)
+3. **Phase-Shifted Clocks** — clock period, phase, and relative timing. [Notes](Codes/03-phase-shifted-clocks/README.md) · [EDA Playground](https://edaplayground.com/x/gi8n)
+4. **Data Types and Time** — two-state/four-state types, `$time`, and `$realtime`. [Notes](Codes/04-data-types-and-time/README.md) · [EDA Playground](https://edaplayground.com/x/giAN)
+5. **Fixed Arrays and `for` Loops** — unpacked arrays, initialization, `$size`, `%p`, and indexed iteration. [Notes](Codes/05-fixed-arrays-and-for-loop/README.md) · [EDA Playground](https://edaplayground.com/x/8k9Q)
+6. **Array Iteration** — `foreach`, `repeat`, and array traversal. [Notes](Codes/06-array-iteration/README.md) · [EDA Playground](https://edaplayground.com/x/GK3p)
+7. **Whole-Array Copying** — compatible array assignment and aggregate operations. [Notes](Codes/07-array-copying/README.md) · [EDA Playground](https://edaplayground.com/x/CafY)
 
 ## How to Study This Repository
 
