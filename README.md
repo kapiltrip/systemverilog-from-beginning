@@ -6,13 +6,13 @@ An ordered archive of my SystemVerilog practice from EDA Playground. The origina
 
 | Part | Topic | EDA Playground |
 | ---: | --- | --- |
-| 01 | [Simulation basics, timescale, dump, monitor, and finish](01-simulation-basics/) | [Open playground](https://edaplayground.com/x/Ucnp) |
-| 02 | [Clock generation and sensitivity-list reasoning](02-clock-generation/) | [Open playground](https://edaplayground.com/x/gi86) |
-| 03 | [Phase-shifted clocks](03-phase-shifted-clocks/) | [Open playground](https://edaplayground.com/x/gi8n) |
-| 04 | [Data types, `$time`, and `$realtime`](04-data-types-and-time/) | [Open playground](https://edaplayground.com/x/giAN) |
-| 05 | [Fixed arrays, initialization, and `for`](05-fixed-arrays-and-for-loop/) | [Open playground](https://edaplayground.com/x/8k9Q) |
-| 06 | [Array iteration with `foreach` and `repeat`](06-array-iteration/) | [Open playground](https://edaplayground.com/x/GK3p) |
-| 07 | [Whole-array copying](07-array-copying/) | [Open playground](https://edaplayground.com/x/CafY) |
+| 01 | [Simulation basics, timescale, dump, monitor, and finish](01-simulation-basics/README.md) | [Open playground](https://edaplayground.com/x/Ucnp) |
+| 02 | [Clock generation and sensitivity-list reasoning](02-clock-generation/README.md) | [Open playground](https://edaplayground.com/x/gi86) |
+| 03 | [Phase-shifted clocks](03-phase-shifted-clocks/README.md) | [Open playground](https://edaplayground.com/x/gi8n) |
+| 04 | [Data types, `$time`, and `$realtime`](04-data-types-and-time/README.md) | [Open playground](https://edaplayground.com/x/giAN) |
+| 05 | [Fixed arrays, initialization, and `for`](05-fixed-arrays-and-for-loop/README.md) | [Open playground](https://edaplayground.com/x/8k9Q) |
+| 06 | [Array iteration with `foreach` and `repeat`](06-array-iteration/README.md) | [Open playground](https://edaplayground.com/x/GK3p) |
+| 07 | [Whole-array copying](07-array-copying/README.md) | [Open playground](https://edaplayground.com/x/CafY) |
 
 ## Repository convention
 
