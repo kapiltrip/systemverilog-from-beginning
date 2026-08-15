@@ -1,27 +1,241 @@
-# SV Practice (Initial)
+# SystemVerilog from Beginning
 
-This repository follows the initial directory structure from my handwritten plan:
+> A structured, hands-on SystemVerilog learning repository built from first principles.
 
-- `Codes/` contains my SystemVerilog code and answers to questions raised while writing it.
-- `Project/` is reserved for projects and is empty for now.
-- This outermost `README.md` indexes every code part and its appropriately named EDA Playground link.
+This repository is an **ordered SystemVerilog practice notebook**. Each numbered part preserves the original experiment, keeps the corresponding EDA Playground link, and adds explanations for the language and simulation behavior being explored.
 
-## Index
+The emphasis is not only on *what the syntax does*, but also on **why the simulator behaves that way**—including timing, concurrency, data representation, arrays, and testbench-oriented programming concepts.
 
-| Part | Topic | EDA Playground |
-| ---: | --- | --- |
-| 01 | [Simulation basics, timescale, dump, monitor, and finish](Codes/01-simulation-basics/README.md) | [SV 01 - Simulation Basics](https://edaplayground.com/x/Ucnp) |
-| 02 | [Clock generation and sensitivity-list reasoning](Codes/02-clock-generation/README.md) | [SV 02 - Clock Generation](https://edaplayground.com/x/gi86) |
-| 03 | [Phase-shifted clocks](Codes/03-phase-shifted-clocks/README.md) | [SV 03 - Phase-Shifted Clocks](https://edaplayground.com/x/gi8n) |
-| 04 | [Data types, `$time`, and `$realtime`](Codes/04-data-types-and-time/README.md) | [SV 04 - Data Types and Time](https://edaplayground.com/x/giAN) |
-| 05 | [Fixed arrays, initialization, and `for`](Codes/05-fixed-arrays-and-for-loop/README.md) | [SV 05 - Fixed Arrays and For Loop](https://edaplayground.com/x/8k9Q) |
-| 06 | [Array iteration with `foreach` and `repeat`](Codes/06-array-iteration/README.md) | [SV 06 - Array Iteration](https://edaplayground.com/x/GK3p) |
-| 07 | [Whole-array copying](Codes/07-array-copying/README.md) | [SV 07 - Array Copying](https://edaplayground.com/x/CafY) |
+## Repository Goals
 
-## Repository convention
+The repository is intended to build SystemVerilog knowledge progressively through small executable examples.
 
-- `Codes/<numbered-part>/testbench.sv` contains the original EDA Playground testbench.
-- `Codes/<numbered-part>/design.sv` mirrors the design pane from EDA Playground.
-- Each part-level `README.md` explains the example and answers its questions.
-- The numeric folder prefixes and this outermost index are the authoritative learning sequence.
+The current learning path focuses on:
 
+- simulation time, time units, and time precision;
+- procedural execution and concurrent `initial` blocks;
+- clock generation and phase relationships;
+- SystemVerilog data types and simulation-time system functions;
+- packed-versus-unpacked data reasoning;
+- fixed and dynamic array fundamentals;
+- array initialization and traversal;
+- `for`, `foreach`, and `repeat` constructs;
+- whole-array operations and copying;
+- waveform and console-based debugging using simulator system tasks.
+
+The examples are intentionally small so that one language or simulation concept can be isolated and understood before moving to the next topic.
+
+## Repository Structure
+
+```text
+systemverilog-from-beginning/
+├── Codes/
+│   ├── 01-simulation-basics/
+│   ├── 02-clock-generation/
+│   ├── 03-phase-shifted-clocks/
+│   ├── 04-data-types-and-time/
+│   ├── 05-fixed-arrays-and-for-loop/
+│   ├── 06-array-iteration/
+│   └── 07-array-copying/
+├── Project/
+├── .gitignore
+└── README.md
+```
+
+### `Codes/`
+
+Contains the ordered learning exercises. Each numbered directory normally contains:
+
+- `testbench.sv` — the SystemVerilog testbench used for the experiment;
+- `design.sv` — the corresponding EDA Playground design pane when applicable;
+- `README.md` — explanation of the code, simulator behavior, observations, and important concepts.
+
+The numeric prefixes define the intended study sequence.
+
+### `Project/`
+
+Reserved for larger SystemVerilog or verification projects as the repository progresses beyond isolated language exercises.
+
+## Learning Sequence
+
+### 01 — Simulation Basics
+
+[Study notes and source](Codes/01-simulation-basics/README.md) · [Run on EDA Playground](https://edaplayground.com/x/Ucnp)
+
+Introduces simulation-time fundamentals, `` `timescale ``, initialization, procedural delays, VCD waveform dumping, `$monitor`, and `$finish`.
+
+Key ideas:
+
+- time unit versus time precision;
+- concurrent execution of multiple `initial` blocks;
+- sequential execution inside an individual procedural block;
+- four-state initialization behavior;
+- observing a testbench through waveform and console output.
+
+---
+
+### 02 — Clock Generation
+
+[Study notes and source](Codes/02-clock-generation/README.md) · [Run on EDA Playground](https://edaplayground.com/x/gi86)
+
+Builds a periodic clock and develops the timing reasoning required to understand edge-triggered simulation behavior.
+
+Key ideas:
+
+- periodic signal generation;
+- delay-based clock construction;
+- event sensitivity and signal transitions;
+- reasoning about simulation timestamps.
+
+---
+
+### 03 — Phase-Shifted Clocks
+
+[Study notes and source](Codes/03-phase-shifted-clocks/README.md) · [Run on EDA Playground](https://edaplayground.com/x/gi8n)
+
+Extends basic clock generation to multiple clocks with controlled phase relationships.
+
+Key ideas:
+
+- clock period and phase;
+- relative timing between signals;
+- waveform-based verification of timing relationships.
+
+---
+
+### 04 — Data Types and Time
+
+[Study notes and source](Codes/04-data-types-and-time/README.md) · [Run on EDA Playground](https://edaplayground.com/x/giAN)
+
+Explores SystemVerilog data representation together with simulator time-reporting functions.
+
+Key ideas:
+
+- commonly used SystemVerilog data types;
+- two-state versus four-state behavior;
+- `$time` and `$realtime`;
+- how time precision affects reported simulation values.
+
+---
+
+### 05 — Fixed Arrays and `for` Loops
+
+[Study notes and source](Codes/05-fixed-arrays-and-for-loop/README.md) · [Run on EDA Playground](https://edaplayground.com/x/8k9Q)
+
+Introduces unpacked arrays, assignment patterns, array printing, and indexed procedural iteration.
+
+Key ideas:
+
+- fixed-size unpacked arrays;
+- fixed versus dynamic array behavior;
+- assignment patterns such as `'{...}`;
+- repetition and `default` initialization;
+- `$size` and `%p`;
+- array population with `for` loops.
+
+---
+
+### 06 — Array Iteration
+
+[Study notes and source](Codes/06-array-iteration/README.md) · [Run on EDA Playground](https://edaplayground.com/x/GK3p)
+
+Continues array programming using SystemVerilog iteration constructs.
+
+Key ideas:
+
+- `foreach` traversal;
+- `repeat` loops;
+- choosing an iteration construct based on intent;
+- avoiding hard-coded array bounds where possible.
+
+---
+
+### 07 — Whole-Array Copying
+
+[Study notes and source](Codes/07-array-copying/README.md) · [Run on EDA Playground](https://edaplayground.com/x/CafY)
+
+Demonstrates aggregate array operations and whole-array assignment.
+
+Key ideas:
+
+- copying compatible arrays;
+- aggregate assignment semantics;
+- observing complete data structures during simulation.
+
+## How to Study This Repository
+
+For each numbered part:
+
+1. Read the part-level `README.md` before running the code.
+2. Inspect `testbench.sv` and identify what is expected to happen at each simulation time.
+3. Open the linked EDA Playground example and run the simulation.
+4. Compare the console output and waveform with your prediction.
+5. Modify one thing at a time—for example a delay, data type, array bound, or loop condition—and predict the new behavior before rerunning.
+6. Record the reason for any unexpected simulator result rather than only recording the output.
+
+This approach turns the repository from a code collection into a **simulation-reasoning notebook**.
+
+## Example: Simulation Time
+
+```systemverilog
+`timescale 1ns/1ps
+
+initial begin
+    signal = 1'b0;
+    #10;
+    signal = 1'b1;
+end
+```
+
+With `` `timescale 1ns/1ps ``, the delay `#10` corresponds to **10 ns**, while the simulator can represent timing to **1 ps precision** for that compilation unit.
+
+An important recurring theme in this repository is that separate procedural blocks execute concurrently, while statements inside one procedural block execute sequentially unless timing or event controls alter when execution resumes.
+
+## Why SystemVerilog for Verification?
+
+SystemVerilog extends Verilog with features useful for both RTL design and verification. As this repository grows, the same fundamentals introduced here—data types, arrays, procedural control, timing, and simulation observability—form the basis for more advanced verification constructs such as:
+
+- tasks and functions;
+- queues and associative arrays;
+- structures, enumerations, and user-defined types;
+- interfaces and modports;
+- classes and object-oriented programming;
+- constrained randomization;
+- assertions;
+- functional coverage;
+- mailboxes and semaphores;
+- transaction-level testbench architecture;
+- Universal Verification Methodology (UVM) concepts.
+
+These are roadmap topics rather than claims about what is already implemented in the repository.
+
+## Tools
+
+The current exercises are designed around **EDA Playground**, which makes it convenient to run SystemVerilog examples without maintaining a local simulator installation.
+
+The source files themselves remain ordinary SystemVerilog and can also be studied or adapted for compatible simulators and EDA environments.
+
+## Repository Convention
+
+- One numbered directory corresponds to one focused learning step.
+- The outer README provides the global learning path.
+- The part-level README contains the deeper explanation.
+- The `.sv` files preserve the executable source.
+- EDA Playground links provide a reproducible online simulation reference.
+- New topics should be added sequentially instead of mixing unrelated concepts into existing parts.
+
+## Current Status
+
+The repository currently contains **7 ordered SystemVerilog exercises**, progressing from basic simulation behavior to array manipulation.
+
+The project directory is intentionally reserved for future larger exercises.
+
+## Author
+
+**Kapil Tripathi**
+
+VLSI / Digital Design / SystemVerilog learning and verification practice.
+
+---
+
+> The objective of this repository is not merely to collect SystemVerilog syntax, but to develop the ability to predict, explain, and debug simulator behavior from first principles.
