@@ -1,0 +1,6 @@
+*.vcd
+*.asdb
+*.log
+work/
+transcript
+
