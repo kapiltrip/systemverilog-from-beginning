@@ -58,13 +58,15 @@ Reserved for larger SystemVerilog or verification projects as the repository pro
 
 ## Learning Sequence
 
-1. **Simulation Basics** — timing, `` `timescale ``, `initial`, delays, VCD, `$monitor`, `$finish`. [Notes](Codes/01-simulation-basics/README.md) · [EDA Playground](https://edaplayground.com/x/Ucnp)
-2. **Clock Generation** — periodic clocks, delays, edges, and simulation timestamps. [Notes](Codes/02-clock-generation/README.md) · [EDA Playground](https://edaplayground.com/x/gi86)
-3. **Phase-Shifted Clocks** — clock period, phase, and relative timing. [Notes](Codes/03-phase-shifted-clocks/README.md) · [EDA Playground](https://edaplayground.com/x/gi8n)
-4. **Data Types and Time** — two-state/four-state types, `$time`, and `$realtime`. [Notes](Codes/04-data-types-and-time/README.md) · [EDA Playground](https://edaplayground.com/x/giAN)
-5. **Fixed Arrays and `for` Loops** — unpacked arrays, initialization, `$size`, `%p`, and indexed iteration. [Notes](Codes/05-fixed-arrays-and-for-loop/README.md) · [EDA Playground](https://edaplayground.com/x/8k9Q)
-6. **Array Iteration** — `foreach`, `repeat`, and array traversal. [Notes](Codes/06-array-iteration/README.md) · [EDA Playground](https://edaplayground.com/x/GK3p)
-7. **Whole-Array Copying** — compatible array assignment and aggregate operations. [Notes](Codes/07-array-copying/README.md) · [EDA Playground](https://edaplayground.com/x/CafY)
+| # | Topic | Key Concepts | Resources |
+|---:|---|---|---|
+| 01 | **Simulation Basics** | Timing, `` `timescale ``, `initial`, delays, VCD, `$monitor`, `$finish` | [Notes](Codes/01-simulation-basics/README.md) · [EDA Playground](https://edaplayground.com/x/Ucnp) |
+| 02 | **Clock Generation** | Periodic clocks, delays, edges, simulation timestamps | [Notes](Codes/02-clock-generation/README.md) · [EDA Playground](https://edaplayground.com/x/gi86) |
+| 03 | **Phase-Shifted Clocks** | Clock period, phase, relative timing | [Notes](Codes/03-phase-shifted-clocks/README.md) · [EDA Playground](https://edaplayground.com/x/gi8n) |
+| 04 | **Data Types and Time** | Two-state/four-state types, `$time`, `$realtime` | [Notes](Codes/04-data-types-and-time/README.md) · [EDA Playground](https://edaplayground.com/x/giAN) |
+| 05 | **Fixed Arrays and `for` Loops** | Unpacked arrays, initialization, `$size`, `%p`, indexed iteration | [Notes](Codes/05-fixed-arrays-and-for-loop/README.md) · [EDA Playground](https://edaplayground.com/x/8k9Q) |
+| 06 | **Array Iteration** | `foreach`, `repeat`, array traversal | [Notes](Codes/06-array-iteration/README.md) · [EDA Playground](https://edaplayground.com/x/GK3p) |
+| 07 | **Whole-Array Copying** | Compatible array assignment, aggregate operations | [Notes](Codes/07-array-copying/README.md) · [EDA Playground](https://edaplayground.com/x/CafY) |
 
 ## How to Study This Repository
 
