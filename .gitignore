@@ -1,4 +1,5 @@
 *.vcd
+*.vvp
 *.asdb
 *.log
 work/
