@@ -1,8 +1,10 @@
-# Part 11 — Pass by reference
+# Part 11 — Pass by Reference
 
-EDA Playground: [https://edaplayground.com/x/Ua2v](https://edaplayground.com/x/Ua2v)
+EDA Playground: [Pass by Reference](https://edaplayground.com/x/Ua2v)  
+EDA Playground Name: `Pass by Reference`  
+Saved code ID: `7357015`
 
-This part shows how a task can receive `ref` arguments and modify the caller's variables directly.
+This README documents the exact source currently saved in the linked EDA Playground. The source panes are preserved verbatim; the explanations below do not replace or correct the code.
 
 ## Saved playground settings
 
@@ -10,132 +12,111 @@ This part shows how a task can receive `ref` arguments and modify the caller's v
 - Compile options: `-timescale 1ns/1ns`
 - Run options: `+access+r`
 
-## Corrected self-checking source
-
-The deterministic verification version is rendered here and remains available as [`self_checking_testbench.sv`](self_checking_testbench.sv). The exact captured EDA Playground source is preserved separately in [`testbench.sv`](testbench.sv).
+## Verbatim design.sv
 
 ~~~systemverilog
-// Code your testbench here
-// or browse Examples
-// ref task arguments update the caller's variables directly.
-`timescale 1ns/1ps
-
-module tb;
-  bit [1:0] c;
-  bit [1:0] d;
-  int error_count;
-
-  task automatic swap(ref bit [1:0] a, b);
-    bit [1:0] temp;
-    temp = a;
-    a = b;
-    b = temp;
-    $display("[%0t] inside swap: a=%0d, b=%0d", $time, a, b);
-  endtask
-
-  task automatic check_value(
-    input string label,
-    input int actual,
-    input int expected
-  );
-    if (actual !== expected) begin
-      error_count++;
-      $error("FAIL: %s expected %0d, got %0d", label, expected, actual);
-    end
-  endtask
-
-  initial begin
-    $timeformat(-9, 0, " ns", 8);
-    $dumpfile("dump.vcd");
-    $dumpvars(0, tb);
-    error_count = 0;
-    c = 1;
-    d = 2;
-
-    #1;
-    swap(c, d);
-    $display("[%0t] after swap: c=%0d, d=%0d", $time, c, d);
-    check_value("c after ref swap", c, 2);
-    check_value("d after ref swap", d, 1);
-
-    if (error_count == 0) begin
-      $display("PASS: ref arguments changed the caller variables");
-    end
-    else begin
-      $display("FAIL: %0d check(s) failed", error_count);
-      $fatal(1, "Part 11 self-check failed");
-    end
-
-    $finish;
-  end
-endmodule
+// Code your design here
 ~~~
 
-## Preserved EDA Playground source
-
-This block is the captured EDA Playground testbench, including its commented alternatives and original learning notes. It is stored unchanged as [`testbench.sv`](testbench.sv); the self-checking code above is the separate corrected verification version.
+## Verbatim testbench.sv
 
 ~~~systemverilog
 // Code your testbench here
 // or browse Examples
 module tb;
   task automatic swap(ref bit [1:0] a, b);
-    //task automatic swap(const ref bit [1:0] a, ref bit b);
-  //task automatic swap(ref bit [1:0] a, b);
+    //task automatic swap(const ref bit [1:0] a, ref bit b); 
+  //task automatic swap(ref bit [1:0] a, b); 
 
-    bit [1:0] temp;
+    bit [1:0] temp; 
     temp = a;
     a  = b;
-    b = temp;
-    $display ("value of a is : %0d and b is : %0d " , a,b ) ;
+    b = temp; 
+    $display ("value of a is : %0d and b is : %0d " , a,b ) ; 
   endtask
   bit [1:0] c;
-  bit [1:0] d;
+  bit [1:0] d; 
   initial begin
     c=1;
     d=2;
     swap(c,d);
-    $display ("value of c is : %0d and d is : %0d " , c,d ) ;
+    $display ("value of c is : %0d and d is : %0d " , c,d ) ; 
     //wont be reflected to the varaibles outside the task
-    // WHY PASS BY VALUE IN TERMS OF SCALAR HE IS SAYING
-
+    // WHY PASS BY VALUE IN TERMS OF SCALAR HE IS SAYING 
+    
   end
 endmodule
 ~~~
 
-## Answers and notes
+## Source fidelity
 
-- `ref` passes a reference to the caller's variable rather than a separate value copy.
-- The task's local names `a` and `b` refer to the same storage as `c` and `d` in the calling process.
-- The temporary variable is local to the task, but the final assignments remain visible after the task returns.
-- `automatic` gives each task call its own stack storage, which is important when calls can overlap or recurse.
-- Passing by reference is useful for swap operations, output-like updates, and procedures that must fill an existing object or array.
+The two code blocks above are rendered from the corresponding live EDA Playground editor panes. No corrected or self-checking replacement is included in this part. The linked short ID and saved settings are retained for running the original experiment.
 
-## Detailed discussion
+## Questions and Answers from the Code
 
-### What changes at the call boundary
+### Will a value-argument update be reflected outside the task?
 
-At the call site, `swap(c, d)` passes the variables themselves. The task executes:
+**Original code question**
 
-1. Save `a` (the caller's `c`) in `temp`.
-2. Write `b` (the caller's `d`) into `a` (the caller's `c`).
-3. Write `temp` into `b` (the caller's `d`).
+>     //wont be reflected to the varaibles outside the task
 
-The values are therefore 2 and 1 both inside the task and after it returns. With ordinary pass-by-value arguments, the task would modify temporary formal values and the caller would remain 1 and 2.
+**Where it appears**
 
-### Expected result
+`testbench.sv:21` — the exact comment in the live EDA Playground testbench pane.
 
-| Time | Observation |
-| ---: | --- |
-| 0 ns | `c=1`, `d=2` are initialized. |
-| 1 ns | `swap(c,d)` prints `a=2`, `b=1`; the caller sees `c=2`, `d=1`. |
-| 1 ns | The self-check prints PASS and the simulation finishes. |
+**Context in this playground**
 
-The saved Riviera-Pro page compiled with zero errors and zero warnings and printed the same before/after values. The local Icarus Verilog 12 installation reports reference ports as unsupported; that is a simulator limitation, not a failure of the SystemVerilog construct demonstrated here.
+The comment is inside a task experiment that declares swap with ref arguments, and it sits above the explicit swap call on c and d.
 
-### Points to remember
+**Answer**
 
-- Pass by value protects the caller from formal-argument assignments.
-- Pass by reference deliberately shares the caller's storage.
-- Use `automatic` for local temporaries in reusable tasks.
-- Verify both the value inside the task and the value after return when learning reference semantics.
+Not for pass-by-value arguments; changes to a value formal are local. But the active task here uses ref, so its assignments are intended to update the caller's c and d.
+
+**Deep explanation**
+
+A value argument supplies the task with a copy of the actual value. Assigning the formal then changes that copy and leaves the caller unchanged. A ref argument instead aliases the caller's variable for the duration of the call, so temp=a; a=b; b=temp updates the original c and d. The comment is therefore describing the behavior of the commented or imagined value form, not the active ref declaration. The display after swap is the source's direct observation of the ref behavior.
+
+**Practical implication or pitfall**
+
+Read the formal declaration before interpreting the comment. Replacing ref with a value formal would change the swap's visible result; this pass preserves the original ref code.
+
+**Sources**
+
+[IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf)
+
+### Why discuss pass by value for scalar arguments?
+
+**Original code question**
+
+>     // WHY PASS BY VALUE IN TERMS OF SCALAR HE IS SAYING 
+
+**Where it appears**
+
+`testbench.sv:22` — the exact comment in the live EDA Playground testbench pane.
+
+**Context in this playground**
+
+The question is beside the two-bit scalar task arguments and the commented alternative signatures.
+
+**Answer**
+
+For a scalar, pass-by-value gives the task an independent copy, which is often the simplest safe input model; it does not let a scalar swap update the caller.
+
+**Deep explanation**
+
+A scalar has a small, directly representable value, so copying it into a task formal is usually straightforward. The task can read the value without affecting the caller. The active example needs the caller's c and d to change, so it declares ref and performs a true swap through the caller's storage. This is a semantic choice, not a judgment that scalar value passing is always better: value is appropriate for read-only input snapshots, while ref is appropriate when the task intentionally mutates caller variables.
+
+**Practical implication or pitfall**
+
+For scalar inputs, value prevents accidental caller updates. Use ref only when the caller-visible mutation is part of the task contract, and document that choice.
+
+**Sources**
+
+[IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf)
+
+## Source references
+
+The language explanations use [IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf) and [IEEE SystemVerilog standard overview](https://standards.ieee.org/ieee/1800/4934/). The page's editor panes and settings are described by [EDA Playground settings documentation](https://eda-playground.readthedocs.io/en/latest/settings.html) and [EDA Playground compile/run options](https://eda-playground.readthedocs.io/en/latest/compile_run_options.html).
+
+
+

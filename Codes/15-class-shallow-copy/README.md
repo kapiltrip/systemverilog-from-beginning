@@ -1,8 +1,10 @@
-# Part 15 — Class shallow copying
+# Part 15 — Class Shallow Copy
 
-EDA Playground: [https://edaplayground.com/x/sVdz](https://edaplayground.com/x/sVdz)
+EDA Playground: [Class Shallow Copy](https://edaplayground.com/x/sVdz)  
+EDA Playground Name: `Class Shallow Copy`  
+Saved code ID: `7357619`
 
-This part demonstrates class-object copying. A new object is created from an existing object, its scalar member value is copied, and later changes to the copy do not change the original object.
+This README documents the exact source currently saved in the linked EDA Playground. The source panes are preserved verbatim; the explanations below do not replace or correct the code.
 
 ## Saved playground settings
 
@@ -10,137 +12,200 @@ This part demonstrates class-object copying. A new object is created from an exi
 - Compile options: `-timescale 1ns/1ns`
 - Run options: `+access+r`
 
-## Corrected self-checking source
-
-The exact captured EDA Playground source, including the missing semicolon after the “Shallow copy behaviour” `$display`, is preserved in [`testbench.sv`](testbench.sv). Riviera-Pro reported that syntax error. The corrected verification version is rendered here and remains available as [`self_checking_testbench.sv`](self_checking_testbench.sv); it fixes only the syntax needed for a runnable, deterministic check and adds explicit assertions.
+## Verbatim design.sv
 
 ~~~systemverilog
-// Code your testbench here
-// or browse Examples
-// Copying a class object creates a separate object with copied member values.
-`timescale 1ns/1ps
-
-class first;
-  int data = 41;
-endclass
-
-module tb;
-  first f1;
-  first p1;
-  int error_count;
-
-  task automatic check_value(
-    input string label,
-    input int actual,
-    input int expected
-  );
-    if (actual !== expected) begin
-      error_count++;
-      $error("FAIL: %s expected %0d, got %0d", label, expected, actual);
-    end
-  endtask
-
-  initial begin
-    $timeformat(-9, 0, " ns", 8);
-    error_count = 0;
-
-    f1 = new();
-    f1.data = 24;
-
-    p1 = new f1;
-    $display("[%0t] copied data: p1.data=%0d", $time, p1.data);
-    check_value("copied member", p1.data, 24);
-
-    p1.data = 123;
-    $display("[%0t] after changing p1: f1.data=%0d, p1.data=%0d", $time, f1.data, p1.data);
-    check_value("original after copy mutation", f1.data, 24);
-    check_value("copy after mutation", p1.data, 123);
-
-    if (error_count == 0) begin
-      $display("PASS: class copy preserved independent scalar member values");
-    end
-    else begin
-      $display("FAIL: %0d check(s) failed", error_count);
-      $fatal(1, "Part 15 self-check failed");
-    end
-
-    $finish;
-  end
-endmodule
+// Code your design here
 ~~~
 
-## Preserved EDA Playground source
-
-This block is the captured EDA Playground testbench, including the missing semicolon that caused the saved page's syntax error. It is stored unchanged as [`testbench.sv`](testbench.sv); the self-checking code above is the separate corrected verification version.
+## Verbatim testbench.sv
 
 ~~~systemverilog
 // Code your testbench here
 // or browse Examples
-//Copy the data somethimes
-class first ;
-  int data = 41;
-
-endclass
+//Copy the data somethimes 
+class first ; 
+  int data = 41; 
+  
+endclass 
 module tb;
   first f1;
-  first p1;
-
+  first p1; 
+  
   initial begin
-    f1=new();  // constructor copy from 1 object to another object
-    f1.data=24; // Data to be used , now i want to keep it safe
+    f1=new();  // constructor copy from 1 object to another object 
+    f1.data=24; // Data to be used , now i want to keep it safe 
     //p1 =new(f1); // Copy all the data of the object handle f1 to f2 (shallow copy)
-    p1 = new f1 ;
+    p1 = new f1 ; 
     $display("Value fo the data member is %0d " , p1.data);
-    //if i change in p1 object handle , it wont reflect on f1
-    p1.data= 123;
-    $display("Shallow copy behaviour ......................")
+    //if i change in p1 object handle , it wont reflect on f1 
+    p1.data= 123; 
+    $display("Shallow copy behaviour ......................");
     $display("Value fo the data member f1 is %0d " , f1.data);
     $display("Value fo the data member p1 is %0d " , p1.data);
-
+    //task creating copy , just to copy data members attributes 
   end
 endmodule
 ~~~
 
-## Answers and notes
+## Source fidelity
 
-- `f1` and `p1` are handles, not objects. Each `new` operation creates an object that a handle can reference.
-- `p1 = new f1` creates a new object initialized from `f1`. The scalar `data` value is copied into the new object.
-- After the copy, `p1.data = 123` changes only the new object, while `f1.data` remains 24.
-- This is called a shallow copy because nested class handles inside the object would be copied as handles; both objects could then refer to the same nested object.
-- For the single scalar member in this example, the copied values are independent and the distinction is easy to observe.
-- The source page's missing semicolon was a syntax error, not a class-copying rule. It is corrected in the repository version.
+The two code blocks above are rendered from the corresponding live EDA Playground editor panes. No corrected or self-checking replacement is included in this part. The linked short ID and saved settings are retained for running the original experiment.
 
-## Detailed discussion
+## Questions and Answers from the Code
 
-### Copying the object versus copying the handle
+### When is a copy of the data needed?
 
-These two statements have different meanings:
+**Original code question**
 
-~~~systemverilog
-p1 = f1;       // Both handles refer to the same object.
-p1 = new f1;   // A new object is initialized from f1.
-~~~
+> //Copy the data somethimes 
 
-The first statement would make `p1.data = 123` change the object observed through `f1` as well. The second statement creates independent object storage, so changing the copied scalar member leaves the original unchanged.
+**Where it appears**
 
-### Why the copy is called shallow
+`testbench.sv:3` — the exact comment in the live EDA Playground testbench pane.
 
-If `first` later contained another class handle, the copy operation would copy that handle value rather than recursively allocate a complete duplicate object graph. The two outer objects would then share the nested object. A deep copy requires an explicit copy method that allocates and copies nested objects recursively.
+**Context in this playground**
 
-### Expected result
+The comment introduces a class example that first creates f1, changes f1.data, and then constructs p1 from f1.
 
-| Phase | Expected observation |
-| --- | --- |
-| Construction | `f1.data` is set to 24. |
-| `p1 = new f1` | `p1.data` is 24. |
-| Copy mutation | `p1.data` becomes 123 while `f1.data` remains 24. |
-| Completion | The self-check prints PASS. |
+**Answer**
 
-The saved Edge run used Riviera-Pro 2025.04 but failed before elaboration because the original source omitted a semicolon after a `$display` call. The repository copy records that failure and verifies the corrected experiment with an explicit PASS endpoint. Icarus 12 has limited support for class copy-constructor syntax, so Riviera-Pro or another full SystemVerilog simulator is the reference environment for this part.
+A copy is useful when a second object should start with the source object's current member values but then have independent object state.
 
-### Points to remember
+**Deep explanation**
 
-- Handle assignment aliases an existing object; `new old_handle` creates a copied object.
-- Scalar members are copied by value in this example.
-- Shallow copying does not recursively duplicate nested class objects.
-- Always distinguish a source syntax error from a semantic simulator failure.
+The active source creates f1, writes 24, and uses p1 = new f1. The copy construction creates a second object initialized from the source object's members. Because data is an integer value member, changing p1.data later does not change f1.data. The value-copy purpose is different from assigning p1=f1, which would make both handles refer to the same object.
+
+**Practical implication or pitfall**
+
+Copy only when independent state is intended. A handle assignment is an alias, not a new object.
+
+**Sources**
+
+[IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf)
+
+### What does the constructor-copy comment mean?
+
+**Original code question**
+
+>     f1=new();  // constructor copy from 1 object to another object 
+
+**Where it appears**
+
+`testbench.sv:13` — the exact comment in the live EDA Playground testbench pane.
+
+**Context in this playground**
+
+The comment is beside f1=new() and describes the following p1 construction from f1.
+
+**Answer**
+
+It describes constructing a new class object using an existing object as the source for member initialization.
+
+**Deep explanation**
+
+SystemVerilog supports a class copy-construction form using new with an existing class object. The destination handle p1 then refers to the new object, while f1 continues to refer to the original. For scalar members such as data, the copied value starts equal and later assignments are independent. For class-handle members, shallow copying preserves the referenced handle, so nested state would still be shared; this example contains only scalar members.
+
+**Practical implication or pitfall**
+
+The word copy does not promise deep copying of nested objects. Inspect each member's type when deciding whether a copy is independent.
+
+**Sources**
+
+[IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf)
+
+### Does new(f1) copy all data into a separate handle?
+
+**Original code question**
+
+>     //p1 =new(f1); // Copy all the data of the object handle f1 to f2 (shallow copy)
+
+**Where it appears**
+
+`testbench.sv:15` — the exact comment in the live EDA Playground testbench pane.
+
+**Context in this playground**
+
+This is a commented alternative to the active p1 = new f1; statement.
+
+**Answer**
+
+The intended form constructs p1 from f1 and performs a shallow member copy; it is separate from assigning the handle p1=f1.
+
+**Deep explanation**
+
+The commented line distinguishes a copy construction from handle assignment. With a copy construction, the new object receives copied member values. Shallow means that a scalar is copied as a value but a member that is itself a class handle would be copied as the same nested handle rather than recursively cloned. The active source uses the equivalent no-parentheses spelling for this zero-argument-looking constructor-copy form, and then demonstrates independence for its int member.
+
+**Practical implication or pitfall**
+
+Use the copy-construction syntax when a new object is required. Do not replace it with p1=f1 unless shared identity is intended.
+
+**Sources**
+
+[IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf)
+
+### Will changing p1 change f1?
+
+**Original code question**
+
+>     //if i change in p1 object handle , it wont reflect on f1 
+
+**Where it appears**
+
+`testbench.sv:18` — the exact comment in the live EDA Playground testbench pane.
+
+**Context in this playground**
+
+The comment precedes p1.data=123 and the displays of f1.data and p1.data.
+
+**Answer**
+
+For the scalar data member in this example, no: p1 and f1 are separate objects, so changing p1.data leaves f1.data at 24.
+
+**Deep explanation**
+
+The source constructs p1 from f1 rather than assigning the same handle. That gives each handle a different object identity. The integer member is copied into p1, so the later p1.data=123 writes only p1's storage. If the class had a member that was another class handle, shallow copying would leave that nested handle shared and a mutation through it could be visible from both outer objects.
+
+**Practical implication or pitfall**
+
+The demonstrated independence is specific to the scalar field. Test nested handle members separately before assuming a shallow copy is deep.
+
+**Sources**
+
+[IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf)
+
+### What is the purpose of a task that creates a copy?
+
+**Original code question**
+
+>     //task creating copy , just to copy data members attributes 
+
+**Where it appears**
+
+`testbench.sv:23` — the exact comment in the live EDA Playground testbench pane.
+
+**Context in this playground**
+
+The final comment summarizes the copy operation after the output comparing f1 and p1.
+
+**Answer**
+
+Such a task or method can centralize the policy for creating a new object and copying its members, but the saved source does not define that task.
+
+**Deep explanation**
+
+A copy method can construct a destination object, assign each required property, and return the new handle. That lets a class choose which members are copied and whether nested objects receive deep copies. The current playground demonstrates the built-in shallow copy behavior directly and has no active user-defined copy task, so this comment is a design idea rather than an executed method.
+
+**Practical implication or pitfall**
+
+Do not infer a method's behavior from a comment alone. A custom copy method must explicitly copy every member whose state should be independent.
+
+**Sources**
+
+[IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf)
+
+## Source references
+
+The language explanations use [IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf) and [IEEE SystemVerilog standard overview](https://standards.ieee.org/ieee/1800/4934/). The page's editor panes and settings are described by [EDA Playground settings documentation](https://eda-playground.readthedocs.io/en/latest/settings.html) and [EDA Playground compile/run options](https://eda-playground.readthedocs.io/en/latest/compile_run_options.html).
+
+

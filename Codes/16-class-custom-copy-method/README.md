@@ -1,8 +1,10 @@
-# Part 16 — Class custom copy method
+# Part 16 — Class Custom Copy Method
 
-EDA Playground: [https://edaplayground.com/x/X4c6](https://edaplayground.com/x/X4c6)
+EDA Playground: [Class Custom Copy Method](https://edaplayground.com/x/X4c6)  
+EDA Playground Name: `Class Custom Copy Method`  
+Saved code ID: `7357655`
 
-The page has no saved EDA Playground Name and its browser title is the generic `Edit code - EDA Playground`. This topic name is inferred from the visible editor's `// custom methods to copy` comment and its `function first copy()` method. Both the saved field and the visible editor buffer are preserved below: [`testbench.sv`](testbench.sv) records the saved source, while [`editor_testbench.sv`](editor_testbench.sv) records the visible buffer that was open during capture.
+This README documents the exact source currently saved in the linked EDA Playground. The source panes are preserved verbatim; the explanations below do not replace or correct the code.
 
 ## Saved playground settings
 
@@ -10,121 +12,44 @@ The page has no saved EDA Playground Name and its browser title is the generic `
 - Compile options: `-timescale 1ns/1ns`
 - Run options: `+access+r`
 
-## Corrected self-checking source
-
-The deterministic verification version is rendered here and remains available as [`self_checking_testbench.sv`](self_checking_testbench.sv). It implements the visible editor's intended custom copy method as a supported `copy_from` procedure, correcting the missing call parentheses while checking that later mutations of the copied object do not change the original.
+## Verbatim design.sv
 
 ~~~systemverilog
-// Code your testbench here
-// or browse Examples
-// A class method can make an explicit value copy of selected members.
-`timescale 1ns/1ps
-
-class first;
-  int data = 34;
-  bit [7:0] temp = 8'h11;
-
-  function void copy_from(input first source);
-    data = source.data;
-    temp = source.temp;
-  endfunction
-endclass
-
-module tb;
-  first f1;
-  first f2;
-  int error_count;
-
-  task automatic check_value(
-    input string label,
-    input int actual,
-    input int expected
-  );
-    if (actual !== expected) begin
-      error_count++;
-      $error("FAIL: %s expected %0d, got %0d", label, expected, actual);
-    end
-  endtask
-
-  task automatic check_byte(
-    input string label,
-    input bit [7:0] actual,
-    input bit [7:0] expected
-  );
-    if (actual !== expected) begin
-      error_count++;
-      $error("FAIL: %s expected %0h, got %0h", label, expected, actual);
-    end
-  endtask
-
-  initial begin
-    $timeformat(-9, 0, " ns", 8);
-    error_count = 0;
-
-    f1 = new();
-    f1.data = 45;
-    f1.temp = 8'h11;
-    f2 = new();
-    f2.copy_from(f1);
-    $display("[%0t] copied data=%0d, temp=%0h", $time, f2.data, f2.temp);
-    check_value("copied data", f2.data, 45);
-    check_byte("copied temp", f2.temp, 8'h11);
-
-    f2.data = 56;
-    f2.temp = 8'h22;
-    $display("[%0t] after changing copy: f1.data=%0d, f2.data=%0d", $time, f1.data, f2.data);
-    check_value("original data after copy mutation", f1.data, 45);
-    check_byte("original temp after copy mutation", f1.temp, 8'h11);
-    check_value("copy data after mutation", f2.data, 56);
-    check_byte("copy temp after mutation", f2.temp, 8'h22);
-
-    if (error_count == 0) begin
-      $display("PASS: custom class copy method made an independent member copy");
-    end
-    else begin
-      $display("FAIL: %0d check(s) failed", error_count);
-      $fatal(1, "Part 16 self-check failed");
-    end
-
-    $finish;
-  end
-endmodule
+// Code your design here
 ~~~
 
-## Preserved saved EDA Playground source
-
-This block is the exact saved testbench field from the page and is stored as [`testbench.sv`](testbench.sv). It contains the custom method experiment and its original incomplete `f1.copy` call.
+## Verbatim testbench.sv
 
 ~~~systemverilog
 // Code your testbench here
 // or browse Examples
-class first ;
-  int data = 34 ;
-  bit [7:0] temp= 8'h11;
-
-  // custom methods to copy
+class first ; 
+  int data = 34 ; 
+  bit [7:0] temp= 8'h11; 
+  
+  // custom methods to copy 
   function first copy();
-    copy= new();
-    copy.data = data;    // why am i not using this here,
-    copy.temp = temp ;
-
-  endfunction
+    copy= new(); 
+    copy.data = data;    // why am i not using this here, 
+    copy.temp = temp ; 
+    
+  endfunction 
 endclass
 
-module tb ;
+module tb ; 
   first f1;
-  first f2 ;
+  first f2 ; 
   // to store copy of f1 to f2
   /*
   initial begin
     f1=new();
-    f1.data = 45;
-
+    f1.data = 45; 
+    
     f2=new f1;  // copy of the data members of f1 to f2
-
+    
     $display("Data member of f2 now becomes a copy %0d " , f2.data );
-    // this is not changing f1
-
+    // this is not changing f1 
+    
     f2.data = 56;
     $display("Data member of f2 now becomes a copy %0d " , f2.data );
     $display("Data member of f1 now becomes a copy %0d " , f1.data );
@@ -134,46 +59,44 @@ module tb ;
   initial begin
     f1=new();
     f2=new();
-    f2= f1.copy;     //automatically copies  why i havent used f1.copy()
-    $display("Data : %0d and temp is %0h" , f2.data, f2.temp); // he called hex by using %0x
+    f2= f1.copy;     //automatically copies  why i havent used f1.copy() 
+    $display("Data : %0d and temp is %0h" , f2.data, f2.temp); // he called hex by using %0x 
   end
 endmodule
 ~~~
 
-## Preserved visible editor buffer
-
-The following is the complete visible CodeMirror buffer captured from the open tab. It is kept separately as [`editor_testbench.sv`](editor_testbench.sv) so the visible page state can be reviewed without silently rewriting the saved file.
+## Verbatim editor_testbench.sv
 
 ~~~systemverilog
 // Code your testbench here
 // or browse Examples
-class first ;
-  int data = 34 ;
-  bit [7:0] temp= 8'h11;
-
-  // custom methods to copy
+class first ; 
+  int data = 34 ; 
+  bit [7:0] temp= 8'h11; 
+  
+  // custom methods to copy 
   function first copy();
-    copy= new();
-    copy.data = data;    // why am i not using this here,
-    copy.temp = temp ;
-
-  endfunction
+    copy= new(); 
+    copy.data = data;    // why am i not using this here, 
+    copy.temp = temp ; 
+    
+  endfunction 
 endclass
 
-module tb ;
+module tb ; 
   first f1;
-  first f2 ;
+  first f2 ; 
   // to store copy of f1 to f2
   /*
   initial begin
     f1=new();
-    f1.data = 45;
-
+    f1.data = 45; 
+    
     f2=new f1;  // copy of the data members of f1 to f2
-
+    
     $display("Data member of f2 now becomes a copy %0d " , f2.data );
-    // this is not changing f1
-
+    // this is not changing f1 
+    
     f2.data = 56;
     $display("Data member of f2 now becomes a copy %0d " , f2.data );
     $display("Data member of f1 now becomes a copy %0d " , f1.data );
@@ -183,15 +106,171 @@ module tb ;
   initial begin
     f1=new();
     f2=new();
-    f2= f1.copy;     //automatically copies  why i havent used f1.copy()
-    $display("Data : %0d and temp is %0h" , f2.data, f2.temp); // he called hex by using %0x
+    f2= f1.copy;     //automatically copies  why i havent used f1.copy() 
+    $display("Data : %0d and temp is %0h" , f2.data, f2.temp); // he called hex by using %0x 
   end
 endmodule
 ~~~
 
-## Answers and notes
+## Source fidelity
 
-- A class handle assignment such as `f2 = f1` aliases the same object; `f2 = new f1` constructs a separate object and copies the member values.
-- A custom `copy()` method makes the copy operation explicit and can select or transform which members are copied.
-- The visible experiment uses `f1.copy` without call parentheses. The self-checking file expresses the same explicit member-copy idea as `f2.copy_from(f1)` so it is portable to the local simulator.
-- The page's completed copy experiment prints 56 for `f2.data` and 45 for `f1.data`, demonstrating independent scalar storage.
+The code blocks above are rendered from the corresponding live EDA Playground editor panes. Part 16 includes the same captured pane under both repository filenames because both files existed in the baseline; no corrected or self-checking replacement is included. The linked short ID and saved settings are retained for running the original experiment.
+
+## Questions and Answers from the Code
+
+### What is a custom method for copying?
+
+**Original code question**
+
+>   // custom methods to copy 
+
+**Where it appears**
+
+`testbench.sv:7` — the exact comment in the live EDA Playground testbench pane.
+
+**Context in this playground**
+
+The comment precedes function first copy(), which constructs a new first object and assigns its members.
+
+**Answer**
+
+It is a user-defined class method that controls how a new object is created and which members receive copied values.
+
+**Deep explanation**
+
+The copy function returns first, allocates a new object with copy=new(), and explicitly assigns data and temp from the source object. This is different from relying on the language's shallow copy construction because the method makes the copy policy visible in source and can be extended for nested objects or selected fields. The returned handle is then used by the caller.
+
+**Practical implication or pitfall**
+
+A custom method must be maintained when the class gains new state. An omitted member is not copied merely because another member is.
+
+**Sources**
+
+[IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf)
+
+### Why is this not used in the member assignments?
+
+**Original code question**
+
+>     copy.data = data;    // why am i not using this here, 
+
+**Where it appears**
+
+`testbench.sv:10` — the exact comment in the live EDA Playground testbench pane.
+
+**Context in this playground**
+
+The comment is beside copy.data = data and asks why the method does not write this.data or this.temp on the right-hand side.
+
+**Answer**
+
+Inside the copy method, unqualified data and temp refer to the source object's members; this is also available, but this.data would explicitly name that same source member.
+
+**Deep explanation**
+
+A method executes with an implicit this handle referring to the object on which it was called. Therefore the right-hand-side data and temp resolve to the source object's properties. The left-hand side copy.data selects the newly constructed destination object through the returned local handle named copy. Writing copy.data = this.data would be more explicit but would express the same source-to-destination relationship for these members.
+
+**Practical implication or pitfall**
+
+Use this when clarity or name disambiguation requires it. The absence of this does not mean the method is copying from an unrelated object.
+
+**Sources**
+
+[IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf)
+
+### Why is a copy of f1 stored in f2?
+
+**Original code question**
+
+>   // to store copy of f1 to f2
+
+**Where it appears**
+
+`testbench.sv:19` — the exact comment in the live EDA Playground testbench pane.
+
+**Context in this playground**
+
+The comment labels the active initial block before f1 and f2 are constructed and f2 is assigned the result of f1.copy.
+
+**Answer**
+
+f2 receives the new handle returned by f1.copy so it refers to a distinct object initialized from f1.
+
+**Deep explanation**
+
+The method call constructs a fresh first object and returns its handle. Assigning that handle to f2 gives the testbench a second object whose data and temp initially match f1. Subsequent mutations of f2's scalar members can be compared with f1 to demonstrate independent state. The assignment is to a handle variable, but the handle points to a newly allocated object because copy created it.
+
+**Practical implication or pitfall**
+
+Keep the source handle f1 alive while the copy is made, and remember that f2=f1.copy is not the same operation as f2=f1.
+
+**Sources**
+
+[IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf)
+
+### What does copying the data members mean?
+
+**Original code question**
+
+>     f2=new f1;  // copy of the data members of f1 to f2
+
+**Where it appears**
+
+`testbench.sv:25` — the exact comment in the live EDA Playground testbench pane.
+
+**Context in this playground**
+
+This comment is inside a block-commented alternative that uses f2=new f1 and displays f2.data.
+
+**Answer**
+
+It means initializing the corresponding members of a new f2 object from the current member values of f1.
+
+**Deep explanation**
+
+The phrase describes member-wise state transfer, not copying the handle bits as an alias. In the active custom method, data and temp are explicitly assigned into the new destination object. The commented alternative illustrates the language's built-in shallow copy path. For these scalar fields both approaches give f2 its own value storage; for nested class handles a shallow copy would share the nested object.
+
+**Practical implication or pitfall**
+
+State which members are copied and whether nested handles are cloned. “Copy the object” is too broad to determine aliasing by itself.
+
+**Sources**
+
+[IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf)
+
+### Why can f1.copy be called without parentheses?
+
+**Original code question**
+
+>     f2= f1.copy;     //automatically copies  why i havent used f1.copy() 
+
+**Where it appears**
+
+`testbench.sv:39` — the exact comment in the live EDA Playground testbench pane.
+
+**Context in this playground**
+
+The active assignment is f2= f1.copy; and the comment asks about the missing empty parentheses on the zero-argument copy function.
+
+**Answer**
+
+For a zero-argument method, SystemVerilog permits the empty argument list to be omitted in this method-call context, so f1.copy invokes copy and returns its handle.
+
+**Deep explanation**
+
+copy is declared as a function with no formal arguments and a return type first. The expression f1.copy is therefore the no-argument method call form accepted by the language; f1.copy() is the explicit spelling. In either form, the function body runs, allocates a new first object, copies data and temp, and returns the new handle. This is not a property read: the function call is what performs the allocation and copy.
+
+**Practical implication or pitfall**
+
+If a method gains arguments, write and preserve the explicit argument list. When readability matters, f1.copy() can make the call intent clearer even where omission is legal.
+
+**Sources**
+
+[IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf)
+
+## Source references
+
+The language explanations use [IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf) and [IEEE SystemVerilog standard overview](https://standards.ieee.org/ieee/1800/4934/). The page's editor panes and settings are described by [EDA Playground settings documentation](https://eda-playground.readthedocs.io/en/latest/settings.html) and [EDA Playground compile/run options](https://eda-playground.readthedocs.io/en/latest/compile_run_options.html).
+
+
+
