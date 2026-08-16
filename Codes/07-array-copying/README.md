@@ -1,8 +1,10 @@
-# Part 07 — Whole-array copying
+# Part 07 — Whole-Array Copying
 
-EDA Playground: [https://edaplayground.com/x/CafY](https://edaplayground.com/x/CafY)
+EDA Playground: [Whole-Array Copying](https://edaplayground.com/x/CafY)  
+EDA Playground Name: `Whole-Array Copying`  
+Saved code ID: `7356412`
 
-This part fills a fixed array, copies it into another fixed array, demonstrates that the destination has independent storage, and then continues with dynamic-array resizing and copying into a fixed array.
+This README documents the exact source currently saved in the linked EDA Playground. The source panes are preserved verbatim; the explanations below do not replace or correct the code.
 
 ## Saved playground settings
 
@@ -10,244 +12,210 @@ This part fills a fixed array, copies it into another fixed array, demonstrates 
 - Compile options: `-timescale 1ns/1ns`
 - Run options: `+access+r`
 
-## Corrected self-checking source
-
-The deterministic verification version is rendered here and remains available as [`self_checking_testbench.sv`](self_checking_testbench.sv). The exact captured EDA Playground source is preserved separately in [`testbench.sv`](testbench.sv). The `#1` delays separate the setup, fixed-array copy, mutation, dynamic-array resize, and dynamic-to-fixed copy phases so the transitions are visible in a waveform.
+## Verbatim design.sv
 
 ~~~systemverilog
-// Code your testbench here
-// or browse Examples
-// Whole-array assignment copies values into a separate fixed-size array.
-`timescale 1ns/1ps
-
-module tb;
-  int arr1[5];
-  int arr2[5];
-  int dynamic_arr[];
-  int arrfixed[30];
-  int status;
-  int error_count;
-
-  task automatic check_element(
-    input string label,
-    input int index,
-    input int actual,
-    input int expected
-  );
-    if (actual !== expected) begin
-      error_count++;
-      $error("FAIL: %s[%0d] expected %0d, got %0d", label, index, expected, actual);
-    end
-  endtask
-
-  initial begin
-    $timeformat(-9, 0, " ns", 8);
-    $dumpfile("dump.vcd");
-    $dumpvars(0, tb);
-
-    error_count = 0;
-    status = 0;
-
-    // Populate arr1 and make arr2 visibly different before the copy.
-    for (int i = 0; i < $size(arr1); i++) begin
-      arr1[i] = 5 * i;
-      arr2[i] = -1;
-    end
-    $display("[%0t] arr1 before copy: %0p", $time, arr1);
-    $display("[%0t] arr2 before copy: %0p", $time, arr2);
-
-    #1;
-    arr2 = arr1;
-    status = (arr1 == arr2);
-    $display("[%0t] arr2 after whole-array copy: %0p", $time, arr2);
-
-    if (status !== 1) begin
-      error_count++;
-      $error("FAIL: arrays should compare equal immediately after copying");
-    end
-
-    for (int i = 0; i < $size(arr1); i++) begin
-      check_element("arr2 after copy", i, arr2[i], arr1[i]);
-    end
-
-    #1;
-    arr2[2] = 11;
-    status = (arr1 != arr2);
-    $display("[%0t] arr2 after arr2[2] = 11: %0p", $time, arr2);
-
-    if (status !== 1) begin
-      error_count++;
-      $error("FAIL: arrays should compare different after arr2[2] changes");
-    end
-
-    for (int i = 0; i < $size(arr1); i++) begin
-      check_element("arr1 after arr2 mutation", i, arr1[i], 5 * i);
-    end
-    check_element("arr2 modified element", 2, arr2[2], 11);
-
-    #1;
-    dynamic_arr = new[5];
-    for (int i = 0; i < dynamic_arr.size(); i++) begin
-      dynamic_arr[i] = 5 * i;
-    end
-    $display("[%0t] dynamic_arr with five elements: %0p", $time, dynamic_arr);
-    if (dynamic_arr.size() !== 5) begin
-      error_count++;
-      $error("FAIL: dynamic_arr should contain five elements");
-    end
-
-    #1;
-    dynamic_arr = new[30](dynamic_arr);
-    $display("[%0t] dynamic_arr after resizing: %0p", $time, dynamic_arr);
-    if (dynamic_arr.size() !== 30) begin
-      error_count++;
-      $error("FAIL: dynamic_arr should contain thirty elements after resizing");
-    end
-    for (int i = 0; i < 5; i++) begin
-      check_element("dynamic_arr preserved element", i, dynamic_arr[i], 5 * i);
-    end
-
-    arrfixed = dynamic_arr;
-    $display("[%0t] arrfixed after dynamic-array copy: %0p", $time, arrfixed);
-    for (int i = 0; i < $size(arrfixed); i++) begin
-      check_element("arrfixed copied element", i, arrfixed[i], dynamic_arr[i]);
-    end
-
-    if (error_count == 0) begin
-      $display("PASS: fixed-array, dynamic-array, and independent-copy checks passed");
-    end
-    else begin
-      $display("FAIL: %0d check(s) failed", error_count);
-      $fatal(1, "Part 07 self-check failed");
-    end
-
-    $finish;
-  end
-endmodule
+// Code your design here
 ~~~
 
-## Preserved EDA Playground source
-
-This block is the captured EDA Playground testbench, including its commented fixed-array experiment and original wording. It is stored unchanged as [`testbench.sv`](testbench.sv); the self-checking code above is the separate corrected verification version.
+## Verbatim testbench.sv
 
 ~~~systemverilog
 // Code your testbench here
 // or browse Examples
-// compare element in scoreboard , golden data + dut response compare elememnt by element and copy used here,
-// CONDITION 1 SAME DATA TYPE AND
-// CONDITION 2 SAME SIZE
-//07
+// compare element in scoreboard , golden data + dut response compare elememnt by element and copy used here, 
+// CONDITION 1 SAME DATA TYPE AND 
+// CONDITION 2 SAME SIZE 
+//07 
 /*
 module tb ;
   int arr1[5];
   int arr2[5];
-  int status ;
-
+  int status ; 
+  
   initial begin
     for(int i =0; i<5 ; i++)begin
-      arr1[i]= 5*i ;
-
+      arr1[i]= 5*i ; 
+      
     end
-    $display("the content of arr1 is %0p" , arr1);
+    $display("the content of arr1 is %0p" , arr1); 
 
-    arr2= arr1;
-    $display("the content of arr2 is %0p" , arr2);
-    arr2[2] = 11;
-    $display("the content of arr2 is now  %0p" , arr2);
-
+    arr2= arr1; 
+    $display("the content of arr2 is %0p" , arr2); 
+    arr2[2] = 11; 
+    $display("the content of arr2 is now  %0p" , arr2); 
+    
   end
   initial begin
-    status = (arr1 !=  arr2 );
-    $display("The following arrays are : having status as %0d" , status ); // should return true
-
+    status = (arr1 !=  arr2 ); 
+    $display("The following arrays are : having status as %0d" , status ); // should return true 
+    
   end
 endmodule
-*/
-module tb;
+*/ 
+module tb; 
   int arr[];
-  int arrfixed[30];
+  int arrfixed[30]; 
 
   initial begin
     arr = new[5];
-    //of storing an element
+    //of storing an element 
     for(int i =0 ; i<5 ; i++)begin
-      arr[i] = 5 * i ;
-
+      arr[i] = 5 * i ; 
+      
     end
-    $display("the values in the array arr is %0p" , arr ) ;
-    $display("the size of array arr is %0d" , arr.size() ) ;
+    $display("the values in the array arr is %0p" , arr ) ; 
+    $display("the size of array arr is %0d" , arr.size() ) ; 
 
-    //arr.delete();
-    //why its not having default value printed xxxx cause i deleted and its a 4 state logic
-
-    $display("the values in the array arr is %0p" , arr ) ;
-    $display("the size of array arr is %0d" , arr.size() ) ;
-   // arr = new [30];
+    //arr.delete();   
+    //why its not having default value printed xxxx cause i deleted and its a 4 state logic 
+    
+    $display("the values in the array arr is %0p" , arr ) ; 
+    $display("the size of array arr is %0d" , arr.size() ) ; 
+   // arr = new [30]; 
     arr = new [30](arr);
-    $display("the values in the array arr is %0p" , arr ) ;
+    $display("the values in the array arr is %0p" , arr ) ; 
 
-    $display("the size of array arr is %0d" , arr.size() ) ;
-    //to store that in fixed size array
-    arrfixed = arr ;
-    $display("the values in the fixed size array arr is %0p" , arrfixed ) ;
+    $display("the size of array arr is %0d" , arr.size() ) ; 
+    //to store that in fixed size array 
+    arrfixed = arr ; 
+    $display("the values in the fixed size array arr is %0p" , arrfixed ) ; 
 
   end
-  //have to use new keyword when i want to add elements
-
+  //have to use new keyword when i want to add elements 
+  
 endmodule
 ~~~
 
-## Answers and notes
+## Source fidelity
 
-- `arr2 = arr1` performs whole-array assignment; it is not a reference alias. Later changes to one fixed array do not automatically change the other.
-- Changing `arr2[2]` to 11 after the copy demonstrates independence: `arr1[2]` remains 10.
-- For fixed unpacked arrays, the source and destination must have assignment-compatible element types and compatible shapes/bounds.
-- The two fixed arrays here are both `int [5]`, so the assignment is compatible.
-- A dynamic array is sized at run time with `new[n]`. `new[30](dynamic_arr)` resizes it while preserving the existing five values.
-- Assigning the resized dynamic array to `arrfixed[30]` copies the values into fixed storage. The destination receives thirty elements because the shapes are compatible.
-- Whole-array copying is useful for expected-versus-actual scoreboard data, but comparison is a separate operation. `if (arr1 == arr2)` compares compatible arrays element by element.
-- The self-checking testbench uses `error_count`, case-inequality checks for scalar values, and `$fatal(1, ...)` so a simulator run has an unambiguous result.
+The two code blocks above are rendered from the corresponding live EDA Playground editor panes. No corrected or self-checking replacement is included in this part. The linked short ID and saved settings are retained for running the original experiment.
 
-## Detailed discussion
+## Questions and Answers from the Code
 
-### Fixed-array assignment is a value copy
+### Why is copying used in a scoreboard?
 
-After the first loop, `arr1` contains `'{0, 5, 10, 15, 20}` while `arr2` contains `'{-1, -1, -1, -1, -1}`. The statement `arr2 = arr1` copies all five element values into `arr2` in one operation. The arrays remain separate storage objects. Therefore, changing `arr2[2]` from 10 to 11 does not change `arr1[2]`.
+**Original code question**
 
-This is the snapshot behavior a scoreboard needs when it records expected data before the actual data is modified or processed further. Assignment creates the snapshot; equality or inequality compares the current values.
+> // compare element in scoreboard , golden data + dut response compare elememnt by element and copy used here, 
 
-### Dynamic-array resizing
+**Where it appears**
 
-`dynamic_arr = new[5]` allocates five elements, which are then populated by the loop. The form `new[30](dynamic_arr)` allocates a thirty-element array and copies the old dynamic-array contents into the new object. The first five values remain `0, 5, 10, 15, 20`; the newly added elements are initialized to zero by the simulator used for the saved playground run.
+`testbench.sv:3` — the exact comment in the live EDA Playground testbench pane.
 
-The following assignment then demonstrates compatibility between a thirty-element dynamic array and a thirty-element fixed array:
+**Context in this playground**
 
-~~~systemverilog
-arrfixed = dynamic_arr;
-~~~
+The opening comment describes a scoreboard use case before the commented fixed-array experiment and the active dynamic-array copy.
 
-The final loop checks every copied element rather than relying only on the printed aggregate.
+**Answer**
 
-### Deterministic sequencing
+Copying records a value snapshot so expected or observed data can be compared without making the two storage objects aliases.
 
-The original handwritten experiment put the comparison in a second `initial` block. Because both blocks start at time 0, that comparison could run before `arr1` was populated or before the copy and mutation completed. The finished version keeps dependent operations in one procedural sequence and uses `#1` delays between visible phases. This makes the waveform and the self-check result repeatable.
+**Deep explanation**
 
-### Expected simulation phases
+A scoreboard commonly keeps a reference model or golden data and compares it with a DUT response. Whole-array assignment copies the compatible elements into the destination. After the assignment, changing one array element does not change the other array's element, so the destination can represent the response at a particular point while the source remains the expected snapshot. The copy itself is not the comparison; an equality or per-element comparison is a separate operation. The exact source also contains a second initial block in its commented experiment, so the timing of that comparison is a separate issue from the storage semantics.
 
-| Time | Phase | Expected observation |
-| ---: | --- | --- |
-| 0 ns | Fixed-array setup | `arr1` is `'{0, 5, 10, 15, 20}` and `arr2` is `'{-1, -1, -1, -1, -1}`. |
-| 1 ns | Fixed-array copy | `arr2 = arr1` makes the arrays equal; the equality check passes. |
-| 2 ns | Destination mutation | `arr2[2]` becomes 11 while `arr1[2]` stays 10; independence passes. |
-| 3 ns | Dynamic-array setup | `dynamic_arr` has five elements with the same arithmetic pattern. |
-| 4 ns | Dynamic-array resize | `dynamic_arr.size()` becomes 30 and the original five values remain. |
-| 4 ns | Dynamic-to-fixed copy | `arrfixed = dynamic_arr` completes and all thirty values match. |
+**Practical implication or pitfall**
 
-The saved EDA Playground run used Riviera-Pro 2025.04 and reported compile success with zero errors and zero warnings. Its output showed the five-element dynamic array, the resized thirty-element array, and the thirty-element fixed-array copy. The local Icarus Verilog 12 installation reports whole-array assignment and comparison as unsupported, so this part requires a simulator with full SystemVerilog unpacked-array support.
+Copy before mutating the data you want to preserve, and keep the comparison step explicit. A reference handle or shared object would not provide the same independent snapshot.
 
-### Points to remember
+**Sources**
 
-- Whole-array assignment copies values; it does not create an alias.
-- Fixed-array assignment requires compatible element types and shapes.
-- Dynamic arrays get their size from `new[n]` and can be resized with an initializer.
-- A simulator limitation is not automatically a language error; Riviera-Pro verified the saved playground behavior.
+[IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf)
+
+### Should the array comparison return true?
+
+**Original code question**
+
+>     $display("The following arrays are : having status as %0d" , status ); // should return true 
+
+**Where it appears**
+
+`testbench.sv:28` — the exact comment in the live EDA Playground testbench pane.
+
+**Context in this playground**
+
+The comment is attached to the display of status in the commented fixed-array experiment, where status is assigned from arr1 != arr2.
+
+**Answer**
+
+It should be true only after arr1 and arr2 have been populated and made different; the comment is not enough to guarantee that the two concurrent initial blocks observe that state.
+
+**Deep explanation**
+
+For compatible integral arrays, != produces a logical comparison of the current values. After arr2[2] is changed from the copied value, arr1 and arr2 differ, so the intended status is 1/true. But both initial blocks begin at time zero. The comparison block can execute before the other block has completed initialization, copy, and mutation. If unknown values participate, a four-state comparison can also yield X rather than a definite Boolean result. Therefore the intended mathematical result is true for the post-mutation state, while the unsynchronized source does not guarantee when that state is sampled.
+
+**Practical implication or pitfall**
+
+A comment saying true is a desired result, not a synchronization mechanism. Schedule the comparison after the copy and mutation if deterministic observation is required; this README does not alter the original source.
+
+**Sources**
+
+[IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf)
+
+### Why does deleting the array not print XXXX?
+
+**Original code question**
+
+>     //why its not having default value printed xxxx cause i deleted and its a 4 state logic 
+
+**Where it appears**
+
+`testbench.sv:48` — the exact comment in the live EDA Playground testbench pane.
+
+**Context in this playground**
+
+The question follows a commented arr.delete() call in the active dynamic-array example, which declares arr as int arr[].
+
+**Answer**
+
+delete removes the dynamic-array storage and leaves it with size zero; it does not leave thirty-four-state elements available to print. Also, the declared int is not the four-state logic type assumed by the comment.
+
+**Deep explanation**
+
+The delete method on a dynamic array deallocates its elements and sets its size to zero. With no elements, there is no indexed collection whose default bits can be displayed as XXXX. If the array is later allocated again, the element type's default-value rules apply to the new elements. The source declares int, whereas the LRM distinguishes two-state and four-state integral types; the comment's four-state assumption should not be silently applied to this declaration. The exact printed representation of an empty aggregate is simulator formatting, but it is not a row of X-valued elements.
+
+**Practical implication or pitfall**
+
+Check both the array size and the declared element type before interpreting %p output. Do not use an expected X pattern to diagnose an array that has already been deleted.
+
+**Sources**
+
+[IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf); [IEEE SystemVerilog standard overview](https://standards.ieee.org/ieee/1800/4934/)
+
+### Why is new needed to add elements?
+
+**Original code question**
+
+>   //have to use new keyword when i want to add elements 
+
+**Where it appears**
+
+`testbench.sv:62` — the exact comment in the live EDA Playground testbench pane.
+
+**Context in this playground**
+
+The comment follows the declaration and first use of the dynamic array arr[].
+
+**Answer**
+
+A dynamic array needs new[n] to allocate its element storage and establish a size before indexed elements can be assigned.
+
+**Deep explanation**
+
+The declaration int arr[] describes a dynamic-array variable but does not allocate a fixed number of elements. The new constructor creates the run-time array object with the requested size. After arr = new[5], indexed assignments have storage to write. The later form new[30](arr) creates a new thirty-element dynamic array and initializes it from the old array, which is why the original values can be retained while the capacity changes. This is different from a queue, whose push methods grow the queue directly.
+
+**Practical implication or pitfall**
+
+Use the operation that belongs to the collection type: new for dynamic-array allocation/resizing, and queue methods such as push_front or push_back for queues.
+
+**Sources**
+
+[IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf)
+
+## Source references
+
+The language explanations use [IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf) and [IEEE SystemVerilog standard overview](https://standards.ieee.org/ieee/1800/4934/). The page's editor panes and settings are described by [EDA Playground settings documentation](https://eda-playground.readthedocs.io/en/latest/settings.html) and [EDA Playground compile/run options](https://eda-playground.readthedocs.io/en/latest/compile_run_options.html).
+
+
+
