@@ -1,6 +1,7 @@
 # Part 14 — Class composition and scope
 
 EDA Playground: [https://edaplayground.com/x/EasK](https://edaplayground.com/x/EasK)
+EDA Playground Name: `Class Composition and Scope`
 
 This part combines class scope, setter/getter methods, and composition: class `second` contains a handle to an object of class `first`.
 

@@ -1,6 +1,7 @@
 # Part 12 — Array reference passing
 
 EDA Playground: [https://edaplayground.com/x/ADYn](https://edaplayground.com/x/ADYn)
+EDA Playground Name: `Array Reference Passing`
 
 This part extends `ref` arguments from scalar values to a fixed unpacked array. A function receives the caller's array and initializes every element in place.
 

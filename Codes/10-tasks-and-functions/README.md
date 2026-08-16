@@ -1,6 +1,7 @@
 # Part 10 — Tasks and functions
 
 EDA Playground: [https://edaplayground.com/x/ecCx](https://edaplayground.com/x/ecCx)
+EDA Playground Name: `Tasks and Functions`
 
 This part contrasts functions, which return a value without consuming simulation time, with tasks, which can contain timing controls and wait for clock events.
 

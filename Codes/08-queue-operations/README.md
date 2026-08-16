@@ -1,6 +1,7 @@
 # Part 08 — Queue operations
 
 EDA Playground: [https://edaplayground.com/x/bKTC](https://edaplayground.com/x/bKTC)
+EDA Playground Name: `Queue Operations`
 
 This part introduces an unbounded queue and the operations used to build, insert, remove, and delete queue elements.
 

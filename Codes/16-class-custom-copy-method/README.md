@@ -1,8 +1,9 @@
 # Part 16 — Class custom copy method
 
 EDA Playground: [https://edaplayground.com/x/X4c6](https://edaplayground.com/x/X4c6)
+EDA Playground Name: `Class Custom Copy Method`
 
-The page has no saved EDA Playground Name and its browser title is the generic `Edit code - EDA Playground`. This topic name is inferred from the visible editor's `// custom methods to copy` comment and its `function first copy()` method. Both the saved field and the visible editor buffer are preserved below: [`testbench.sv`](testbench.sv) records the saved source, while [`editor_testbench.sv`](editor_testbench.sv) records the visible buffer that was open during capture.
+The saved name matches the visible editor's `// custom methods to copy` comment and its `function first copy()` method. Both the saved field and the visible editor buffer are preserved below: [`testbench.sv`](testbench.sv) records the saved source, while [`editor_testbench.sv`](editor_testbench.sv) records the visible buffer that was open during capture.
 
 ## Saved playground settings
 

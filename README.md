@@ -73,6 +73,8 @@ Reserved for larger SystemVerilog or verification projects as the repository pro
 
 ## Learning Sequence
 
+For parts 07–16, each bold index title is the exact saved EDA Playground Name; the corresponding folder README records the same name beside its short link.
+
 | # | Topic | Key Concepts | Resources |
 |---:|---|---|---|
 | 01 | **Simulation Basics** | Timing, `` `timescale ``, `initial`, delays, VCD, `$monitor`, `$finish` | [Notes](Codes/01-simulation-basics/README.md) · [EDA Playground](https://edaplayground.com/x/Ucnp) |
