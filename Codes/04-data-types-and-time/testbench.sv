@@ -118,3 +118,4 @@ assign cout = g|h ;
 endmodule
 */
 //to verify the reg and putting logic inprefix to the wires, 
+

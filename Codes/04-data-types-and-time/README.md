@@ -1,12 +1,24 @@
-# Part 04 — Data types and simulation time
+# Part 04 — SV 04 - Data Types and Time
 
-EDA Playground: [https://edaplayground.com/x/giAN](https://edaplayground.com/x/giAN)
+EDA Playground: [SV 04 - Data Types and Time](https://edaplayground.com/x/giAN)  
+EDA Playground Name: `SV 04 - Data Types and Time`  
+Saved code ID: `7356270`
 
-This part explores two-state and four-state types, integer widths, `$time`, `$realtime`, procedural outputs, and hierarchical construction from half adders.
+This README documents the exact source currently saved in the linked EDA Playground. The source panes are preserved verbatim; the explanations below do not replace or correct the code.
 
-## Complete testbench code
+## Saved playground settings
 
-This page reproduces the complete experimental source from [`testbench.sv`](testbench.sv), including the commented type, multiplexer, and adder explorations.
+- Simulator: Riviera Pro 2025.04
+- Compile options: `-timescale 1ns/1ns`
+- Run options: `+access+r`
+
+## Verbatim design.sv
+
+~~~systemverilog
+// Code your design here
+~~~
+
+## Verbatim testbench.sv
 
 ~~~systemverilog
 // Code your testbench here
@@ -131,56 +143,107 @@ endmodule
 //to verify the reg and putting logic inprefix to the wires, 
 ~~~
 
-## Answers and notes
+## Source fidelity
 
-- `bit` is a two-state type (`0` or `1`) and defaults to `0`. `logic` and legacy `reg` are four-state types (`0`, `1`, `x`, `z`) and default to `x`.
-- `byte`, `shortint`, `int`, and `longint` are signed two-state integer atom types with widths of 8, 16, 32, and 64 bits respectively. `integer` is the legacy signed four-state 32-bit integer type.
-- `$time` returns an integer simulation time rounded to the current time unit. `$realtime` returns a real value, preserving fractional time such as 12.23 ns.
-- `%0t` formats a time value using the simulator's time-format settings. `%0f` is useful when the exact fractional `realtime` value is the focus.
-- A signal assigned inside a procedural block cannot be a Verilog net (`wire`). Legacy Verilog uses `output reg y`; idiomatic SystemVerilog uses `output logic y` with `always_comb`.
-- The half-adder outputs are driven continuously. Intermediate connections `f`, `g`, and `h` should be declared as `wire` in Verilog or `logic` in SystemVerilog. A `logic` may have a single driver, including a module output.
-- Two half adders create the full-adder sum, and OR-ing their carry signals produces the full-adder carry output.
+The two code blocks above are rendered from the corresponding live EDA Playground editor panes. No corrected or self-checking replacement is included in this part. The linked short ID and saved settings are retained for running the original experiment.
 
-## Detailed discussion
+## Questions and Answers from the Code
 
-### Two-state versus four-state storage
+### What is the initial value of a four-state variable?
 
-Two-state types model only 0 and 1, which is efficient when unknown and high-impedance states are not meaningful. Four-state types also represent `x` and `z`, which makes them valuable for detecting uninitialized signals, conflicting drivers, and disconnected nets. In verification code, an unexpected `x` is often evidence of a real setup or connectivity problem rather than a value to hide.
+**Original code question**
 
-| Type | Width | Default signedness | State model |
-| --- | ---: | --- | --- |
-| `bit` | Declared width | Unsigned unless declared `signed` | Two-state |
-| `byte` | 8 bits | Signed | Two-state |
-| `shortint` | 16 bits | Signed | Two-state |
-| `int` | 32 bits | Signed | Two-state |
-| `longint` | 64 bits | Signed | Two-state |
-| `logic` / `reg` | Declared width | Unsigned unless declared `signed` | Four-state |
-| `integer` | 32 bits | Signed | Four-state |
-| `time` | 64 bits | Unsigned | Integral simulation-time value |
-| `realtime` | Real-valued | Not an integral signedness case | Floating-point simulation time |
+>   //4 state initial value will be x
 
-The commented type experiment contains a standalone `byte` token immediately before an `initial` block. If that block is uncommented, the incomplete declaration must be removed or completed before compilation.
+**Where it appears**
 
-### What happens at 12.23 ns
+`testbench.sv:26` — the exact comment in the live EDA Playground testbench pane.
 
-The directive gives a 1 ns time unit and 1 ps precision, so `#12.23` advances to exactly 12.230 ns. `$time` returns an integral time value and therefore rounds according to the active time-unit rules. `$realtime` retains the fractional value. Simulator formatting can display `%0t` in a globally selected unit, which is why a tool may print values such as 12000 and 12230 in picoseconds. Use an explicit `$timeformat` when output units must be unambiguous, and use `%0f` when examining the raw real value.
+**Context in this playground**
 
-### Why the multiplexer output is procedural
+The comment appears alongside the data-type declarations that compare four-state and two-state variables.
 
-The commented multiplexer assigns `y` inside an `always @(*)` block. A Verilog `wire` is a net and cannot store a procedural assignment, so legacy Verilog declares that output as `reg`. In SystemVerilog, the clearer form is `output logic y` with `always_comb`. The word `logic` does not automatically imply a hardware register; the surrounding procedural behavior determines the synthesized circuit.
+**Answer**
 
-### Connecting the two half adders
+An uninitialized four-state integral variable defaults to X.
 
-Each half adder continuously drives `sum` and `cout`. The full adder uses the first sum as an intermediate input to the second half adder, then ORs the two carry terms. Under Verilog net rules, `f`, `g`, and `h` should be `wire` because submodule outputs drive them. In SystemVerilog, single-driver `logic` declarations are also a clear choice when the port and tool rules permit variable connections.
+**Deep explanation**
 
-### Points to remember
+Four-state integral types preserve the four logic values 0, 1, X, and Z. X represents an unknown value, so the simulator uses it as the default state for an uninitialized four-state integral variable. A two-state type cannot represent X or Z and has a different default. This experiment uses the declaration choices and displays to make that representation difference visible; it is not showing an assigned X literal being overwritten by a tool-specific default.
 
-- `byte`, `shortint`, `int`, and `longint` are two-state; `logic`, `reg`, and `integer` are four-state.
-- Choose two-state types for efficiency and four-state types when unknown-state detection matters.
-- `$time` is integral; `$realtime` preserves fractions.
-- A procedural assignment needs a variable data type, while a continuous/module-output connection behaves as a driver.
-- Commented experiments can still contain syntax that must be corrected before reactivation.
+**Practical implication or pitfall**
 
-## Reference
+An X is not the same as 0 and should not be treated as a harmless placeholder. It can propagate through expressions and make equality or control decisions unknown.
 
-The type widths, signedness, and state models above follow [Accellera SystemVerilog 3.0 draft, section 3.3 and Table 3-1](https://accellera.org/images/eda/vlog-pp/att-0614/01-SystemVerilog_draft7.pdf).
+**Sources**
+
+[IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf); [IEEE SystemVerilog standard overview](https://standards.ieee.org/ieee/1800/4934/)
+
+### Why can a wire not be used in this declaration?
+
+**Original code question**
+
+>     output reg y //cant use wire here 
+
+**Where it appears**
+
+`testbench.sv:58` — the exact comment in the live EDA Playground testbench pane.
+
+**Context in this playground**
+
+The comment is attached to a declaration in the data-types example where a signal is assigned procedurally.
+
+**Answer**
+
+A net such as wire is not a procedural variable, so it cannot be used as the left-hand side of an ordinary procedural assignment in the way this example requires.
+
+**Deep explanation**
+
+SystemVerilog distinguishes nets, which model connectivity driven by sources, from variables, which store values written by procedural statements. A wire declaration describes a net; an assignment inside an initial or always block requires a variable-compatible procedural destination. The exact legal alternatives depend on the surrounding declaration and driver model, but this testbench's assignment pattern calls for a variable rather than a plain wire. A logic variable is commonly used when there is one procedural driver, while a net remains appropriate when connectivity and multiple drivers are being modeled.
+
+**Practical implication or pitfall**
+
+Changing a type just to silence an error can hide a driver-model mistake. First decide whether the signal is a stored procedural variable or a driven net.
+
+**Sources**
+
+[IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf); [IEEE SystemVerilog standard overview](https://standards.ieee.org/ieee/1800/4934/)
+
+### Why is reg not allowed at the output of the half adder?
+
+**Original code question**
+
+> reg f,g,h; // here, reg cant be allowed in the output of ha1 
+
+**Where it appears**
+
+`testbench.sv:103` — the exact comment in the live EDA Playground testbench pane.
+
+**Context in this playground**
+
+The comment is in the half-adder portion of the data-types testbench and concerns an output connection driven by a module instance.
+
+**Answer**
+
+The output connection must be compatible with how the instantiated module drives it; a net-style connection is required when the module output is driving the signal as a port connection, whereas a variable declaration is used for procedural assignment.
+
+**Deep explanation**
+
+A module output drives the connected expression through the port connection. In traditional Verilog, an output driven by a module instance is connected to a net, not a procedural reg written by an initial or always block. SystemVerilog broadened port and variable rules in several contexts, so the precise legality depends on the port kind, direction, and whether the connected object is otherwise procedurally driven. In this example the comment reflects the older net-versus-reg distinction exposed by module-instantiation wiring. The safest interpretation is that the receiving signal's driver type must match the port connection, rather than that every output can never be a variable in SystemVerilog.
+
+**Practical implication or pitfall**
+
+Do not generalize this comment to all SystemVerilog output ports. Check the port declaration and the connection's other drivers; the example is about this module-instance connection.
+
+**Sources**
+
+[IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf); [IEEE SystemVerilog standard overview](https://standards.ieee.org/ieee/1800/4934/)
+
+## Source references
+
+The language explanations use [IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf) and [IEEE SystemVerilog standard overview](https://standards.ieee.org/ieee/1800/4934/). The page's editor panes and settings are described by [EDA Playground settings documentation](https://eda-playground.readthedocs.io/en/latest/settings.html) and [EDA Playground compile/run options](https://eda-playground.readthedocs.io/en/latest/compile_run_options.html).
+
+
+
+
+
