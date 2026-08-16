@@ -1,9 +1,10 @@
-# Part 13 — Constructor arguments
+# Part 13 — Constructor Arguments
 
-EDA Playground: [https://edaplayground.com/x/Ud7M](https://edaplayground.com/x/Ud7M)
-EDA Playground Name: `Constructor Arguments`
+EDA Playground: [Constructor Arguments](https://edaplayground.com/x/Ud7M)  
+EDA Playground Name: `Constructor Arguments`  
+Saved code ID: `7357115`
 
-This part adds a constructor with default values and demonstrates both positional and explicitly named constructor arguments.
+This README documents the exact source currently saved in the linked EDA Playground. The source panes are preserved verbatim; the explanations below do not replace or correct the code.
 
 ## Saved playground settings
 
@@ -11,169 +12,117 @@ This part adds a constructor with default values and demonstrates both positiona
 - Compile options: `-timescale 1ns/1ns`
 - Run options: `+access+r`
 
-## Corrected self-checking source
-
-The deterministic verification version is rendered here and remains available as [`self_checking_testbench.sv`](self_checking_testbench.sv). The exact captured EDA Playground source is preserved separately in [`testbench.sv`](testbench.sv).
+## Verbatim design.sv
 
 ~~~systemverilog
-// Code your testbench here
-// or browse Examples
-// Constructors accept positional or explicitly named arguments.
-`timescale 1ns/1ps
-
-class first;
-  int data1;
-  bit [7:0] data2;
-  shortint data3;
-
-  function new(
-    input int data1 = 0,
-    input bit [7:0] data2 = 8'd0,
-    input shortint data3 = 0
-  );
-    this.data1 = data1;
-    this.data2 = data2;
-    this.data3 = data3;
-  endfunction
-
-  task display;
-    $display("[%0t] data1=%0d, data2=%0d, data3=%0d", $time, data1, data2, data3);
-  endtask
-endclass
-
-module tb;
-  first f1;
-  int error_count;
-
-  task automatic check_value(
-    input string label,
-    input int actual,
-    input int expected
-  );
-    if (actual !== expected) begin
-      error_count++;
-      $error("FAIL: %s expected %0d, got %0d", label, expected, actual);
-    end
-  endtask
-
-  initial begin
-    $timeformat(-9, 0, " ns", 8);
-    $dumpfile("dump.vcd");
-    $dumpvars(0, tb);
-    error_count = 0;
-
-    f1 = new(.data2(5), .data3(5), .data1(11));
-    f1.display();
-    check_value("named data1", f1.data1, 11);
-    check_value("named data2", f1.data2, 5);
-    check_value("named data3", f1.data3, 5);
-
-    f1 = new(14, 6, 43);
-    f1.display();
-    check_value("positional data1", f1.data1, 14);
-    check_value("positional data2", f1.data2, 6);
-    check_value("positional data3", f1.data3, 43);
-
-    if (error_count == 0) begin
-      $display("PASS: named and positional constructor arguments passed");
-    end
-    else begin
-      $display("FAIL: %0d check(s) failed", error_count);
-      $fatal(1, "Part 13 self-check failed");
-    end
-
-    $finish;
-  end
-endmodule
+// Code your design here
 ~~~
 
-## Preserved EDA Playground source
-
-This block is the captured EDA Playground testbench, including its original named-constructor example and learning comments. It is stored unchanged as [`testbench.sv`](testbench.sv); the self-checking code above is the separate corrected verification version.
+## Verbatim testbench.sv
 
 ~~~systemverilog
 // Code your testbench here
 // or browse Examples
-class first;
+class first; 
   int data1;
-  bit [7:0] data2 ;
+  bit [7:0] data2 ; 
   shortint data3;
-
-  function new( input int data1=0, input bit [7:0] data2=8'd0, input shortint data3=0 );  // constructor cannot add a void to a constructor
+  
+  function new( input int data1=0, input bit [7:0] data2=8'd0, input shortint data3=0 );  // constructor cannot add a void to a constructor 
     this.data1=data1;
     this.data2=data2;
     this.data3=data3;
-
-  endfunction
+    
+  endfunction 
   task display();
     $display("Value of data 1 , data 2 adn data 3 are %0d , %0d , %0d  (calling from the class)" , data1, data2,data3);
-
-  endtask
+    
+  endtask 
 endclass
 
-module tb;
+module tb; 
   first f1;
   initial begin
-    //f1=new(14,5,43); // following the positions ----> METHOD 1
-    f1= new(.data2(5) , .data3(5) , .data1(11));  //------> METHOD 2 BY specifically naming
-
-    //f1 will have address of the class now
+    //f1=new(14,5,43); // following the positions ----> METHOD 1 
+    f1= new(.data2(5) , .data3(5) , .data1(11));  //------> METHOD 2 BY specifically naming 
+    
+    //f1 will have address of the class now 
     f1.display();
-    //$display("Data member of the class first data1  is %0d, data2 is %0d and data 3 is %0d" , f1.data1,f1.data2, f1.data3);
+    //$display("Data member of the class first data1  is %0d , data2 is %0d and data 3 is %0d" , f1.data1,f1.data2, f1.data3);
   end
-
+  
 endmodule
 ~~~
 
-## Answers and notes
+## Source fidelity
 
-- `function new(...)` is the constructor. It runs when an object is created with `new(...)`.
-- Default values make omitted constructor arguments predictable.
-- Positional arguments are matched left-to-right: `new(14, 6, 43)` assigns `data1`, `data2`, and `data3` in declaration order.
-- Named arguments use `.formal(actual)`, so `new(.data2(5), .data3(5), .data1(11))` does not depend on the order in which the actual arguments are written.
-- `this.data1` distinguishes the class member from the constructor formal named `data1`.
-- The `shortint` member is a 16-bit signed integer, while `data2` is an 8-bit packed two-state vector.
+The two code blocks above are rendered from the corresponding live EDA Playground editor panes. No corrected or self-checking replacement is included in this part. The linked short ID and saved settings are retained for running the original experiment.
 
-## Detailed discussion
+## Questions and Answers from the Code
 
-### Why named arguments help
+### Why can a constructor not have void as a return type?
 
-Positional calls are compact but depend on remembering the constructor's parameter order. Named calls make the mapping explicit and are safer when a class has several fields of related types or when the constructor evolves.
+**Original code question**
 
-The first object is created with the named call and should print:
+>   function new( input int data1=0, input bit [7:0] data2=8'd0, input shortint data3=0 );  // constructor cannot add a void to a constructor 
 
-```text
-data1=11, data2=5, data3=5
-```
+**Where it appears**
 
-The second call uses positional arguments and should print:
+`testbench.sv:8` — the exact comment in the live EDA Playground testbench pane.
 
-```text
-data1=14, data2=6, data3=43
-```
+**Context in this playground**
 
-### Constructor assignment and `this`
+The comment is on the function new declaration inside class first.
 
-Inside the constructor:
+**Answer**
 
-~~~systemverilog
-this.data1 = data1;
-~~~
+A SystemVerilog class constructor is the special function named new and has no return type; writing void new would not be a constructor declaration.
 
-The left side is the member belonging to the object currently being constructed. The right side is the constructor input. Without `this`, a same-named formal can hide the member and make the assignment ambiguous or ineffective.
+**Deep explanation**
 
-### Expected result
+The constructor syntax is special: new is a function-like method invoked by a class construction expression, but it does not declare a return type. Its result is the constructed object handle produced by the new operation, not a user-declared function return value. The active declaration correctly begins function new( ... ) and assigns the arguments into this object's properties. A task display method is separate and has no constructor role.
 
-| Call | Expected object state |
-| --- | --- |
-| `new(.data2(5), .data3(5), .data1(11))` | `data1=11`, `data2=5`, `data3=5` |
-| `new(14, 6, 43)` | `data1=14`, `data2=6`, `data3=43` |
+**Practical implication or pitfall**
 
-The saved Riviera-Pro run compiled with zero errors and zero warnings and printed the named-argument state `11, 5, 5`. The repository version additionally checks the positional form and ends with an explicit PASS result. Icarus 12 reports named-constructor syntax as unsupported even though the saved Riviera-Pro page accepts it.
+Do not add a conventional function return type to new. Keep constructor arguments and property assignments inside the special new declaration.
 
-### Points to remember
+**Sources**
 
-- Constructors initialize object state at allocation time.
-- Defaults make a constructor usable with partial argument lists.
-- Positional arguments follow formal order; named arguments follow formal names.
-- Use `this` when a formal parameter and a class member share a name.
+[IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf)
+
+### What does f1 hold after construction?
+
+**Original code question**
+
+>     //f1 will have address of the class now 
+
+**Where it appears**
+
+`testbench.sv:26` — the exact comment in the live EDA Playground testbench pane.
+
+**Context in this playground**
+
+The comment follows the named-argument construction f1= new(.data2(5), .data3(5), .data1(11)).
+
+**Answer**
+
+f1 holds a handle to the newly constructed first object; calling it an address is informal, not a portable promise about a numeric address.
+
+**Deep explanation**
+
+The class variable f1 is a handle. The new expression constructs an object, initializes its members through the named constructor arguments, and returns a handle that is assigned to f1. The subsequent f1.display() call dereferences that handle to execute the method on the same object. SystemVerilog exposes handle identity and nullness, not a C-style numeric address that should be printed or relied on. The named arguments select formals by name, so their source order does not have to match the constructor declaration order.
+
+**Practical implication or pitfall**
+
+Use class handles for object identity and member access; do not write code that depends on an implementation's memory address representation.
+
+**Sources**
+
+[IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf)
+
+## Source references
+
+The language explanations use [IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf) and [IEEE SystemVerilog standard overview](https://standards.ieee.org/ieee/1800/4934/). The page's editor panes and settings are described by [EDA Playground settings documentation](https://eda-playground.readthedocs.io/en/latest/settings.html) and [EDA Playground compile/run options](https://eda-playground.readthedocs.io/en/latest/compile_run_options.html).
+
+
+

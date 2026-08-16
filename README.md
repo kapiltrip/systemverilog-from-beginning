@@ -2,31 +2,9 @@
 
 > A structured, hands-on SystemVerilog learning repository built from first principles.
 
-This repository is an **ordered SystemVerilog practice notebook**. Each numbered part preserves the original experiment, keeps the corresponding EDA Playground link, and adds explanations for the language and simulation behavior being explored. Where a deterministic correction is useful for local verification, the exact captured pane remains in `testbench.sv` and the corrected version is kept separately as `self_checking_testbench.sv`.
+This repository is an ordered SystemVerilog practice notebook. Each numbered part preserves the user-authored source captured from its saved EDA Playground panes, records the exact saved playground name and link, and adds study notes. The READMEs explain questions written in the source; they do not replace, correct, or improve the source code.
 
-The emphasis is not only on *what the syntax does*, but also on **why the simulator behaves that way**—including timing, concurrency, data representation, arrays, and testbench-oriented programming concepts.
-
-## Repository Goals
-
-The repository is intended to build SystemVerilog knowledge progressively through small executable examples.
-
-The current learning path focuses on:
-
-- simulation time, time units, and time precision;
-- procedural execution and concurrent `initial` blocks;
-- clock generation and phase relationships;
-- SystemVerilog data types and simulation-time system functions;
-- packed-versus-unpacked data reasoning;
-- fixed and dynamic array fundamentals;
-- array initialization and traversal;
-- `for`, `foreach`, and `repeat` constructs;
-- whole-array operations and copying;
-- queues and queue methods;
-- classes, objects, handles, and constructors;
-- functions, tasks, timing controls, and pass-by-reference arguments;
-- waveform and console-based debugging using simulator system tasks.
-
-The examples are intentionally small so that one language or simulation concept can be isolated and understood before moving to the next topic.
+The current learning path covers simulation time, concurrent procedural execution, clocks and phase, data types, arrays and iteration, queues, classes and handles, functions and tasks, argument passing, constructors, composition, and object copying.
 
 ## Repository Structure
 
@@ -57,15 +35,7 @@ systemverilog-from-beginning/
 
 ### `Codes/`
 
-Contains the ordered learning exercises. Each numbered directory normally contains:
-
-- `testbench.sv` — the exact captured EDA Playground testbench pane;
-- `self_checking_testbench.sv` — a corrected, deterministic verification version when the original page is incomplete, nondeterministic, or unsafe;
-- `editor_testbench.sv` — a captured unsaved editor buffer when it differs from the saved EDA Playground field;
-- `design.sv` — the corresponding EDA Playground design pane when applicable;
-- `README.md` — explanation of the code, simulator behavior, observations, and important concepts.
-
-The numeric prefixes define the intended study sequence.
+Each numbered directory contains the corresponding `design.sv` and `testbench.sv` panes when present, a part README, and in part 16 the additional `editor_testbench.sv` capture that existed in the baseline. The source files are preserved verbatim from the canonical EDA Playground editor contents apart from line-ending normalization. No corrected or self-checking substitute is part of the learning source.
 
 ### `Project/`
 
@@ -73,16 +43,16 @@ Reserved for larger SystemVerilog or verification projects as the repository pro
 
 ## Learning Sequence
 
-For parts 07–16, each bold index title is the exact saved EDA Playground Name; the corresponding folder README records the same name beside its short link.
+The bold index titles below are the exact saved EDA Playground Names for parts 01–16.
 
 | # | Topic | Key Concepts | Resources |
 |---:|---|---|---|
-| 01 | **Simulation Basics** | Timing, `` `timescale ``, `initial`, delays, VCD, `$monitor`, `$finish` | [Notes](Codes/01-simulation-basics/README.md) · [EDA Playground](https://edaplayground.com/x/Ucnp) |
-| 02 | **Clock Generation** | Periodic clocks, delays, edges, simulation timestamps | [Notes](Codes/02-clock-generation/README.md) · [EDA Playground](https://edaplayground.com/x/gi86) |
-| 03 | **Phase-Shifted Clocks** | Clock period, phase, relative timing | [Notes](Codes/03-phase-shifted-clocks/README.md) · [EDA Playground](https://edaplayground.com/x/gi8n) |
-| 04 | **Data Types and Time** | Two-state/four-state types, `$time`, `$realtime` | [Notes](Codes/04-data-types-and-time/README.md) · [EDA Playground](https://edaplayground.com/x/giAN) |
-| 05 | **Fixed Arrays and `for` Loops** | Unpacked arrays, initialization, `$size`, `%p`, indexed iteration | [Notes](Codes/05-fixed-arrays-and-for-loop/README.md) · [EDA Playground](https://edaplayground.com/x/8k9Q) |
-| 06 | **Array Iteration** | `foreach`, `repeat`, array traversal | [Notes](Codes/06-array-iteration/README.md) · [EDA Playground](https://edaplayground.com/x/GK3p) |
+| 01 | **SV 01 - Simulation Basics** | Timing, `timescale`, `initial`, delays, VCD, `$monitor`, `$finish` | [Notes](Codes/01-simulation-basics/README.md) · [EDA Playground](https://edaplayground.com/x/Ucnp) |
+| 02 | **SV 02 - Clock Generation** | Periodic clocks, delays, edges, simulation timestamps | [Notes](Codes/02-clock-generation/README.md) · [EDA Playground](https://edaplayground.com/x/gi86) |
+| 03 | **SV 03 - Phase-Shifted Clocks** | Clock period, phase, relative timing | [Notes](Codes/03-phase-shifted-clocks/README.md) · [EDA Playground](https://edaplayground.com/x/gi8n) |
+| 04 | **SV 04 - Data Types and Time** | Two-state/four-state types, `$time`, `$realtime` | [Notes](Codes/04-data-types-and-time/README.md) · [EDA Playground](https://edaplayground.com/x/giAN) |
+| 05 | **SV 05 - Fixed Arrays and For Loop** | Unpacked arrays, initialization, `$size`, `%p`, indexed iteration | [Notes](Codes/05-fixed-arrays-and-for-loop/README.md) · [EDA Playground](https://edaplayground.com/x/8k9Q) |
+| 06 | **SV 06 - Array Iteration** | `foreach`, `repeat`, array traversal | [Notes](Codes/06-array-iteration/README.md) · [EDA Playground](https://edaplayground.com/x/GK3p) |
 | 07 | **Whole-Array Copying** | Compatible array assignment, aggregate operations | [Notes](Codes/07-array-copying/README.md) · [EDA Playground](https://edaplayground.com/x/CafY) |
 | 08 | **Queue Operations** | Queue literals, `push_front`, `push_back`, `insert`, `pop_front`, `delete` | [Notes](Codes/08-queue-operations/README.md) · [EDA Playground](https://edaplayground.com/x/bKTC) |
 | 09 | **Class Object Basics** | Class declarations, handles, `new`, four-state members, `null` | [Notes](Codes/09-class-object-basics/README.md) · [EDA Playground](https://edaplayground.com/x/qLDu) |
@@ -98,27 +68,11 @@ For parts 07–16, each bold index title is the exact saved EDA Playground Name;
 
 For each numbered part:
 
-1. Read the part-level `README.md` before running the code.
-2. Inspect `testbench.sv` and identify what is expected to happen at each simulation time.
-3. Open the linked EDA Playground example and run the simulation.
+1. Read the part-level README before running the code.
+2. Inspect the verbatim `testbench.sv` and identify what the source intends to do at each simulation time.
+3. Open the linked EDA Playground example and run the original experiment with its recorded settings.
 4. Compare the console output and waveform with your prediction.
-5. Modify one thing at a time—for example a delay, data type, array bound, or loop condition—and predict the new behavior before rerunning.
-6. Record the reason for any unexpected simulator result rather than only recording the output.
+5. Read the Questions and Answers section for the questions and doubts written in that source.
+6. Record the reason for any unexpected simulator result rather than silently editing the example.
 
-This approach turns the repository from a code collection into a **simulation-reasoning notebook**.
-
-## Example: Simulation Time
-
-```systemverilog
-`timescale 1ns/1ps
-
-initial begin
-    signal = 1'b0;
-    #10;
-    signal = 1'b1;
-end
-```
-
-With `` `timescale 1ns/1ps ``, the delay `#10` corresponds to **10 ns**, while the simulator can represent timing to **1 ps precision** for that compilation unit.
-
-An important recurring theme in this repository is that separate procedural blocks execute concurrently, while statements inside one procedural block execute sequentially unless timing or event controls alter when execution resumes.
+The [EDA Playground audit](EDA_PLAYGROUND_AUDIT.md) contains the one-to-one identity, settings, source-fingerprint, and question-coverage ledger for all captured parts.

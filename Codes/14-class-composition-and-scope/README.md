@@ -1,9 +1,10 @@
-# Part 14 — Class composition and scope
+# Part 14 — Class Composition and Scope
 
-EDA Playground: [https://edaplayground.com/x/EasK](https://edaplayground.com/x/EasK)
-EDA Playground Name: `Class Composition and Scope`
+EDA Playground: [Class Composition and Scope](https://edaplayground.com/x/EasK)  
+EDA Playground Name: `Class Composition and Scope`  
+Saved code ID: `7357152`
 
-This part combines class scope, setter/getter methods, and composition: class `second` contains a handle to an object of class `first`.
+This README documents the exact source currently saved in the linked EDA Playground. The source panes are preserved verbatim; the explanations below do not replace or correct the code.
 
 ## Saved playground settings
 
@@ -11,182 +12,220 @@ This part combines class scope, setter/getter methods, and composition: class `s
 - Compile options: `-timescale 1ns/1ns`
 - Run options: `+access+r`
 
-## Corrected self-checking source
-
-The deterministic verification version is rendered here and remains available as [`self_checking_testbench.sv`](self_checking_testbench.sv). The exact captured EDA Playground source is preserved separately in [`testbench.sv`](testbench.sv). The original page exercised the setter/getter path with the value 12; the corrected version also checks the default value before the update.
+## Verbatim design.sv
 
 ~~~systemverilog
-// Code your testbench here
-// or browse Examples
-// Class methods can encapsulate access, and one class can contain another.
-`timescale 1ns/1ps
-
-class first;
-  // Class members are public by default when no access qualifier is given.
-  int data = 34;
-
-  task setter(input int data);
-    this.data = data;
-  endtask
-
-  function int getter();
-    return data;
-  endfunction
-
-  task display;
-    $display("[%0t] first.data=%0d", $time, data);
-  endtask
-endclass
-
-class second;
-  first f1;
-
-  function new();
-    f1 = new();
-  endfunction
-endclass
-
-module tb;
-  second s;
-  int error_count;
-
-  task automatic check_value(
-    input string label,
-    input int actual,
-    input int expected
-  );
-    if (actual !== expected) begin
-      error_count++;
-      $error("FAIL: %s expected %0d, got %0d", label, expected, actual);
-    end
-  endtask
-
-  initial begin
-    $timeformat(-9, 0, " ns", 8);
-    $dumpfile("dump.vcd");
-    $dumpvars(0, tb);
-    error_count = 0;
-
-    s = new();
-    check_value("default composed object value", s.f1.getter(), 34);
-    s.f1.display();
-
-    s.f1.setter(12);
-    check_value("value after setter", s.f1.getter(), 12);
-    $display("[%0t] getter returned %0d", $time, s.f1.getter());
-
-    if (error_count == 0) begin
-      $display("PASS: composed classes and setter/getter scope passed");
-    end
-    else begin
-      $display("FAIL: %0d check(s) failed", error_count);
-      $fatal(1, "Part 14 self-check failed");
-    end
-
-    $finish;
-  end
-endmodule
+// Code your design here
 ~~~
 
-## Preserved EDA Playground source
-
-This block is the captured EDA Playground testbench, including its commented access experiments and original learning notes. It is stored unchanged as [`testbench.sv`](testbench.sv); the self-checking code above is the separate corrected verification version.
+## Verbatim testbench.sv
 
 ~~~systemverilog
 // Code your testbench here
 // or browse Examples
-// scope is public be default
+// scope is public be default 
 
-class first ;
-  //local int data = 34;
-  int data=34;
-
-  task setter(input int data);
-    this.data= data;
-
+class first ; 
+  //local int data = 34; 
+  int data = 34;
+  
+  task setter(input int data); 
+    this.data= data; 
+    
   endtask
-
+  
   function int getter(); // a return type needed for getter ()
-    return data ;
-
+    return data ; 
+    
   endfunction
-
+  
   task display();
-    $display("value of data , running from class first is %0d "  , data );
-  endtask
+    $display("value of data , running from class first is %0d "  , data ); 
+  endtask 
 endclass
-class second ;
+class second ; 
   first f1;  // second class has access to the data member of the first class
-
-  function new(); // this or i can use initial begin block itself ??
+  
+  function new(); // this or i can use initial begin block itself ?? 
     f1=new();
-
-  endfunction
-
+    
+  endfunction 
+  
 endclass
-module tb;
-  second s;
+module tb; 
+  second s; 
   initial begin
     s=new();
-    //$display("The value of data in the class first, is %0d " , s.f1.data );
+    //$display("The value of data in the class first, is %0d " , s.f1.data ); 
     //s.f1.display();
     //s.f1.data = 111;
     //s.f1.display();
     s.f1.setter(12);
-    // $display("The value of the data , fron getter task is %0d" , s.f1.getter()) ; WILL NOT WORK CAUSE TASK DOES NOT RETURN A VALUE
+    // $display("The value of the data , fron getter task is %0d" , s.f1.getter()) ; WILL NOT WORK CAUSE TASK DOES NOT RETURN A VALUE 
     $display("value of data %0d is " , s.f1.getter());
-
+    
   end
 endmodule
 ~~~
 
-## Answers and notes
+## Source fidelity
 
-- Class members are public by default unless an access qualifier such as `local` or `protected` changes that visibility.
-- `setter` is a task because it performs an update; `getter` is a function because it returns a value without consuming time.
-- `this.data = data` writes the member using the task input as the new value.
-- `second` demonstrates composition rather than inheritance: it contains a `first` handle named `f1`.
-- `second.new()` allocates the nested `first` object, so `s.f1` is valid immediately after `s = new()`.
-- The original page comments out direct member access and uses the setter/getter methods to show a cleaner interface.
+The two code blocks above are rendered from the corresponding live EDA Playground editor panes. No corrected or self-checking replacement is included in this part. The linked short ID and saved settings are retained for running the original experiment.
 
-## Detailed discussion
+## Questions and Answers from the Code
 
-### Composition creates a handle graph
+### Is class scope public by default?
 
-The object relationships after `s = new()` are:
+**Original code question**
 
-```text
-s  --->  second object
-          |
-          `-- f1 ---> first object, data = 34
-```
+> // scope is public be default 
 
-The outer constructor creates the inner object. This is why the testbench can call `s.f1.getter()` without a separate `s.f1 = new()` statement in the module.
+**Where it appears**
 
-### Setter and getter behavior
+`testbench.sv:3` — the exact comment in the live EDA Playground testbench pane.
 
-`setter(12)` updates the inner object, and `getter()` returns the updated value. The calls are intentionally separate so the testbench demonstrates both directions of the interface:
+**Context in this playground**
 
-1. Read the default member value 34 through `getter()`.
-2. Write 12 through `setter(12)`.
-3. Read 12 back through `getter()`.
+The comment is at the top of the class-composition example before class first declares data and methods.
 
-The `display` task provides a third observation path from inside the class.
+**Answer**
 
-### Expected result
+Yes for ordinary class members: class properties and methods are public unless an explicit access qualifier such as local or protected changes their visibility.
 
-| Phase | Expected observation |
-| --- | --- |
-| Outer construction | `s.f1` is a valid `first` object with `data=34`. |
-| Initial getter | Returns 34. |
-| Setter | Stores 12 in the inner object. |
-| Final getter | Returns 12 and the testbench prints PASS. |
+**Deep explanation**
 
-The saved Riviera-Pro page compiled with zero errors and zero warnings and printed `value of data 12 is`. The repository version adds the default-value check and an explicit PASS endpoint. Icarus 12 cannot elaborate nested class method paths such as `s.f1.getter()`, so a SystemVerilog simulator with class-composition support is required.
+The active data property, setter, getter, and display method are declared without a qualifier, so code with a handle can select them when the handle and object are valid. The commented local declaration illustrates the contrasting restriction. Public visibility answers who may select a member; it does not determine whether the member is initialized or whether a containing object has been constructed.
 
-### Points to remember
+**Practical implication or pitfall**
 
-- A class can own handles to other class objects.
-- Constructors should initialize nested handles before use.
-- Setter/getter methods provide a controlled interface even when members are public.
-- Functions return values; tasks perform actions and may contain timing controls.
+Visibility and lifetime are separate. A public member still cannot be selected through a null handle, and a local member still exists inside its object.
+
+**Sources**
+
+[IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf)
+
+### What would local do to the data member?
+
+**Original code question**
+
+>   //local int data = 34; 
+
+**Where it appears**
+
+`testbench.sv:6` — the exact comment in the live EDA Playground testbench pane.
+
+**Context in this playground**
+
+This is a commented-out alternative declaration immediately before the active public int data = 34 declaration.
+
+**Answer**
+
+local would restrict direct access to the class in which the member is declared; it is not the declaration used by the active example.
+
+**Deep explanation**
+
+The line is commented, so the saved running source actually uses an ordinary public data member. If enabled, local would make outside code unable to select first.data directly; class methods in first could still use it. The keyword changes access control, not the integer's value, storage width, or default initialization. The question is therefore about the visibility experiment represented by the commented line, not about the active field.
+
+**Practical implication or pitfall**
+
+When reading a class example, distinguish commented alternatives from active declarations. A public-access explanation must not be applied to a local member.
+
+**Sources**
+
+[IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf)
+
+### Why does getter need a return type?
+
+**Original code question**
+
+>   function int getter(); // a return type needed for getter ()
+
+**Where it appears**
+
+`testbench.sv:14` — the exact comment in the live EDA Playground testbench pane.
+
+**Context in this playground**
+
+The comment follows function int getter(), which returns data from class first.
+
+**Answer**
+
+Because getter is a function that returns the value of data, its declaration must specify the return type int; a task would not return a value.
+
+**Deep explanation**
+
+The function declaration's int states the type of the value produced by return data. The caller can use s.f1.getter() as an expression in the display call. That is different from the commented display that tries to call a task as though it returned a value. A function's return type and a method's visibility are independent properties; this example uses a public int-returning function inside the nested object.
+
+**Practical implication or pitfall**
+
+Use a function for a value-producing query and a task for an operation that may consume time or has output/ref behavior. Do not infer a return value from a task name.
+
+**Sources**
+
+[IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf)
+
+### Can the second-class constructor be replaced by an initial block?
+
+**Original code question**
+
+>   function new(); // this or i can use initial begin block itself ?? 
+
+**Where it appears**
+
+`testbench.sv:26` — the exact comment in the live EDA Playground testbench pane.
+
+**Context in this playground**
+
+The comment is on function new inside class second, where f1=new() constructs the contained first object.
+
+**Answer**
+
+An initial block can create the object in a module process, but it is not a general replacement for a class constructor when every second object must initialize its own f1.
+
+**Deep explanation**
+
+The class second constructor runs as part of new for each second object, so each instance gets its own first object through f1=new(). A module initial block runs once for the module instance and would initialize only the handles it names; it would not automatically initialize f1 for every separately constructed second object. The two mechanisms also have different ownership and timing: a constructor is tied to object construction, while initial is a simulation process.
+
+**Practical implication or pitfall**
+
+Use a constructor for per-object invariants and initial for module-level stimulus/setup. Moving the assignment between them changes the lifecycle contract.
+
+**Sources**
+
+[IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf)
+
+### Why does the commented task call not work as a getter?
+
+**Original code question**
+
+>     // $display("The value of the data , fron getter task is %0d" , s.f1.getter()) ; WILL NOT WORK CAUSE TASK DOES NOT RETURN A VALUE 
+
+**Where it appears**
+
+`testbench.sv:41` — the exact comment in the live EDA Playground testbench pane.
+
+**Context in this playground**
+
+The comment is beside the active display that calls the int-returning getter function, and it contrasts an earlier task-style call.
+
+**Answer**
+
+A task does not produce a function return value that can occupy the %0d expression argument; the active getter is a function, so its int result can be displayed.
+
+**Deep explanation**
+
+The active class defines task setter and function int getter. setter performs an update and has no return value; getter evaluates an expression and returns data. A task call is a procedural statement, not a value expression, so placing a task call where the display argument expects an integer is invalid or semantically wrong. The active s.f1.getter() call is legal because getter is declared as a function returning int and the setter has already written 12.
+
+**Practical implication or pitfall**
+
+Choose the call form from the declaration, not from the method name. If an operation must be used inside an expression, make it a function with an appropriate return type.
+
+**Sources**
+
+[IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf)
+
+## Source references
+
+The language explanations use [IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf) and [IEEE SystemVerilog standard overview](https://standards.ieee.org/ieee/1800/4934/). The page's editor panes and settings are described by [EDA Playground settings documentation](https://eda-playground.readthedocs.io/en/latest/settings.html) and [EDA Playground compile/run options](https://eda-playground.readthedocs.io/en/latest/compile_run_options.html).
+
+

@@ -1,12 +1,24 @@
-# Part 02 — Clock generation
+# Part 02 — SV 02 - Clock Generation
 
-EDA Playground: [https://edaplayground.com/x/gi86](https://edaplayground.com/x/gi86)
+EDA Playground: [SV 02 - Clock Generation](https://edaplayground.com/x/gi86)  
+EDA Playground Name: `SV 02 - Clock Generation`  
+Saved code ID: `7356140`
 
-This part continues Part 01 by generating several clocks with procedural delays and observing frequency, period, duty cycle, and simulator termination.
+This README documents the exact source currently saved in the linked EDA Playground. The source panes are preserved verbatim; the explanations below do not replace or correct the code.
 
-## Complete testbench code
+## Saved playground settings
 
-The complete source is rendered here and remains available as [`testbench.sv`](testbench.sv).
+- Simulator: Riviera Pro 2025.04
+- Compile options: `-timescale 1ns/1ns`
+- Run options: `+access+r`
+
+## Verbatim design.sv
+
+~~~systemverilog
+// Code your design here
+~~~
+
+## Verbatim testbench.sv
 
 ~~~systemverilog
 // Code your testbench here
@@ -94,52 +106,107 @@ module tb();
 endmodule
 ~~~
 
-## Question: Why can a testbench `always` block omit a sensitivity list?
+## Source fidelity
 
-A testbench clock generator is an intentional procedural loop. A delay inside the block advances simulation time, and after the last statement the `always` block starts again. It does not wait for an input signal to change.
+The two code blocks above are rendered from the corresponding live EDA Playground editor panes. No corrected or self-checking replacement is included in this part. The linked short ID and saved settings are retained for running the original experiment.
 
-Design logic normally reacts to events:
+## Questions and Answers from the Code
 
-- Combinational logic uses `always_comb` (preferred SystemVerilog) or `always @*` so it is reevaluated when a read input changes.
-- Sequential logic uses an explicit event such as `always_ff @(posedge clk)`.
-- A delay-free `always begin ... end` is unsafe because it loops forever at the same simulation time.
+### Why does the testbench always block not need a sensitivity list?
 
-## Clock calculations
+**Original code question**
 
-- `always #5 clk = ~clk` gives a 10 ns period, or 100 MHz.
-- `always #31.25 clk16Mhz = ~clk16Mhz` gives a 62.5 ns period, or 16 MHz.
-- `always #62.5 clk8Mhz = ~clk8Mhz` gives a 125 ns period, or 8 MHz.
-- The active `clk50MHZ` block produces a 20 ns period, or 50 MHz.
-- The active `clk25Mhz` block has a 30 ns period and is therefore about 33.33 MHz, not 25 MHz. A symmetric 25 MHz clock can use `always #20 clk25Mhz = ~clk25Mhz`.
-- `$finish` is required because clock-generating `always` blocks otherwise run forever.
+>   //in tb we dont need a sensitivity list in the always block why ? 
 
-## Detailed discussion
+**Where it appears**
 
-### Frequency comes from the complete period
+`testbench.sv:7` — the exact comment in the live EDA Playground testbench pane.
 
-For a clock that toggles after a half-period delay, the full period is twice that delay. Frequency follows $f=1/T$. With time measured in nanoseconds, a convenient conversion is $f_{MHz}=1000/T_{ns}$.
+**Context in this playground**
 
-| Signal | Rising-edge period | Frequency | Duty-cycle observation |
-| --- | ---: | ---: | --- |
-| `clk` | 10 ns | 100 MHz | 5 ns high, 5 ns low |
-| `clk50MHZ` | 20 ns | 50 MHz | 10 ns high, 10 ns low after startup |
-| `clk16Mhz` | 62.5 ns | 16 MHz | Symmetric toggle clock |
-| `clk8Mhz` | 125 ns | 8 MHz | Symmetric toggle clock |
-| active `clk25Mhz` block | 30 ns | about 33.33 MHz | 20 ns high, 10 ns low |
+The testbench uses an always process to generate a repeating clock by executing a delay and assignment sequence.
 
-The active `clk25Mhz` generator therefore does not generate 25 MHz. The commented form `always #20 clk25Mhz = ~clk25Mhz` gives a 40 ns period and the intended 25 MHz frequency.
+**Answer**
 
-### Why the delay prevents an infinite zero-time loop
+Because this always block is an infinite procedural loop whose timing comes from an explicit delay; it is not an event-controlled combinational process.
 
-An `always` block restarts immediately after its final statement. Each clock block contains a `#` delay, so simulation time advances before the next assignment. If the body had no delay or event control, it would execute forever at time 0 and prevent the simulator from progressing.
+**Deep explanation**
 
-### Sensitivity lists belong to reactive design behavior
+An always procedure repeats its statement or statement block forever. In this clock generator, the body contains a delay, so each iteration waits for time to advance before assigning the next clock value. There is no sensitivity list because the process is not waiting for changes on input signals. A sensitivity list is used with an event control to suspend a procedure until selected signals or events occur; it is not a general requirement for every always process. The testbench's job is to create a stimulus waveform, so an explicit delay is the intended trigger.
 
-A testbench clock is stimulus: it creates events according to time. Combinational design logic instead reacts when an input changes, so `always_comb` or `always @*` supplies the required sensitivity. Sequential design logic reacts to a clock or reset edge, for example `always_ff @(posedge clk)`. The difference is not simply “testbench versus design”; it is whether a process generates timed stimulus or reacts to signal events.
+**Practical implication or pitfall**
 
-### Points to remember
+A delay-based clock generator and a combinational always_comb block solve different problems. Adding a sensitivity list would change what wakes the process and could prevent the intended free-running clock.
 
-- Calculate the period between equivalent edges, such as rising edge to rising edge.
-- Frequency names do not prove that generated timing is correct; verify the delays.
-- Unequal high and low intervals change duty cycle as well as period.
-- Free-running clocks require a separate timeout and `$finish`.
+**Sources**
+
+[IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf); [IEEE SystemVerilog standard overview](https://standards.ieee.org/ieee/1800/4934/)
+
+### Why does the design use a sensitivity list?
+
+**Original code question**
+
+>   // in the design we need to evaluate for change hence in sensitivity list 
+
+**Where it appears**
+
+`testbench.sv:8` — the exact comment in the live EDA Playground testbench pane.
+
+**Context in this playground**
+
+This comment contrasts the design-side event-driven process with the testbench-side clock-generation process in the same playground.
+
+**Answer**
+
+A sensitivity list identifies the signals whose changes should wake the design process, so the design can reevaluate its response when its inputs change.
+
+**Deep explanation**
+
+A level-sensitive event control such as `always @(a or b)` suspends the process until an event occurs on one of the listed expressions. Once awakened, the statements execute using the current values. That is why a design process that models combinational response lists its input signals: changes to those inputs are the events that require reevaluation. The list is not a declaration of what the design can ever read; it is the set of events that resumes this process. SystemVerilog's specialized always_comb construct can infer sensitivity for combinational logic, but the handwritten example is illustrating the explicit form.
+
+**Practical implication or pitfall**
+
+If a read signal is omitted from a handwritten sensitivity list, an input change can occur without reevaluating the process, producing stale output in simulation.
+
+**Sources**
+
+[IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf); [IEEE SystemVerilog standard overview](https://standards.ieee.org/ieee/1800/4934/)
+
+### Why must the initial value be assigned?
+
+**Original code question**
+
+>   reg clk ;  // x by default so i have to initialize 
+
+**Where it appears**
+
+`testbench.sv:15` — the exact comment in the live EDA Playground testbench pane.
+
+**Context in this playground**
+
+The comment is beside the clock or testbench signal declaration and its first assignment.
+
+**Answer**
+
+For a four-state variable, an uninitialized value is X, so the testbench assigns an explicit starting value to avoid beginning with unknown stimulus.
+
+**Deep explanation**
+
+Four-state variables represent 0, 1, X, and Z. The LRM's default-value rules give an uninitialized four-state integral variable an unknown X value. A clock-like signal that starts as X can make edge controls and displayed output ambiguous until a real 0 or 1 is assigned. The explicit initialization establishes the known starting phase used by the rest of this testbench. This is initialization of the variable's simulation state, not a sensitivity-list requirement.
+
+**Practical implication or pitfall**
+
+If the first transition is expected to be a clean 0-to-1 edge, initialize to 0 before generating the clock; starting at X can change which transitions event controls recognize.
+
+**Sources**
+
+[IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf); [IEEE SystemVerilog standard overview](https://standards.ieee.org/ieee/1800/4934/)
+
+## Source references
+
+The language explanations use [IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf) and [IEEE SystemVerilog standard overview](https://standards.ieee.org/ieee/1800/4934/). The page's editor panes and settings are described by [EDA Playground settings documentation](https://eda-playground.readthedocs.io/en/latest/settings.html) and [EDA Playground compile/run options](https://eda-playground.readthedocs.io/en/latest/compile_run_options.html).
+
+
+
+
+
