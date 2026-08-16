@@ -26,7 +26,13 @@ systemverilog-from-beginning/
 │   ├── 13-constructor-arguments/
 │   ├── 14-class-composition-and-scope/
 │   ├── 15-class-shallow-copy/
-│   └── 16-class-custom-copy-method/
+│   ├── 16-class-custom-copy-method/
+│   ├── 17-class-deep-copy-with-nested-objects/
+│   ├── 18-class-shallow-copy-with-nested-handle/
+│   ├── 19-class-inheritance-basics/
+│   ├── 20-polymorphism-with-virtual-methods/
+│   ├── 21-constructor-arguments-and-super-keyword/
+│   └── 22-constrained-randomization-with-randc/
 ├── Project/
 ├── EDA_PLAYGROUND_AUDIT.md
 ├── .gitignore
@@ -43,7 +49,7 @@ Reserved for larger SystemVerilog or verification projects as the repository pro
 
 ## Learning Sequence
 
-The bold index titles below are the exact saved EDA Playground Names for parts 01–16.
+The bold index titles below are the exact saved EDA Playground Names for parts 01–22.
 
 | # | Topic | Key Concepts | Resources |
 |---:|---|---|---|
@@ -63,6 +69,12 @@ The bold index titles below are the exact saved EDA Playground Names for parts 0
 | 14 | **Class Composition and Scope** | Public members, setter/getter methods, nested class objects | [Notes](Codes/14-class-composition-and-scope/README.md) · [EDA Playground](https://edaplayground.com/x/EasK) |
 | 15 | **Class Shallow Copy** | Object copying, handle assignment, scalar-member independence | [Notes](Codes/15-class-shallow-copy/README.md) · [EDA Playground](https://edaplayground.com/x/sVdz) |
 | 16 | **Class Custom Copy Method** | Explicit copy methods, copied members, independent object state | [Notes](Codes/16-class-custom-copy-method/README.md) · [EDA Playground](https://edaplayground.com/x/X4c6) |
+| 17 | **Class Deep Copy with Nested Objects** | User-defined copy methods, nested handles, deep-copy behavior | [Notes](Codes/17-class-deep-copy-with-nested-objects/README.md) · [EDA Playground](https://edaplayground.com/x/gchG) |
+| 18 | **Class Shallow Copy with Nested Handle** | Shallow copying, shared nested handles, object aliasing | [Notes](Codes/18-class-shallow-copy-with-nested-handle/README.md) · [EDA Playground](https://edaplayground.com/x/9FTS) |
+| 19 | **Class Inheritance Basics** | Base and derived classes, inherited members, class handles | [Notes](Codes/19-class-inheritance-basics/README.md) · [EDA Playground](https://edaplayground.com/x/uVqk) |
+| 20 | **Polymorphism with Virtual Methods** | Virtual methods, overriding, dynamic dispatch | [Notes](Codes/20-polymorphism-with-virtual-methods/README.md) · [EDA Playground](https://edaplayground.com/x/sPne) |
+| 21 | **Constructor Arguments and Super Keyword** | Constructor formals, superclass construction, `super.new` | [Notes](Codes/21-constructor-arguments-and-super-keyword/README.md) · [EDA Playground](https://edaplayground.com/x/bpmE) |
+| 22 | **Constrained Randomization with randc** | Class random variables, cyclic randomization, constraint solving | [Notes](Codes/22-constrained-randomization-with-randc/README.md) · [EDA Playground](https://edaplayground.com/x/Fqxx) |
 
 ## How to Study This Repository
 
