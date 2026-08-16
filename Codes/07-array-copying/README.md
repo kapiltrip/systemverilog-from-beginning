@@ -1,6 +1,7 @@
 # Part 07 — Whole-array copying
 
 EDA Playground: [https://edaplayground.com/x/CafY](https://edaplayground.com/x/CafY)
+EDA Playground Name: `Whole-Array Copying`
 
 This part fills a fixed array, copies it into another fixed array, demonstrates that the destination has independent storage, and then continues with dynamic-array resizing and copying into a fixed array.
 

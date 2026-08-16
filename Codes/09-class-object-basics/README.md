@@ -1,6 +1,7 @@
 # Part 09 — Class object basics
 
 EDA Playground: [https://edaplayground.com/x/qLDu](https://edaplayground.com/x/qLDu)
+EDA Playground Name: `Class Object Basics`
 
 This part introduces a class declaration, a class handle, object construction with `new`, four-state class members, and the meaning of a `null` handle.
 

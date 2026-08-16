@@ -1,6 +1,7 @@
 # Part 15 — Class shallow copying
 
 EDA Playground: [https://edaplayground.com/x/sVdz](https://edaplayground.com/x/sVdz)
+EDA Playground Name: `Class Shallow Copy`
 
 This part demonstrates class-object copying. A new object is created from an existing object, its scalar member value is copied, and later changes to the copy do not change the original object.
 

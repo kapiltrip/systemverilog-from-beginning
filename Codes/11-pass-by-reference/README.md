@@ -1,6 +1,7 @@
 # Part 11 — Pass by reference
 
 EDA Playground: [https://edaplayground.com/x/Ua2v](https://edaplayground.com/x/Ua2v)
+EDA Playground Name: `Pass by Reference`
 
 This part shows how a task can receive `ref` arguments and modify the caller's variables directly.
 
