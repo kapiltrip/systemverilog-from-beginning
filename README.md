@@ -4,7 +4,7 @@
 
 This repository is an ordered SystemVerilog practice notebook. Each numbered part preserves the user-authored source captured from its saved EDA Playground panes, records the exact saved playground name and link, and adds study notes. The READMEs explain questions written in the source; they do not replace, correct, or improve the source code.
 
-The current learning path covers simulation time, concurrent procedural execution, clocks and phase, data types, arrays and iteration, queues, classes and handles, functions and tasks, argument passing, constructors, composition, and object copying.
+The current learning path covers simulation time, concurrent procedural execution, clocks and phase, data types, arrays and iteration, queues, classes and handles, functions and tasks, argument passing, constructors, composition, object copying, and constrained-random stimulus.
 
 ## Repository Structure
 
@@ -32,7 +32,14 @@ systemverilog-from-beginning/
 │   ├── 19-class-inheritance-basics/
 │   ├── 20-polymorphism-with-virtual-methods/
 │   ├── 21-constructor-arguments-and-super-keyword/
-│   └── 22-constrained-randomization-with-randc/
+│   ├── 22-constrained-randomization-with-randc/
+│   ├── 23-constrained-randomization-with-a-single-constraint/
+│   ├── 24-constrained-randc-inside-and-excluded-ranges/
+│   ├── 25-constraint-outside-a-class/
+│   ├── 26-dynamic-range-constraints-with-post-randomize/
+│   ├── 27-runtime-constraint-range-changes-with-randc/
+│   ├── 28-constraint-operators-distribution-and-modes/
+│   └── 29-distribution-constraints-with-colon-equal-and-colon-slash/
 ├── Project/
 ├── EDA_PLAYGROUND_AUDIT.md
 ├── .gitignore
@@ -49,7 +56,7 @@ Reserved for larger SystemVerilog or verification projects as the repository pro
 
 ## Learning Sequence
 
-The bold index titles below are the exact saved EDA Playground Names for parts 01–22.
+The bold index titles below are the exact saved EDA Playground Names for parts 01–29.
 
 | # | Topic | Key Concepts | Resources |
 |---:|---|---|---|
@@ -75,6 +82,13 @@ The bold index titles below are the exact saved EDA Playground Names for parts 0
 | 20 | **Polymorphism with Virtual Methods** | Virtual methods, overriding, dynamic dispatch | [Notes](Codes/20-polymorphism-with-virtual-methods/README.md) · [EDA Playground](https://edaplayground.com/x/sPne) |
 | 21 | **Constructor Arguments and Super Keyword** | Constructor formals, superclass construction, `super.new` | [Notes](Codes/21-constructor-arguments-and-super-keyword/README.md) · [EDA Playground](https://edaplayground.com/x/bpmE) |
 | 22 | **Constrained Randomization with randc** | Class random variables, cyclic randomization, constraint solving | [Notes](Codes/22-constrained-randomization-with-randc/README.md) · [EDA Playground](https://edaplayground.com/x/Fqxx) |
+| 23 | **Constrained Randomization with a Single Constraint** | Single constraint block, `randc` members, randomization status | [Notes](Codes/23-constrained-randomization-with-a-single-constraint/README.md) · [EDA Playground](https://edaplayground.com/x/gixd) |
+| 24 | **Constrained randc: inside and Excluded Ranges** | Set-membership and negated `inside` constraints | [Notes](Codes/24-constrained-randc-inside-and-excluded-ranges/README.md) · [EDA Playground](https://edaplayground.com/x/A7hT) |
+| 25 | **Constraint outside a class** | External constraint and external function declarations | [Notes](Codes/25-constraint-outside-a-class/README.md) · [EDA Playground](https://edaplayground.com/x/BCGE) |
+| 26 | **Dynamic Range Constraints with post_randomize** | Bound members, `inside` ranges, and automatic callback output | [Notes](Codes/26-dynamic-range-constraints-with-post-randomize/README.md) · [EDA Playground](https://edaplayground.com/x/Zw3t) |
+| 27 | **Runtime Constraint Range Changes with randc** | Two randomization phases with changed effective ranges | [Notes](Codes/27-runtime-constraint-range-changes-with-randc/README.md) · [EDA Playground](https://edaplayground.com/x/Jsd4) |
+| 28 | **Constraint Operators, Distribution, and Modes** | Implication, equivalence, distribution weights, conditional constraints, and constraint mode | [Notes](Codes/28-constraint-operators-distribution-and-modes/README.md) · [EDA Playground](https://edaplayground.com/x/Lb86) |
+| 29 | **Distribution Constraints with := and :/** | Per-value versus range-level distribution weights | [Notes](Codes/29-distribution-constraints-with-colon-equal-and-colon-slash/README.md) · [EDA Playground](https://edaplayground.com/x/6Yt4) |
 
 ## How to Study This Repository
 
