@@ -7,7 +7,7 @@ class generator ;
   //rand bit [3:0] a,b;  // some repetition of values 
   randc bit [3:0] a,b;  // no repetition 
   bit [3:0] y; 
-  constraint data {a>16; }
+  constraint data {a>10; }
 endclass
 /*
 randc => cyclic rand 
@@ -21,6 +21,7 @@ module tb;
   
   initial begin
     g=new();
+    /*
     //10 random stimuli 
     for(i=0; i<10; i++)begin
       //status = g.randomize();
@@ -31,5 +32,12 @@ module tb;
 
       
     end
+    */
+    assert(g.randomize()) else begin
+      $display("Randomization failed : at time %0t " , $time) ; 
+      
+    end
+    $display("Values for a is %0d and for b is %0d" , g.a, g.b) ; 
+    #10;
   end
 endmodule 

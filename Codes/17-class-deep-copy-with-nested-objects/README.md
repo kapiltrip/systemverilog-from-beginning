@@ -8,7 +8,7 @@ This README documents the exact source currently saved in the linked EDA Playgro
 
 ## Saved playground settings
 
-- Simulator: Riviera Pro 2025.04
+- Simulator: Aldec Riviera Pro 2025.04
 - Compile options: `-timescale 1ns/1ns`
 - Run options: `+access+r`
 
@@ -357,8 +357,16 @@ Use new() when the desired state is fresh construction. Use copy() only when you
 **Original code question**
 
 > 8. What is the difference between:
->    f2 = new();
->    f2 = f1.copy();
+>
+> ```systemverilog
+> f2 = new();
+> ```
+>
+> and:
+>
+> ```systemverilog
+> f2 = f1.copy();
+> ```
 
 **Where it appears**
 

@@ -8,7 +8,7 @@ This README documents the exact source currently saved in the linked EDA Playgro
 
 ## Saved playground settings
 
-- Simulator: Riviera Pro 2025.04
+- Simulator: Aldec Riviera Pro 2025.04
 - Compile options: `-timescale 1ns/1ns`
 - Run options: `+access+r`
 
@@ -126,7 +126,7 @@ The code blocks above are rendered from the corresponding live EDA Playground ed
 
 **Where it appears**
 
-`testbench.sv:7` — the exact comment in the live EDA Playground testbench pane.
+`testbench.sv:7` — the exact comment in the live EDA Playground testbench pane; the identical baseline capture is also in `editor_testbench.sv:7`.
 
 **Context in this playground**
 
@@ -156,7 +156,7 @@ A custom method must be maintained when the class gains new state. An omitted me
 
 **Where it appears**
 
-`testbench.sv:10` — the exact comment in the live EDA Playground testbench pane.
+`testbench.sv:10` — the exact comment in the live EDA Playground testbench pane; the identical baseline capture is also in `editor_testbench.sv:10`.
 
 **Context in this playground**
 
@@ -186,7 +186,7 @@ Use this when clarity or name disambiguation requires it. The absence of this do
 
 **Where it appears**
 
-`testbench.sv:19` — the exact comment in the live EDA Playground testbench pane.
+`testbench.sv:19` — the exact comment in the live EDA Playground testbench pane; the identical baseline capture is also in `editor_testbench.sv:19`.
 
 **Context in this playground**
 
@@ -216,7 +216,7 @@ Keep the source handle f1 alive while the copy is made, and remember that f2=f1.
 
 **Where it appears**
 
-`testbench.sv:25` — the exact comment in the live EDA Playground testbench pane.
+`testbench.sv:25` — the exact comment in the live EDA Playground testbench pane; the identical baseline capture is also in `editor_testbench.sv:25`.
 
 **Context in this playground**
 
@@ -246,7 +246,7 @@ State which members are copied and whether nested handles are cloned. “Copy th
 
 **Where it appears**
 
-`testbench.sv:39` — the exact comment in the live EDA Playground testbench pane.
+`testbench.sv:39` — the exact comment in the live EDA Playground testbench pane; the identical baseline capture is also in `editor_testbench.sv:39`.
 
 **Context in this playground**
 
