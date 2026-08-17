@@ -180,3 +180,98 @@ Question coverage for the incremental pages is 25 discovered entries and 25 matc
 The repository's available Icarus Verilog 0.0.0.0 check was run with `-g2012 -t null -s tb` against each new `design.sv`/`testbench.sv` pair, without changing source files. Parts 19 and 21 exited 0. Parts 17 and 18 triggered Icarus internal assertion failures while elaborating the preserved class-copy source (exit 3); part 20 produced Icarus's base/derived assignment diagnostic at the preserved `f=s` line (exit 1); and part 22 reported Icarus's documented `Constraint declarations not supported` limitation (exit 1). These are verification results for the unchanged learning examples, not corrections or substitutions. No compiler artifacts were added or staged by this pass; pre-existing ignored artifacts were left untouched.
 
 No EDA tab was closed. Inspection tabs opened on the same existing short links were retained only to read the canonical panes and were deduplicated by short ID in the scans.
+
+## Incremental ingestion pass: parts 23–27
+
+Checkpoint A discovered five new stable short IDs in the Edge queue order returned by both Edge extension instances: `gixd`, `A7hT`, `BCGE`, `Zw3t`, `Jsd4`. The browser API exposed two Edge extension-instance IDs but no window ID or tab-group value; each inventory returned the same seven top-level tab records. Original user tabs were left open; same-link Edge inspection tabs were used only to read the canonical editors.
+
+| Part | Exact EDA short ID/link | Exact saved EDA Name | Code ID | Reloaded browser title | Folder / README H1 | Source files | Settings | Name provenance | Source fingerprints (design / testbench) | Questions / answers | Run result |
+|---:|---|---|---:|---|---|---|---|---|---|---:|---|
+| 23 | [gixd](https://edaplayground.com/x/gixd) | `Constrained Randomization with a Single Constraint` | 7358850 | `Constrained Randomization with a Single Constraint - EDA Playground` | `23-constrained-randomization-with-a-single-constraint` / `Part 23 — Constrained Randomization with a Single Constraint` | design.sv, testbench.sv | SystemVerilog/Verilog; Siemens Questa 2025.2; `-timescale 1ns/1ns`; `-voptargs=+acc=npr`; optional flags off | inferred from initially blank Name and saved in place | `d2c99ccc005b1f9d188df2479be15a08b6fd8a9ad4e05568c2b02a9fc1a30553` / `394e649728423445dc6a69c3f46199647e89e76f58d6dd2a58f74fcf9df88030` | 0 / 0 | Errors 0; warnings 1 |
+| 24 | [A7hT](https://edaplayground.com/x/A7hT) | `Constrained randc: inside and Excluded Ranges` | 7358861 | `Constrained randc: inside and Excluded Ranges - EDA Playground` | `24-constrained-randc-inside-and-excluded-ranges` / `Part 24 — Constrained randc: inside and Excluded Ranges` | design.sv, testbench.sv | SystemVerilog/Verilog; Siemens Questa 2025.2; `-timescale 1ns/1ns`; `-voptargs=+acc=npr`; optional flags off | inferred from initially blank Name and saved in place; shortened to fit EDA's 50-character field | `d2c99ccc005b1f9d188df2479be15a08b6fd8a9ad4e05568c2b02a9fc1a30553` / `0870e8f0bbb1fb69fd00ee879f72a5dbcca71e93424283bd62f47d545daa163f` | 0 / 0 | Errors 0; warnings 1 |
+| 25 | [BCGE](https://edaplayground.com/x/BCGE) | `Constraint outside a class` | 7358881 | `Constraint outside a class - EDA Playground` | `25-constraint-outside-a-class` / `Part 25 — Constraint outside a class` | design.sv, testbench.sv | SystemVerilog/Verilog; Siemens Questa 2025.2; `-timescale 1ns/1ns`; `-voptargs=+acc+npr`; optional flags off | existing meaningful saved Name preserved | `d2c99ccc005b1f9d188df2479be15a08b6fd8a9ad4e05568c2b02a9fc1a30553` / `7fac41b6807a0a0e86cd681a1aa04f45a29c41d4c256105953378270e693ffa5` | 1 / 1 | Errors 0; warnings 1 |
+| 26 | [Zw3t](https://edaplayground.com/x/Zw3t) | `Dynamic Range Constraints with post_randomize` | 7358906 | `Dynamic Range Constraints with post_randomize - EDA Playground` | `26-dynamic-range-constraints-with-post-randomize` / `Part 26 — Dynamic Range Constraints with post_randomize` | design.sv, testbench.sv | SystemVerilog/Verilog; Siemens Questa 2025.2; `-timescale 1ns/1ns`; `-voptargs=+acc+npr`; optional flags off | inferred from initially blank Name and saved in place | `d2c99ccc005b1f9d188df2479be15a08b6fd8a9ad4e05568c2b02a9fc1a30553` / `413626ed14c8c924927c5e0ebf7b2b544669a888de10c10869ef7116e3517e86` | 3 / 3 | Errors 0; warnings 3 |
+| 27 | [Jsd4](https://edaplayground.com/x/Jsd4) | `Runtime Constraint Range Changes with randc` | 7359033 | `Runtime Constraint Range Changes with randc - EDA Playground` | `27-runtime-constraint-range-changes-with-randc` / `Part 27 — Runtime Constraint Range Changes with randc` | design.sv, testbench.sv | SystemVerilog/Verilog; Siemens Questa 2025.2; `-timescale 1ns/1ns`; `-voptargs=+acc+npr`; optional flags off | inferred from initially blank Name and saved in place | `d2c99ccc005b1f9d188df2479be15a08b6fd8a9ad4e05568c2b02a9fc1a30553` / `d72fa0bded434ef7ab15e74f68018676d66b22abc1d2e0bcad17e9e457314f86` | 4 / 4 | Errors 0; warnings 5 |
+
+### Question coverage ledger: parts 23–27
+
+| Part / file / line | Exact question or question-like comment | README destination | Authoritative research opened |
+|---|---|---|---|
+| 23 / none | No natural-language question; `//single constraint` is a topic label. | No Q&A entry; coverage note in README | None required |
+| 24 / none | No natural-language question; the range comments are topic labels. | No Q&A entry; coverage note in README | None required |
+| 25 / testbench.sv:31 | `// explain how assert works ` | Part 25 immediate-assertion answer | Accellera procedural-assertion draft; Accellera random-constraints proposal; IEEE 1800 page |
+| 26 / testbench.sv:30 | `// I AM NOT CALLING POST RANDOMIZE RATHER ITS GETTING CALLED ITSELF ` | Part 26 automatic post_randomize answer | Accellera random-constraints proposal; Accellera SV-EC discussion; IEEE 1800 page |
+| 26 / testbench.sv:31 | `//rand and randc : will create a bucket and it have an idea of the constraint ` | Part 26 rand/randc answer | Same three opened sources |
+| 26 / testbench.sv:32 | `// but if i changed the constraint in the run time we could see the repetition ` | Part 26 runtime repetition answer | Same three opened sources |
+| 27 / testbench.sv:36 | `// I AM NOT CALLING POST RANDOMIZE RATHER ITS GETTING CALLED ITSELF ` | Part 27 automatic post_randomize answer | Accellera random-constraints proposal; Accellera SV-EC discussion; IEEE 1800 page |
+| 27 / testbench.sv:37 | `//rand and randc : will create a bucket and it have an idea of the constraint ` | Part 27 rand/randc answer | Same three opened sources |
+| 27 / testbench.sv:38 | `// but if i changed the constraint in the run time we could see the repetition ` | Part 27 runtime repetition answer | Same three opened sources |
+| 27 / testbench.sv:39 | `//ALSO why am i calling it run time constraint changing ` | Part 27 runtime constraint-change answer | Same three opened sources |
+
+### Preservation and verification ledger
+
+- Live-to-repository source parity: PASS for all 10 source files in parts 23–27 after CRLF/LF normalization and one terminal newline normalization; the complete CodeMirror buffers were captured after stable reads, with clipboard fallback for the active pane.
+- README/source parity: PASS for all 10 `~~~systemverilog` blocks in parts 23–27 against their corresponding source files.
+- Q&A coverage: PASS — 8 question-like comments have one matching context-specific answer; parts 23 and 24 have no question-like comments, and no Q&A question is invented for them.
+- Authoritative research: opened Accellera and IEEE technical sources are linked directly in the matching README answers. No community posts, search snippets, or simulator claims are used as semantic authority.
+- Code fidelity: no live editor code or simulator setting was corrected, reformatted, or made self-checking.
+
+## Incremental ingestion pass: parts 28–29 (latest post-message scope)
+
+The post-message all-window discovery scan found two additional short IDs ahead of the previously provisional parts 23–27. The live queue order was `Lb86` followed by `6Yt4`, so these were assigned parts 28 and 29 without renumbering any existing part. Both pages initially had blank Names; each was renamed in place through the normal EDA Playground Name field and Save action, then reloaded and verified with the same short ID, code ID, complete source, and settings.
+
+| Part | Exact EDA short ID/link | Exact saved EDA Name | Code ID | Reloaded browser title | Folder / README H1 | Source files | Settings | Name provenance | Questions / answers | Authoritative sources | Live Questa run |
+|---:|---|---|---:|---|---|---|---|---|---:|---:|---|
+| 28 | [`Lb86`](https://edaplayground.com/x/Lb86) | `Constraint Operators, Distribution, and Modes` | 7359263 | `Constraint Operators, Distribution, and Modes - EDA Playground` | `28-constraint-operators-distribution-and-modes` / `Part 28 — Constraint Operators, Distribution, and Modes` | `design.sv`, `testbench.sv` | SystemVerilog/Verilog; Siemens Questa 2025.2; `-timescale 1ns/1ns`; `-voptargs=+acc=npr`; optional flags off | inferred from the initially blank Name and saved in place | 2 / 2 | 2 unique opened official sources | Errors 0; warnings 1; ten iterations and constraint-mode state 0 printed |
+| 29 | [`6Yt4`](https://edaplayground.com/x/6Yt4) | `Distribution Constraints with := and :/` | 7359201 | `Distribution Constraints with := and :/ - EDA Playground` | `29-distribution-constraints-with-colon-equal-and-colon-slash` / `Part 29 — Distribution Constraints with := and :/` | `design.sv`, `testbench.sv` | SystemVerilog/Verilog; Siemens Questa 2025.2; `-timescale 1ns/1ns`; `-voptargs=+acc=npr`; optional flags off | inferred from the initially blank Name and saved in place | 0 / 0 | 0 required for question coverage | Errors 0; warnings 3; thirty `var1`/`var2` display lines printed |
+
+### Stable live fingerprints for parts 23–29
+
+The following SHA-256 values are over the complete live editor pane strings as read from the same-link Edge inspection tabs. The `design.sv` pane includes its one terminal LF; the testbench values preserve the live editor text and are compared to repository files after the permitted terminal-newline normalization.
+
+| Part / ID | Design fingerprint | Testbench fingerprint | Combined editor fingerprint | Checkpoint B = Checkpoint C |
+|---:|---|---|---|---|
+| 23 / gixd | `d2c99ccc005b1f9d188df2479be15a08b6fd8a9ad4e05568c2b02a9fc1a30553` | `394e649728423445dc6a69c3f46199647e89e76f58d6dd2a58f74fcf9df88030` | `7888068f06da575a2a9edbd7c48e3070fe2f733c498b4c12ed384949b21e5295` | PASS |
+| 24 / A7hT | `d2c99ccc005b1f9d188df2479be15a08b6fd8a9ad4e05568c2b02a9fc1a30553` | `0870e8f0bbb1fb69fd00ee879f72a5dbcca71e93424283bd62f47d545daa163f` | `0325d3d9388334316f2f42cf581654eeb388872272a3143981c550ab8e4aeee6` | PASS |
+| 25 / BCGE | `d2c99ccc005b1f9d188df2479be15a08b6fd8a9ad4e05568c2b02a9fc1a30553` | `7fac41b6807a0a0e86cd681a1aa04f45a29c41d4c256105953378270e693ffa5` | `ed7e280c40dc6e6ab8278e783c14b241aa1f49b08d46372b5acb4f3f6d669dae` | PASS |
+| 26 / Zw3t | `d2c99ccc005b1f9d188df2479be15a08b6fd8a9ad4e05568c2b02a9fc1a30553` | `413626ed14c8c924927c5e0ebf7b2b544669a888de10c10869ef7116e3517e86` | `8c776375e4ad93de85279a778c481f0b264da9337904ae03e8518e6d23cfdfb4` | PASS |
+| 27 / Jsd4 | `d2c99ccc005b1f9d188df2479be15a08b6fd8a9ad4e05568c2b02a9fc1a30553` | `d72fa0bded434ef7ab15e74f68018676d66b22abc1d2e0bcad17e9e457314f86` | `c7164a95972caad2219657942af922118d125adfce74fd1ac4e2bffc2c1dbc73` | PASS |
+| 28 / Lb86 | `d2c99ccc005b1f9d188df2479be15a08b6fd8a9ad4e05568c2b02a9fc1a30553` | `d5d11de911dd968f86f111e81db93dc0e3bdcee012093f7a35539413295f49c6` | `c2f8da5eeef896c8a86b77195d41e3b431f06c5a06f48153c54cc4849ed944e6` | PASS |
+| 29 / 6Yt4 | `d2c99ccc005b1f9d188df2479be15a08b6fd8a9ad4e05568c2b02a9fc1a30553` | `d332f9519fae24773f6f8e03c1cff8763fdf9630f0baf647927428b95946c549` | `f6de500811b3164271ecd5b28ad32614b3ed39b214ee6f26f80b514726ae1882` | PASS |
+
+### Question coverage ledger for parts 28–29
+
+| Part / source location | Exact source wording | README destination | Research opened |
+|---|---|---|---|
+| 28 / `testbench.sv:17` | `// what if i do 40 for 1 in rst ` | Part 28 distribution-weight answer | [Accellera random-constraints proposal](https://www.accellera.org/images/eda/sv-ec/att-0248/01-Random-Constraints_Proposal.pdf); [IEEE 1800-2023 standard page](https://standards.ieee.org/ieee/1800/7743/) |
+| 28 / `testbench.sv:44` | `waddr ==0; // we have to do == not =  ` | Part 28 constraint-equality answer | [Accellera random-constraints proposal](https://www.accellera.org/images/eda/sv-ec/att-0248/01-Random-Constraints_Proposal.pdf); [IEEE 1800-2023 standard page](https://standards.ieee.org/ieee/1800/7743/) |
+| 29 / — | No explicit or implicit natural-language question; the `:=`, `:/`, and probability comments are declarative study notes. | No Q&A entry; the README explicitly records that no question was invented. | None required |
+
+Each of the two part-28 questions has one exact quoted, context-specific answer under `## Questions and Answers from the Code`. The part-29 README has no invented question. The Accellera source was opened after separate searches for the distribution-weight and equality-versus-assignment questions; claims about `:=`, `:/`, relative weighting, and equality operators are linked directly in the README.
+
+### All-Edge-window stability checkpoints after the latest scope update
+
+The dedicated Edge browser control returned two extension instances for the same Edge profile. Both returned the same top-level tab inventory; `tabGroup` was available for the Codex-created inspection tabs, but the API did not expose a numeric Edge window ID. This is recorded as an API metadata limitation, not treated as evidence that a window was absent. No tab or window was closed.
+
+- Post-message discovery scan (A2): `2026-08-17T05:50:50.660Z` UTC; two Edge extension instances, 15 top-level tabs and 14 EDA records per instance; 7 unique short IDs `{Lb86, 6Yt4, Jsd4, Zw3t, BCGE, A7hT, gixd}`. The newly discovered queue entries were `Lb86` then `6Yt4`.
+- Checkpoint B after processing: source captures completed `2026-08-17T06:06:05.770Z` through `2026-08-17T06:07:38.490Z` UTC; the all-window inventory was `2026-08-17T06:07:52.324Z`, with two extension instances, 24 top-level tabs and 21 EDA records per instance, and the same 7 unique IDs. Every complete saved-page Name, code ID, source-pane fingerprint, language, simulator, compile option, run option, and duplicate occurrence set matched the processed ledger.
+- Checkpoint C immediately before staging: source captures completed `2026-08-17T06:08:10.713Z` through `2026-08-17T06:08:52.145Z` UTC; the all-window inventory was `2026-08-17T06:09:01.787Z`, with the same two extension instances, 24 top-level tabs and 21 EDA records per instance, and the same 7 unique IDs and occurrences. All B/C source, Name, code ID, and settings fingerprints matched.
+
+At B and C, each unique short ID appeared three times per mirrored Edge binding: one original user tab (some stale titles remained `Edit code - EDA Playground`) and two same-link inspection tabs retained for complete source reads. The combined inventory therefore showed six mirrored records per short ID. The original Lb86 tab was browser-claimed and its first loading placeholders (`-`/`;`) converged to the same complete 64-line testbench fingerprint after the editor finished loading; no code was edited. The other original tabs were retained and represented in the all-window metadata inventory; the complete canonical captures used the same stable short links in dedicated inspection tabs because direct `tabs.get` access to some already-open user tabs was intermittent. This exact browser-control limitation is reported rather than hidden; it did not produce a second unique short ID or a divergent saved-page source.
+
+### Preservation, parity, and verification for parts 28–29
+
+- Live-to-repository source parity: PASS for all four source files. Design fingerprints match the live `// Code your design here` pane; testbench fingerprints match after only the permitted terminal-newline normalization.
+- README/source parity: PASS for all four new `~~~systemverilog` blocks; each README block was compared structurally to its corresponding source file without trimming trailing spaces.
+- Q&A/source parity: PASS — 2 exact part-28 questions map one-to-one to 2 answers; part 29 has 0/0 and no invented Q&A.
+- Name/identity parity: PASS — saved EDA Names, visible reloaded titles, short IDs, code IDs, folder slugs, README H1 titles, and root index titles are one-to-one for parts 28 and 29.
+- Simulator evidence: live Siemens Questa 2025.2 runs completed with Errors 0 for both pages. The repository's local Icarus check was also run without changing source: part 28 exited 41 with Icarus constraint syntax errors, and part 29 exited 22 with Icarus constraint syntax errors. Those are tool-support results for the preserved examples; no source was corrected.
+- No compiler or simulator artifacts were added or staged.
+
+### Final staging and commit gates for parts 23–29
+
+Checkpoint D after explicit staging and immediately before the commit: `2026-08-17T06:13:38.296Z` UTC. It reported the same two Edge extension instances, 24 top-level tabs and 21 EDA records per instance, the same 7 unique short IDs and duplicate occurrences as B/C, and no new or unstable page. Complete D source reads finished `2026-08-17T06:12:51.081Z` through `2026-08-17T06:13:27.685Z`; B=C=D for every saved Name, code ID, source-pane fingerprint, simulator, compile option, and run option.
+
+After the audit was restaged, the final post-restage source confirmation completed `2026-08-17T06:14:36.811Z` through `2026-08-17T06:15:08.626Z` UTC and matched the same seven complete editor fingerprints. The final all-window metadata rescan immediately before commit was `2026-08-17T06:17:35.550Z` UTC: both Edge extension instances again returned 24 top-level tabs and 21 EDA records, the same seven unique IDs and duplicate occurrences, and no new, changed, divergent, or unstable page. This final rescan is the post-stage confirmation for the staged snapshot.
+
+The staged file list is limited to `README.md`, `EDA_PLAYGROUND_AUDIT.md`, and the intended `Codes/23` through `Codes/29` source/README files. `git diff --cached --check` passed and no temporary/compiler artifacts are staged.
