@@ -8,7 +8,7 @@ This README documents the exact source currently saved in the linked EDA Playgro
 
 ## Saved playground settings
 
-- Simulator: Riviera Pro 2025.04
+- Simulator: Aldec Riviera Pro 2025.04
 - Compile options: `-timescale 1ns/1ns`
 - Run options: `+access+r`
 
