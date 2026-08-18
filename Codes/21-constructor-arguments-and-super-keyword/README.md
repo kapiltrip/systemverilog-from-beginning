@@ -1,10 +1,16 @@
 # Part 21 — Constructor Arguments and Super Keyword
 
+[← Part 20](../20-polymorphism-with-virtual-methods/README.md) · [Learning index](../README.md) · [Part 22 →](../22-constrained-randomization-with-randc/README.md)
+
 EDA Playground: [Constructor Arguments and Super Keyword](https://edaplayground.com/x/bpmE)  
 EDA Playground Name: `Constructor Arguments and Super Keyword`  
 Saved code ID: `7358446`
 
-This README documents the exact source currently saved in the linked EDA Playground. The source panes are preserved verbatim; the explanations below do not replace, correct, or improve the code.
+## Why this example matters
+
+A derived constructor is responsible for establishing the complete object, including the inherited portion. `super.new(...)` delegates initialization of that base-class state to the base constructor instead of duplicating its rules in the derived class.
+
+Constructor arguments are inputs used while building the object; a constructor is not a general output-producing procedure. The object handle returned by `new` is the construction result, while initialized members hold the resulting state.
 
 ## Saved playground settings
 
@@ -12,14 +18,7 @@ This README documents the exact source currently saved in the linked EDA Playgro
 - Compile options: `-timescale 1ns/1ns`
 - Run options: `+access+r`
 
-## Verbatim design.sv
-
-~~~systemverilog
-// Code your design here
-
-~~~
-
-## Verbatim testbench.sv
+## Testbench code
 
 ~~~systemverilog
 // Code your testbench here
@@ -50,15 +49,11 @@ module tb;
 endmodule 
 ~~~
 
-## Source fidelity
-
-The two code blocks above are rendered from the corresponding live EDA Playground editor panes for short ID bpmE. No corrected, reformatted, or self-checking replacement is included. The linked short ID and saved settings are retained for running the original experiment.
-
-## Questions and Answers from the Code
+## Questions from the code, explained
 
 ### Which keyword calls the parent constructor?
 
-**Original code question**
+**Question in the source**
 
 > // DISTINGUISH BETWEEN CUSTOM CONSTRUCTOR WE NEED  A KEYWORD ITS SUPER KEYWORD 
 
@@ -66,7 +61,7 @@ The two code blocks above are rendered from the corresponding live EDA Playgroun
 
 `testbench.sv:3`, before the class declarations.
 
-**Context in this playground**
+**What the code is doing**
 
 first has a constructor that initializes data1. second extends first, declares its own constructor, and invokes super.new(data1) before assigning data2.
 
@@ -74,21 +69,21 @@ first has a constructor that initializes data1. second extends first, declares i
 
 super.new(data1) explicitly calls the constructor of the immediate superclass, first, while function new declares the constructor for the current class.
 
-**Deep explanation**
+**Why this works**
 
 The child constructor is responsible for the second-specific initialization, but the inherited first portion must be initialized through the superclass constructor. The super.new call passes the child constructor's data1 argument to first.new. SystemVerilog requires the superclass constructor call to be the first executable statement when it is written explicitly; after it completes, the child constructor assigns data2. The source's two new methods therefore have different owners even though both use the constructor name.
 
-**Practical implication or pitfall**
+**Watch for**
 
 Do not replace super.new with an unrelated new call. Calling new() creates or initializes an object in the current construction path; super.new initializes the inherited portion.
 
-**Sources**
+**References**
 
 [IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf), [Accellera object-method and constructor reference](https://www.accellera.org/images/eda/sv-bc/att-2957/Issue_266_CliffCummings_rev3.pdf), and [IEEE SA IEEE 1800 standard page](https://standards.ieee.org/ieee/1800/7743/).
 
 ### Can a constructor have an output-direction argument?
 
-**Original code question**
+**Question in the source**
 
 >   function new (int data1 , int data2);  // can i have an output direction in a constructor 
 
@@ -96,7 +91,7 @@ Do not replace super.new with an unrelated new call. Calling new() creates or in
 
 `testbench.sv:13`, in second.new.
 
-**Context in this playground**
+**What the code is doing**
 
 The saved constructor currently declares two unqualified int formals and passes data1 upward with super.new(data1). The comment asks about changing a constructor formal to output.
 
@@ -104,21 +99,21 @@ The saved constructor currently declares two unqualified int formals and passes 
 
 Yes, constructor formals use the function argument mechanism, so an output formal is syntactically possible; it would be a copy-out argument, not the constructor's object return mechanism.
 
-**Deep explanation**
+**Why this works**
 
 SystemVerilog functions can declare input, output, and inout formal arguments. An unqualified formal defaults to input, which is how both data1 and data2 are declared in the saved source. An output formal is copied out to the actual argument when the function completes, subject to the normal function-call rules. A class constructor is special: new is the construction method and has no ordinary declared return type, while the newly allocated object handle is produced by the construction operation. Therefore an output argument would be an additional communication channel, not a replacement for new or for the child-to-parent super.new call.
 
-**Practical implication or pitfall**
+**Watch for**
 
 Do not use an output formal to try to return the constructed class object. Keep constructor inputs for initialization and use a separately declared output only when the caller genuinely needs a copy-out result.
 
-**Sources**
+**References**
 
 [Accellera SystemVerilog function argument reference](https://accellera.org/images/eda/vlog-pp/att-0614/01-SystemVerilog_draft7.pdf), [Accellera object-method and constructor reference](https://www.accellera.org/images/eda/sv-bc/att-2957/Issue_266_CliffCummings_rev3.pdf), and [IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf).
 
 ### Is the constructor name always new in SystemVerilog?
 
-**Original code question**
+**Question in the source**
 
 >   // constructor name is always new in sv
 
@@ -126,7 +121,7 @@ Do not use an output formal to try to return the constructed class object. Keep 
 
 `testbench.sv:25`, immediately before endmodule.
 
-**Context in this playground**
+**What the code is doing**
 
 Both first and second declare their object constructors with the name new, and the testbench calls the child constructor with s=new(15,16).
 
@@ -134,15 +129,15 @@ Both first and second declare their object constructors with the name new, and t
 
 Yes for SystemVerilog class constructors: the constructor method is named new.
 
-**Deep explanation**
+**Why this works**
 
 The constructor name is part of the class-method syntax rather than a user-chosen method name. The class type determines which new method is invoked, and the argument list selects the initialization inputs. Other methods, such as display or copy, can have arbitrary names and ordinary return types. In this source, first.new receives data1 through super.new, while second.new receives both data1 and data2 from s=new(15,16).
 
-**Practical implication or pitfall**
+**Watch for**
 
 A method named construct or initialize would be an ordinary method unless it is called explicitly; it would not replace the class constructor. Keep the constructor name and its argument contract aligned with the class definition.
 
-**Sources**
+**References**
 
 [Accellera object-method and constructor reference](https://www.accellera.org/images/eda/sv-bc/att-2957/Issue_266_CliffCummings_rev3.pdf), [IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf), and [IEEE SA IEEE 1800 standard page](https://standards.ieee.org/ieee/1800/7743/).
 

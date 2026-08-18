@@ -1,10 +1,16 @@
 # Part 04 — SV 04 - Data Types and Time
 
+[← Part 03](../03-phase-shifted-clocks/README.md) · [Learning index](../README.md) · [Part 05 →](../05-fixed-arrays-and-for-loop/README.md)
+
 EDA Playground: [SV 04 - Data Types and Time](https://edaplayground.com/x/giAN)  
 EDA Playground Name: `SV 04 - Data Types and Time`  
 Saved code ID: `7356270`
 
-This README documents the exact source currently saved in the linked EDA Playground. The source panes are preserved verbatim; the explanations below do not replace or correct the code.
+## Why this example matters
+
+The useful comparison in this playground is not simply one type name versus another. It is whether a variable can represent unknown and high-impedance states, how its width controls the stored value, and how simulation time is reported under the active `timescale`.
+
+Treat `$time` and `$realtime` as observations of the simulator's time model, not as ordinary counters maintained by the testbench. When reading the output, connect each printed value to the time unit, time precision, and the delay that preceded it.
 
 ## Saved playground settings
 
@@ -12,13 +18,7 @@ This README documents the exact source currently saved in the linked EDA Playgro
 - Compile options: `-timescale 1ns/1ns`
 - Run options: `+access+r`
 
-## Verbatim design.sv
-
-~~~systemverilog
-// Code your design here
-~~~
-
-## Verbatim testbench.sv
+## Testbench code
 
 ~~~systemverilog
 // Code your testbench here
@@ -143,15 +143,11 @@ endmodule
 //to verify the reg and putting logic inprefix to the wires, 
 ~~~
 
-## Source fidelity
-
-The two code blocks above are rendered from the corresponding live EDA Playground editor panes. No corrected or self-checking replacement is included in this part. The linked short ID and saved settings are retained for running the original experiment.
-
-## Questions and Answers from the Code
+## Questions from the code, explained
 
 ### What is the initial value of a four-state variable?
 
-**Original code question**
+**Question in the source**
 
 >   //4 state initial value will be x
 
@@ -159,7 +155,7 @@ The two code blocks above are rendered from the corresponding live EDA Playgroun
 
 `testbench.sv:26` — the exact comment in the live EDA Playground testbench pane.
 
-**Context in this playground**
+**What the code is doing**
 
 The comment appears alongside the data-type declarations that compare four-state and two-state variables.
 
@@ -167,21 +163,21 @@ The comment appears alongside the data-type declarations that compare four-state
 
 An uninitialized four-state integral variable defaults to X.
 
-**Deep explanation**
+**Why this works**
 
 Four-state integral types preserve the four logic values 0, 1, X, and Z. X represents an unknown value, so the simulator uses it as the default state for an uninitialized four-state integral variable. A two-state type cannot represent X or Z and has a different default. This experiment uses the declaration choices and displays to make that representation difference visible; it is not showing an assigned X literal being overwritten by a tool-specific default.
 
-**Practical implication or pitfall**
+**Watch for**
 
 An X is not the same as 0 and should not be treated as a harmless placeholder. It can propagate through expressions and make equality or control decisions unknown.
 
-**Sources**
+**References**
 
 [IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf); [IEEE SystemVerilog standard overview](https://standards.ieee.org/ieee/1800/4934/)
 
 ### Why can a wire not be used in this declaration?
 
-**Original code question**
+**Question in the source**
 
 >     output reg y //cant use wire here 
 
@@ -189,7 +185,7 @@ An X is not the same as 0 and should not be treated as a harmless placeholder. I
 
 `testbench.sv:58` — the exact comment in the live EDA Playground testbench pane.
 
-**Context in this playground**
+**What the code is doing**
 
 The comment is attached to a declaration in the data-types example where a signal is assigned procedurally.
 
@@ -197,21 +193,21 @@ The comment is attached to a declaration in the data-types example where a signa
 
 A net such as wire is not a procedural variable, so it cannot be used as the left-hand side of an ordinary procedural assignment in the way this example requires.
 
-**Deep explanation**
+**Why this works**
 
 SystemVerilog distinguishes nets, which model connectivity driven by sources, from variables, which store values written by procedural statements. A wire declaration describes a net; an assignment inside an initial or always block requires a variable-compatible procedural destination. The exact legal alternatives depend on the surrounding declaration and driver model, but this testbench's assignment pattern calls for a variable rather than a plain wire. A logic variable is commonly used when there is one procedural driver, while a net remains appropriate when connectivity and multiple drivers are being modeled.
 
-**Practical implication or pitfall**
+**Watch for**
 
 Changing a type just to silence an error can hide a driver-model mistake. First decide whether the signal is a stored procedural variable or a driven net.
 
-**Sources**
+**References**
 
 [IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf); [IEEE SystemVerilog standard overview](https://standards.ieee.org/ieee/1800/4934/)
 
 ### Why is reg not allowed at the output of the half adder?
 
-**Original code question**
+**Question in the source**
 
 > reg f,g,h; // here, reg cant be allowed in the output of ha1 
 
@@ -219,7 +215,7 @@ Changing a type just to silence an error can hide a driver-model mistake. First 
 
 `testbench.sv:103` — the exact comment in the live EDA Playground testbench pane.
 
-**Context in this playground**
+**What the code is doing**
 
 The comment is in the half-adder portion of the data-types testbench and concerns an output connection driven by a module instance.
 
@@ -227,19 +223,19 @@ The comment is in the half-adder portion of the data-types testbench and concern
 
 The output connection must be compatible with how the instantiated module drives it; a net-style connection is required when the module output is driving the signal as a port connection, whereas a variable declaration is used for procedural assignment.
 
-**Deep explanation**
+**Why this works**
 
 A module output drives the connected expression through the port connection. In traditional Verilog, an output driven by a module instance is connected to a net, not a procedural reg written by an initial or always block. SystemVerilog broadened port and variable rules in several contexts, so the precise legality depends on the port kind, direction, and whether the connected object is otherwise procedurally driven. In this example the comment reflects the older net-versus-reg distinction exposed by module-instantiation wiring. The safest interpretation is that the receiving signal's driver type must match the port connection, rather than that every output can never be a variable in SystemVerilog.
 
-**Practical implication or pitfall**
+**Watch for**
 
 Do not generalize this comment to all SystemVerilog output ports. Check the port declaration and the connection's other drivers; the example is about this module-instance connection.
 
-**Sources**
+**References**
 
 [IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf); [IEEE SystemVerilog standard overview](https://standards.ieee.org/ieee/1800/4934/)
 
-## Source references
+## Further reading
 
 The language explanations use [IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf) and [IEEE SystemVerilog standard overview](https://standards.ieee.org/ieee/1800/4934/). The page's editor panes and settings are described by [EDA Playground settings documentation](https://eda-playground.readthedocs.io/en/latest/settings.html) and [EDA Playground compile/run options](https://eda-playground.readthedocs.io/en/latest/compile_run_options.html).
 

@@ -1,10 +1,16 @@
 # Part 01 — SV 01 - Simulation Basics
 
+[Learning index](../README.md) · [Part 02 →](../02-clock-generation/README.md)
+
 EDA Playground: [SV 01 - Simulation Basics](https://edaplayground.com/x/Ucnp)  
 EDA Playground Name: `SV 01 - Simulation Basics`  
 Saved code ID: `7356115`
 
-This README documents the exact source currently saved in the linked EDA Playground. The source panes are preserved verbatim; the explanations below do not replace or correct the code.
+## Why this example matters
+
+This is a scheduler lab disguised as a few assignments. All of the `initial` blocks begin concurrently at time zero, but each delay advances only the process that contains it. Reading the example process by process makes `$monitor`, VCD dumping, reset changes, and the final `$finish` much easier to predict.
+
+The main habit to build here is to separate a signal's value from the simulation time at which that value changes. Before running the code, write a short timeline for `temp`, `clk`, and `reset`; then compare that prediction with the console and waveform.
 
 ## Saved playground settings
 
@@ -12,13 +18,7 @@ This README documents the exact source currently saved in the linked EDA Playgro
 - Compile options: `-timescale 1ns/1ns`
 - Run options: `+access+r`
 
-## Verbatim design.sv
-
-~~~systemverilog
-// Code your design here
-~~~
-
-## Verbatim testbench.sv
+## Testbench code
 
 ~~~systemverilog
 // Code your testbench here
@@ -86,15 +86,11 @@ module tb();
 endmodule
 ~~~
 
-## Source fidelity
-
-The two code blocks above are rendered from the corresponding live EDA Playground editor panes. No corrected or self-checking replacement is included in this part. The linked short ID and saved settings are retained for running the original experiment.
-
-## Questions and Answers from the Code
+## Questions from the code, explained
 
 ### What does the time-zero comment mean?
 
-**Original code question**
+**Question in the source**
 
 >   initial begin  // will start from time 0 (start of the simulation ) 
 
@@ -102,7 +98,7 @@ The two code blocks above are rendered from the corresponding live EDA Playgroun
 
 `testbench.sv:10` — the exact comment in the live EDA Playground testbench pane.
 
-**Context in this playground**
+**What the code is doing**
 
 The comment sits above an initial block whose first statement initializes the clock-like signal and then uses delays.
 
@@ -110,21 +106,21 @@ The comment sits above an initial block whose first statement initializes the cl
 
 Yes. An initial procedure is started once at simulation time zero, so its first statement is eligible to execute in the time-zero activity of this example.
 
-**Deep explanation**
+**Why this works**
 
 The comment is about the start of the process, not about every statement completing at time zero. The procedure begins at simulation time 0; the assignment before the first delay can therefore establish the initial value at that time. When the procedure reaches a delay such as `#10`, it suspends and resumes at the later simulation time. Other initial or always procedures also start concurrently, so their time-zero statements can interleave according to the simulator's scheduling rules. The exact ordering of same-time updates is a scheduling question; the important point here is that the first activation is anchored at time zero. This is the time model used by this testbench's clock and finish sequence.
 
-**Practical implication or pitfall**
+**Watch for**
 
 A zero-time start does not make a delayed statement happen immediately. Separate the time-zero initialization from each later delayed assignment.
 
-**Sources**
+**References**
 
 [IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf); [IEEE SystemVerilog standard overview](https://standards.ieee.org/ieee/1800/4934/)
 
 ### What value does the variable retain through the simulation?
 
-**Original code question**
+**Question in the source**
 
 >   end   //variable will hold the value =0 till the end of the simulation 
 
@@ -132,7 +128,7 @@ A zero-time start does not make a delayed statement happen immediately. Separate
 
 `testbench.sv:16` — the exact comment in the live EDA Playground testbench pane.
 
-**Context in this playground**
+**What the code is doing**
 
 The comment follows an assignment of zero and appears near a later delay or transition in the simulation-basics testbench.
 
@@ -140,19 +136,19 @@ The comment follows an assignment of zero and appears near a later delay or tran
 
 It holds zero until a later procedural assignment changes it; a delay by itself does not change the variable.
 
-**Deep explanation**
+**Why this works**
 
 A procedural assignment writes the variable, and the value remains stored until another assignment, a force/release, or a related state change affects it. A delay control only suspends the current procedure; it does not implicitly toggle or clear the variable. Thus, if the testbench assigns 0 and no later statement assigns a different value before `$finish`, the observed value remains 0 for the rest of that run. If a later statement drives 1, the interval of zero ends at that assignment's scheduled time.
 
-**Practical implication or pitfall**
+**Watch for**
 
 Do not infer a new value from the passage of simulation time. Look for the next statement that assigns the signal.
 
-**Sources**
+**References**
 
 [IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf); [IEEE SystemVerilog standard overview](https://standards.ieee.org/ieee/1800/4934/)
 
-## Source references
+## Further reading
 
 The language explanations use [IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf) and [IEEE SystemVerilog standard overview](https://standards.ieee.org/ieee/1800/4934/). The page's editor panes and settings are described by [EDA Playground settings documentation](https://eda-playground.readthedocs.io/en/latest/settings.html) and [EDA Playground compile/run options](https://eda-playground.readthedocs.io/en/latest/compile_run_options.html).
 

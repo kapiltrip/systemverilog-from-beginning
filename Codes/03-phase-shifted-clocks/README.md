@@ -1,10 +1,16 @@
 # Part 03 — SV 03 - Phase-Shifted Clocks
 
+[← Part 02](../02-clock-generation/README.md) · [Learning index](../README.md) · [Part 04 →](../04-data-types-and-time/README.md)
+
 EDA Playground: [SV 03 - Phase-Shifted Clocks](https://edaplayground.com/x/gi8n)  
 EDA Playground Name: `SV 03 - Phase-Shifted Clocks`  
 Saved code ID: `7356180`
 
-This README documents the exact source currently saved in the linked EDA Playground. The source panes are preserved verbatim; the explanations below do not replace or correct the code.
+## Why this example matters
+
+This example separates two ideas that are easy to mix up: period tells you how often a waveform repeats, while phase tells you where one waveform sits relative to another. Two clocks can have the same frequency and still reach their edges at different simulation times.
+
+Read the initial offset and the repeated half-period delays independently. The offset establishes the phase relationship once; the repeating logic preserves the period afterward. A timing table of rising edges is often clearer than looking only at the clock declarations.
 
 ## Saved playground settings
 
@@ -12,13 +18,7 @@ This README documents the exact source currently saved in the linked EDA Playgro
 - Compile options: `-timescale 1ns/1ns`
 - Run options: `+access+r`
 
-## Verbatim design.sv
-
-~~~systemverilog
-// Code your design here
-~~~
-
-## Verbatim testbench.sv
+## Testbench code
 
 ~~~systemverilog
 // Code your testbench here
@@ -48,15 +48,7 @@ module tb() ;
 endmodule
 ~~~
 
-## Source fidelity
-
-The two code blocks above are rendered from the corresponding live EDA Playground editor panes. No corrected or self-checking replacement is included in this part. The linked short ID and saved settings are retained for running the original experiment.
-
-## Questions and Answers from the Code
-
-No natural-language question or doubt was found in the comments of the canonical source for this part. Its comments describe the phase-shifted clock construction and timing intent; those comments are preserved verbatim in the source block above.
-
-## Source references
+## Further reading
 
 The language explanations use [IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf) and [IEEE SystemVerilog standard overview](https://standards.ieee.org/ieee/1800/4934/). The page's editor panes and settings are described by [EDA Playground settings documentation](https://eda-playground.readthedocs.io/en/latest/settings.html) and [EDA Playground compile/run options](https://eda-playground.readthedocs.io/en/latest/compile_run_options.html).
 

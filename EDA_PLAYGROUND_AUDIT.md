@@ -1,5 +1,63 @@
 # EDA Playground and Source Audit
 
+## Current repository representation
+
+EDA Playground always displays both a design editor and a testbench editor, even when the design editor contains only `// Code your design here`. The repository now omits that default-only pane: all 42 parts keep `testbench.sv`, while `design.sv` appears only in Parts 22, 30, and 40–42, where the pane has substantive content. Part 16 also retains its additional baseline `editor_testbench.sv` capture. This gives the current repository 48 inline source blocks backed by 48 local source files.
+
+The historical tables below still record both live editor panes and their fingerprints because they are evidence of what EDA Playground returned during each capture. Where an older row calls the placeholder pane `design.sv`, read that as a capture-time pane label, not as a promise that the current folder contains a placeholder file.
+
+## 2026-08-18 extension — queue 000–012 mapped to parts 30–42
+
+The signed-in Edge saved-playground list exposed thirteen new public SystemVerilog playgrounds created on 2026-08-18. They are distinct from the previously audited parts 01–29. The table below maps each original queue label to one new repository part and a stable short link. The descriptive indexed names are the proposed aligned EDA names; changing the public saved Name controls remains a separate browser action.
+
+| Part | Original queue | Indexed name | Short ID / link | Code ID | Folder | Simulator | Live result |
+|---:|---:|---|---|---:|---|---|---|
+| 30 | `000` | `SV 30 - FIFO Transaction and Weighted Constraints` | [`gjeT`](https://edaplayground.com/x/gjeT) | 7361120 | `30-fifo-transaction-and-weighted-constraints` | Questa 2025.2 | Compile failure: malformed `dist` list, 1 error |
+| 31 | `001` | `SV 31 - Event Trigger and Wait Semantics` | [`F6qC`](https://edaplayground.com/x/F6qC) | 7361162 | `31-event-trigger-and-wait-semantics` | Riviera Pro 2025.04 | Pass; event message at 10 ns |
+| 32 | `002` | `SV 32 - Event Races and Triggered State` | [`Lhvp`](https://edaplayground.com/x/Lhvp) | 7361563 | `32-event-races-and-triggered-state` | Riviera Pro 2025.04 | Pass; both event messages at time 0 |
+| 33 | `003` | `SV 33 - Generator-Driver Completion Event` | [`J57K`](https://edaplayground.com/x/J57K) | 7361613 | `33-generator-driver-completion-event` | Riviera Pro 2025.04 | Pass; finish at 100 ns |
+| 34 | `004` | `SV 34 - Two-Way Event Handshake` | [`9yRX`](https://edaplayground.com/x/9yRX) | 7361661 | `34-two-way-event-handshake` | Riviera Pro 2025.04 | Pass; ten acknowledged transfers |
+| 35 | `005` | `SV 35 - Fork-Join Variants` | [`B3zJ`](https://edaplayground.com/x/B3zJ) | 7361681 | `35-fork-join-variants` | Riviera Pro 2025.04 | Pass; parent continues at time 0 |
+| 36 | `006` | `SV 36 - Semaphore-Controlled Resource Access` | [`gjuf`](https://edaplayground.com/x/gjuf) | 7361930 | `36-semaphore-controlled-resource-access` | Questa 2025.2 | Pass; 0 errors, 5 warnings |
+| 37 | `007` | `SV 37 - Generator-Driver Mailbox` | [`A8er`](https://edaplayground.com/x/A8er) | 7361961 | `37-generator-driver-mailbox` | Riviera Pro 2025.04 | Pass; 3 untyped-mailbox warnings |
+| 38 | `008` | `SV 38 - Constructor-Injected Mailbox` | [`gjvi`](https://edaplayground.com/x/gjvi) | 7361990 | `38-constructor-injected-mailbox` | Questa 2025.2 | Pass; 0 errors |
+| 39 | `009` | `SV 39 - Parameterized Transaction Mailbox` | [`tEEA`](https://edaplayground.com/x/tEEA) | 7362039 | `39-parameterized-transaction-mailbox` | Questa 2025.2 | Pass; ten typed transactions |
+| 40 | `010` | `SV 40 - Interface, Modport, and Virtual Interface` | [`VgAA`](https://edaplayground.com/x/VgAA) | 7362135 | `40-interface-modport-and-virtual-interface` | Questa 2025.2 | Pass; VCD generated, finish at 100 ns |
+| 41 | `011` | `SV 41 - Layered Adder Testbench and Object Copies` | [`Xcxx`](https://edaplayground.com/x/Xcxx) | 7362765 | `41-layered-adder-testbench-and-object-copies` | Questa 2025.2 | Pass; 16 transfers, finish at 320 ns |
+| 42 | `012` | `SV 42 - Error Injection with Inheritance` | [`Cxwq`](https://edaplayground.com/x/Cxwq) | 7365122 | `42-error-injection-with-inheritance` | Riviera Pro 2025.04 | Compile failure: missing `copy` member, 1 error |
+
+### Capture and source-parity method
+
+- Each stable short link was opened through the dedicated Edge-family browser binding, and its Name, language, selected simulator, selected compile/run controls, EPWave state, design pane, and testbench pane were read.
+- CodeMirror display-only nonbreaking spaces and zero-width blank-line markers were converted back to ordinary source whitespace. CRLF/LF and trailing whitespace were normalized; source tokens, spelling, comments, and substantive blank lines were retained.
+- All 26 live editor panes were compared with their normalized captures after creation. The current repository retains the 17 substantive files from this batch—13 testbenches plus the real design panes in Parts 30 and 40–42—and omits the nine default-only design panes.
+- A separate post-run Edge reread reopened all thirteen stable links in three batches and rechecked both panes, the original queue Name, language, selected simulator, compile options, and run options. All thirteen rereads matched with zero mismatches.
+- Each original playground was run without editing its source or settings. Eleven compiled and ran; parts 30 and 42 retained and documented their exact compile failures.
+- Every question or uncertainty found in the new source is addressed in the corresponding README. The notes also correct declarative misconceptions when the live result disproves a comment, such as `join_none` timing and virtual-interface meaning.
+
+### Normalized source fingerprints
+
+| Part | Design SHA-256 | Testbench SHA-256 |
+|---:|---|---|
+| 30 | `9cd831b4902b060457369a30f0cca67b81b7fdd7f3fde45966f5dc23d375f0ec` | `e54295d3e1100e5fcc1746377e00cd57dfcc565da7784814304c0b08bd88ad0d` |
+| 31 | `d2c99ccc005b1f9d188df2479be15a08b6fd8a9ad4e05568c2b02a9fc1a30553` | `8cc052d9df0ae4691fc8d44431d3c7c7a547061f6b74c7291f88c2907872e236` |
+| 32 | `d2c99ccc005b1f9d188df2479be15a08b6fd8a9ad4e05568c2b02a9fc1a30553` | `1c2cf5e9f3eb34336a036190d46c989c8f1c48f1dff633c280570e29905f5a5d` |
+| 33 | `d2c99ccc005b1f9d188df2479be15a08b6fd8a9ad4e05568c2b02a9fc1a30553` | `2e8b26fdecd92f09b4823f1408e0da1aa7fa6d1d7f02aec699283cb8e55eb5f4` |
+| 34 | `d2c99ccc005b1f9d188df2479be15a08b6fd8a9ad4e05568c2b02a9fc1a30553` | `2e3612b55fd87b0bb5b74e722c537806513306166bcbfbc264b8114c68a7112a` |
+| 35 | `d2c99ccc005b1f9d188df2479be15a08b6fd8a9ad4e05568c2b02a9fc1a30553` | `3c45ddaf892fd9d79bd25b30250bfa57bd100912fba53875c992e54914d9bba7` |
+| 36 | `d2c99ccc005b1f9d188df2479be15a08b6fd8a9ad4e05568c2b02a9fc1a30553` | `0c7f25f2c033e9e8e9aa3869eae635b41c7c1b9ab8afddbd37112fe6b95ccf87` |
+| 37 | `d2c99ccc005b1f9d188df2479be15a08b6fd8a9ad4e05568c2b02a9fc1a30553` | `b9cf6341225695a81df91ca08aab08feb215366b8c2915d16a467b33875ec11a` |
+| 38 | `d2c99ccc005b1f9d188df2479be15a08b6fd8a9ad4e05568c2b02a9fc1a30553` | `274ace5d32e7d83996a0be615a9a1da36689f1646a1aaa5aa0f8d72c24f9029e` |
+| 39 | `d2c99ccc005b1f9d188df2479be15a08b6fd8a9ad4e05568c2b02a9fc1a30553` | `b303df6248b7465935d4d20d0d98216373cd76812bf75c84527d1f8cadaf0d6a` |
+| 40 | `c4ca611fc2e6663f8a0985cb3e830bdd35bfd6dfb9e32a871e27ab4a03bab087` | `369e156798ce5de7e35e94f8a2e9d68d263291733f20bb7e6455f47d27a6ca0a` |
+| 41 | `3db3bf84d3990345d634530e516bebccdb145e5715b2d6c32747b829d2efb46b` | `008e993e94e9b8eedcbebf8864c3e8ee047f6a10571d3dffd68c3f2640bf18ed` |
+| 42 | `a1fbdf10f718e9588f9989715f68c1590542bb2b249831b7e9c4a5df67c4ba1f` | `8c9b49d52383d27bd0c30a841a7a64e9033b38e41661111dcfa612e266aa42dc` |
+
+### Failure diagnoses retained as learning evidence
+
+- **Part 30 / `gjeT`:** the first `dist` constraint uses semicolons between alternatives. A legal distribution list uses commas, for example `wr_en dist {0 := 30, 1 := 70};`.
+- **Part 42 / `Cxwq`:** `transaction` has no `copy()` method, so `mbx.put(t.copy)` cannot compile. Even after restoring the method, `generator.run()` overwrites the injected derived `error` object with `t = new()`, so the intended error constraints would still be lost.
+
 This audit records the evidence for the verbatim-source and cited-Q&A pass. The naming-pass reference is baseline commit `491f409a1a09f224e0fa2d2eca4970e9f1ead00c`; work continued on the existing branch `kapil/systemverilog-playground-backlog` without creating or switching branches.
 
 ## Identity, order, and one-to-one mapping
@@ -54,7 +112,7 @@ The Q&A total is 49 entries: 2+3+0+3+4+1+4+1+6+5+2+1+2+5+5. Part 03 has zero nat
 
 ## Question coverage ledger
 
-Each exact source comment/question below has one matching entry under `## Questions and Answers from the Code` in its part README. The line numbers refer to the captured `testbench.sv`; p08's question spans two adjacent comment lines and p09's constructor explanation spans two adjacent comment lines.
+Each exact source comment/question below has one matching entry under `## Questions from the code, explained` in its part README. The line numbers refer to the captured `testbench.sv`; p08's question spans two adjacent comment lines and p09's constructor explanation spans two adjacent comment lines.
 
 | Part | Source line(s) | Exact source wording or captured comment |
 |---:|---|---|
@@ -162,7 +220,7 @@ Question coverage for the incremental pages is 25 discovered entries and 25 matc
 
 - Source-to-live parity: PASS for all 12 new source files. Each repository source was compared with the complete live editor capture using the normalized fingerprints above; only CRLF/LF and one terminal newline were ignored.
 - README/source parity: PASS for all 12 new `~~~systemverilog` blocks. The existing 33 baseline README blocks remain unchanged by this incremental pass; combined checked coverage is 45 blocks.
-- Q&A/source parity: PASS for all 25 exact quotes. Each quote was checked against its indicated source line/context, and each matching answer is under `## Questions and Answers from the Code` in the same part README.
+- Q&A/source parity: PASS for all 25 exact quotes. Each quote was checked against its indicated source line/context, and each matching answer is under `## Questions from the code, explained` in the same part README.
 - Authoritative research: p17 used 4 unique authoritative technical sources, p18 3, p19 3, p20 3, p21 4, and p22 3, excluding each EDA Playground link. The Q&As use opened IEEE/Accellera primary material; the new p22 randomization answer uses the opened [Accellera random-constraints proposal](https://www.accellera.org/images/eda/sv-ec/att-0248/01-Random-Constraints_Proposal.pdf), with the current [IEEE 1800 standard overview](https://standards.ieee.org/ieee/1800/7743/) and repository LRM link.
 - Name audit: PASS. All six final names are nonblank, unique, directly saved on the existing short IDs, and semantically synchronized across EDA Name, folder slug, README H1, and root index.
 - No live EDA page was edited in this audit. The p22 design pane is intentionally a commented-out module; its repository testbench was restored to the complete current live pane, including the satisfiable `a>10` constraint, the preserved commented-out loop, and the active assertion/display.
@@ -247,7 +305,7 @@ The following SHA-256 values are over the complete live editor pane strings as r
 | 28 / `testbench.sv:44` | `waddr ==0; // we have to do == not =  ` | Part 28 constraint-equality answer | [Accellera random-constraints proposal](https://www.accellera.org/images/eda/sv-ec/att-0248/01-Random-Constraints_Proposal.pdf); [IEEE 1800-2023 standard page](https://standards.ieee.org/ieee/1800/7743/) |
 | 29 / — | No explicit or implicit natural-language question; the `:=`, `:/`, and probability comments are declarative study notes. | No Q&A entry; the README explicitly records that no question was invented. | None required |
 
-Each of the two part-28 questions has one exact quoted, context-specific answer under `## Questions and Answers from the Code`. The part-29 README has no invented question. The Accellera source was opened after separate searches for the distribution-weight and equality-versus-assignment questions; claims about `:=`, `:/`, relative weighting, and equality operators are linked directly in the README.
+Each of the two part-28 questions has one exact quoted, context-specific answer under `## Questions from the code, explained`. Part 29 has no question section because its source contains declarative study notes rather than a question. The Accellera source was opened after separate searches for the distribution-weight and equality-versus-assignment questions; claims about `:=`, `:/`, relative weighting, and equality operators are linked directly in the README.
 
 ### All-Edge-window stability checkpoints after the latest scope update
 
@@ -336,14 +394,14 @@ The fresh zero-question exclusions were:
 - Part 24 / `A7hT`: `design.sv:1` and `testbench.sv:1–2,4–5` are template labels; `testbench.sv:3,11,17` are descriptive range/exclusion labels; `testbench.sv:12–16` is a commented-out alternative `inside` constraint. No natural-language question is present, so 0/0 is correct.
 - Part 29 / `6Yt4`: `design.sv:1` and `testbench.sv:1–2` are template labels; `testbench.sv:3–6` are declarative `:=`, `:/`, and bit-pattern notes; `testbench.sv:13,17` are probability comments; `testbench.sv:29` is a commented-out display experiment. None expresses a question or uncertainty, so 0/0 is correct.
 
-Every accepted question has exactly one destination under the matching README’s `## Questions and Answers from the Code` heading, preserves the original code wording as a quote, records its file/line context, and cites the opened authoritative source(s) used for the answer. The total is 84/84 answered; no unresolved question remained.
+Every accepted question has exactly one destination under the matching README’s `## Questions from the code, explained` heading, preserves the original code wording as a quote, records its file/line context, and cites the opened authoritative source(s) used for the answer. The total is 84/84 answered; no unresolved question remained.
 
 Part 16’s `editor_testbench.sv` is the byte-identical baseline duplicate of the canonical live `testbench.sv` capture. Its five repeated question comments are the same five source questions rather than five additional distinct questions; the part-16 Q&A locations identify both filenames so the duplicate file is covered without inventing duplicate answers.
 
 ### Source and README parity
 
-- Complete live-to-file comparison covered 58 live `design.sv`/`testbench.sv` panes for parts 01–29, with the permitted line-ending/terminal-newline normalization. Parts 04 and 05 differed only by terminal newline count; all substantive content matched. Part 22 was the sole substantive failure found and was restored from the live pane (`a>10`, preserved commented loop, active `assert`/display); its current live testbench hash is `a611dd87d922c37991712512bfc48858fb0d7b32de2b24b4ac65dfc84b83c8ea` in the canonical capture record.
-- README code-block parity passed for all 59 repository source blocks, including the baseline-only part-16 `editor_testbench.sv` block. No source improvement, correction, formatting pass, assertion, or self-checking logic was added.
+- Complete live-pane comparison covered 58 design/testbench editors for Parts 01–29, with the permitted line-ending/terminal-newline normalization. Parts 04 and 05 differed only by terminal newline count; all substantive content matched. Part 22 was the sole substantive failure found and was restored from the live pane (`a>10`, preserved commented loop, active `assert`/display); its current live testbench hash is `a611dd87d922c37991712512bfc48858fb0d7b32de2b24b4ac65dfc84b83c8ea` in the canonical capture record. Placeholder-only design panes are now audit evidence rather than local files.
+- Current README/source parity covers 48 local source files and 48 matching inline source blocks, including Part 16's baseline-only `editor_testbench.sv`. No source improvement, correction, assertion, or self-checking replacement was added.
 - `git diff --check` and the explicit link/source/question-ledger checks are required again after staging; no compiler or simulator artifact is part of the intended change.
 
 ### Post-message all-Edge stability evidence

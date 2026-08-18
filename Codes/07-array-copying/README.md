@@ -1,10 +1,16 @@
 # Part 07 — Whole-Array Copying
 
+[← Part 06](../06-array-iteration/README.md) · [Learning index](../README.md) · [Part 08 →](../08-queue-operations/README.md)
+
 EDA Playground: [Whole-Array Copying](https://edaplayground.com/x/CafY)  
 EDA Playground Name: `Whole-Array Copying`  
 Saved code ID: `7356412`
 
-This README documents the exact source currently saved in the linked EDA Playground. The source panes are preserved verbatim; the explanations below do not replace or correct the code.
+## Why this example matters
+
+The active example grows a dynamic array with `new[30](arr)`, preserving the existing elements while allocating a larger container, and then assigns that array into a compatible fixed array. Those are value-copy operations; the destination does not become another handle to the same array storage.
+
+That snapshot behavior is why copying appears in scoreboard discussions. Expected data and observed data must remain independently inspectable. Copying records a value state; comparison is a separate step that decides whether the two states agree.
 
 ## Saved playground settings
 
@@ -12,13 +18,7 @@ This README documents the exact source currently saved in the linked EDA Playgro
 - Compile options: `-timescale 1ns/1ns`
 - Run options: `+access+r`
 
-## Verbatim design.sv
-
-~~~systemverilog
-// Code your design here
-~~~
-
-## Verbatim testbench.sv
+## Testbench code
 
 ~~~systemverilog
 // Code your testbench here
@@ -87,15 +87,11 @@ module tb;
 endmodule
 ~~~
 
-## Source fidelity
-
-The two code blocks above are rendered from the corresponding live EDA Playground editor panes. No corrected or self-checking replacement is included in this part. The linked short ID and saved settings are retained for running the original experiment.
-
-## Questions and Answers from the Code
+## Questions from the code, explained
 
 ### Why is copying used in a scoreboard?
 
-**Original code question**
+**Question in the source**
 
 > // compare element in scoreboard , golden data + dut response compare elememnt by element and copy used here, 
 
@@ -103,7 +99,7 @@ The two code blocks above are rendered from the corresponding live EDA Playgroun
 
 `testbench.sv:3` — the exact comment in the live EDA Playground testbench pane.
 
-**Context in this playground**
+**What the code is doing**
 
 The opening comment describes a scoreboard use case before the commented fixed-array experiment and the active dynamic-array copy.
 
@@ -111,21 +107,21 @@ The opening comment describes a scoreboard use case before the commented fixed-a
 
 Copying records a value snapshot so expected or observed data can be compared without making the two storage objects aliases.
 
-**Deep explanation**
+**Why this works**
 
 A scoreboard commonly keeps a reference model or golden data and compares it with a DUT response. Whole-array assignment copies the compatible elements into the destination. After the assignment, changing one array element does not change the other array's element, so the destination can represent the response at a particular point while the source remains the expected snapshot. The copy itself is not the comparison; an equality or per-element comparison is a separate operation. The exact source also contains a second initial block in its commented experiment, so the timing of that comparison is a separate issue from the storage semantics.
 
-**Practical implication or pitfall**
+**Watch for**
 
 Copy before mutating the data you want to preserve, and keep the comparison step explicit. A reference handle or shared object would not provide the same independent snapshot.
 
-**Sources**
+**References**
 
 [IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf)
 
 ### Should the array comparison return true?
 
-**Original code question**
+**Question in the source**
 
 >     $display("The following arrays are : having status as %0d" , status ); // should return true 
 
@@ -133,7 +129,7 @@ Copy before mutating the data you want to preserve, and keep the comparison step
 
 `testbench.sv:28` — the exact comment in the live EDA Playground testbench pane.
 
-**Context in this playground**
+**What the code is doing**
 
 The comment is attached to the display of status in the commented fixed-array experiment, where status is assigned from arr1 != arr2.
 
@@ -141,21 +137,21 @@ The comment is attached to the display of status in the commented fixed-array ex
 
 It should be true only after arr1 and arr2 have been populated and made different; the comment is not enough to guarantee that the two concurrent initial blocks observe that state.
 
-**Deep explanation**
+**Why this works**
 
 For compatible integral arrays, != produces a logical comparison of the current values. After arr2[2] is changed from the copied value, arr1 and arr2 differ, so the intended status is 1/true. But both initial blocks begin at time zero. The comparison block can execute before the other block has completed initialization, copy, and mutation. If unknown values participate, a four-state comparison can also yield X rather than a definite Boolean result. Therefore the intended mathematical result is true for the post-mutation state, while the unsynchronized source does not guarantee when that state is sampled.
 
-**Practical implication or pitfall**
+**Watch for**
 
 A comment saying true is a desired result, not a synchronization mechanism. Schedule the comparison after the copy and mutation if deterministic observation is required; this README does not alter the original source.
 
-**Sources**
+**References**
 
 [IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf)
 
 ### Why does deleting the array not print XXXX?
 
-**Original code question**
+**Question in the source**
 
 >     //why its not having default value printed xxxx cause i deleted and its a 4 state logic 
 
@@ -163,7 +159,7 @@ A comment saying true is a desired result, not a synchronization mechanism. Sche
 
 `testbench.sv:48` — the exact comment in the live EDA Playground testbench pane.
 
-**Context in this playground**
+**What the code is doing**
 
 The question follows a commented arr.delete() call in the active dynamic-array example, which declares arr as int arr[].
 
@@ -171,21 +167,21 @@ The question follows a commented arr.delete() call in the active dynamic-array e
 
 delete removes the dynamic-array storage and leaves it with size zero; it does not leave thirty-four-state elements available to print. Also, the declared int is not the four-state logic type assumed by the comment.
 
-**Deep explanation**
+**Why this works**
 
 The delete method on a dynamic array deallocates its elements and sets its size to zero. With no elements, there is no indexed collection whose default bits can be displayed as XXXX. If the array is later allocated again, the element type's default-value rules apply to the new elements. The source declares int, whereas the LRM distinguishes two-state and four-state integral types; the comment's four-state assumption should not be silently applied to this declaration. The exact printed representation of an empty aggregate is simulator formatting, but it is not a row of X-valued elements.
 
-**Practical implication or pitfall**
+**Watch for**
 
 Check both the array size and the declared element type before interpreting %p output. Do not use an expected X pattern to diagnose an array that has already been deleted.
 
-**Sources**
+**References**
 
 [IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf); [IEEE SystemVerilog standard overview](https://standards.ieee.org/ieee/1800/4934/)
 
 ### Why is new needed to add elements?
 
-**Original code question**
+**Question in the source**
 
 >   //have to use new keyword when i want to add elements 
 
@@ -193,7 +189,7 @@ Check both the array size and the declared element type before interpreting %p o
 
 `testbench.sv:62` — the exact comment in the live EDA Playground testbench pane.
 
-**Context in this playground**
+**What the code is doing**
 
 The comment follows the declaration and first use of the dynamic array arr[].
 
@@ -201,19 +197,19 @@ The comment follows the declaration and first use of the dynamic array arr[].
 
 A dynamic array needs new[n] to allocate its element storage and establish a size before indexed elements can be assigned.
 
-**Deep explanation**
+**Why this works**
 
-The declaration int arr[] describes a dynamic-array variable but does not allocate a fixed number of elements. The new constructor creates the run-time array object with the requested size. After arr = new[5], indexed assignments have storage to write. The later form new[30](arr) creates a new thirty-element dynamic array and initializes it from the old array, which is why the original values can be retained while the capacity changes. This is different from a queue, whose push methods grow the queue directly.
+The declaration `int arr[]` describes a dynamic-array variable but does not allocate a fixed number of elements. The `new` constructor creates the run-time array object with the requested size. After `arr = new[5]`, indexed assignments have storage to write. The later form `new[30](arr)` creates a new thirty-element dynamic array and initializes it from the old array, which is why the original values can be retained while the capacity changes. This is different from a queue, whose push methods grow the queue directly.
 
-**Practical implication or pitfall**
+**Watch for**
 
 Use the operation that belongs to the collection type: new for dynamic-array allocation/resizing, and queue methods such as push_front or push_back for queues.
 
-**Sources**
+**References**
 
 [IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf)
 
-## Source references
+## Further reading
 
 The language explanations use [IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf) and [IEEE SystemVerilog standard overview](https://standards.ieee.org/ieee/1800/4934/). The page's editor panes and settings are described by [EDA Playground settings documentation](https://eda-playground.readthedocs.io/en/latest/settings.html) and [EDA Playground compile/run options](https://eda-playground.readthedocs.io/en/latest/compile_run_options.html).
 
