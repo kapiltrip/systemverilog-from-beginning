@@ -6,11 +6,11 @@ EDA Playground always displays both a design editor and a testbench editor, even
 
 The historical tables below still record both live editor panes and their fingerprints because they are evidence of what EDA Playground returned during each capture. Where an older row calls the placeholder pane `design.sv`, read that as a capture-time pane label, not as a promise that the current folder contains a placeholder file.
 
-## 2026-08-18 extension — queue 000–012 mapped to parts 30–42
+## 2026-08-18 extension — queue 000–012 renamed and mapped to parts 30–42
 
-The signed-in Edge saved-playground list exposed thirteen new public SystemVerilog playgrounds created on 2026-08-18. They are distinct from the previously audited parts 01–29. The table below maps each original queue label to one new repository part and a stable short link. The descriptive indexed names are the proposed aligned EDA names; changing the public saved Name controls remains a separate browser action.
+The signed-in Edge saved-playground list exposed thirteen new public SystemVerilog playgrounds created on 2026-08-18. They are distinct from the previously audited parts 01–29. Each playground was mapped from its original queue label to one repository part, renamed with the aligned descriptive title below, and retained on its original stable short link.
 
-| Part | Original queue | Indexed name | Short ID / link | Code ID | Folder | Simulator | Live result |
+| Part | Original queue | Exact saved EDA name | Short ID / link | Code ID | Folder | Simulator | Live result |
 |---:|---:|---|---|---:|---|---|---|
 | 30 | `000` | `SV 30 - FIFO Transaction and Weighted Constraints` | [`gjeT`](https://edaplayground.com/x/gjeT) | 7361120 | `30-fifo-transaction-and-weighted-constraints` | Questa 2025.2 | Compile failure: malformed `dist` list, 1 error |
 | 31 | `001` | `SV 31 - Event Trigger and Wait Semantics` | [`F6qC`](https://edaplayground.com/x/F6qC) | 7361162 | `31-event-trigger-and-wait-semantics` | Riviera Pro 2025.04 | Pass; event message at 10 ns |
@@ -29,9 +29,10 @@ The signed-in Edge saved-playground list exposed thirteen new public SystemVeril
 ### Capture and source-parity method
 
 - Each stable short link was opened through the dedicated Edge-family browser binding, and its Name, language, selected simulator, selected compile/run controls, EPWave state, design pane, and testbench pane were read.
+- The final naming pass changed only the saved Name field. A list-level reread confirmed all thirteen descriptive names against the same thirteen short links; source, simulator settings, visibility, code IDs, and link identities were left unchanged.
 - CodeMirror display-only nonbreaking spaces and zero-width blank-line markers were converted back to ordinary source whitespace. CRLF/LF and trailing whitespace were normalized; source tokens, spelling, comments, and substantive blank lines were retained.
 - All 26 live editor panes were compared with their normalized captures after creation. The current repository retains the 17 substantive files from this batch—13 testbenches plus the real design panes in Parts 30 and 40–42—and omits the nine default-only design panes.
-- A separate post-run Edge reread reopened all thirteen stable links in three batches and rechecked both panes, the original queue Name, language, selected simulator, compile options, and run options. All thirteen rereads matched with zero mismatches.
+- A separate post-run Edge reread reopened all thirteen stable links in three batches and rechecked both panes, the pre-rename queue Name, language, selected simulator, compile options, and run options. All thirteen source-and-settings rereads matched with zero mismatches.
 - Each original playground was run without editing its source or settings. Eleven compiled and ran; parts 30 and 42 retained and documented their exact compile failures.
 - Every question or uncertainty found in the new source is addressed in the corresponding README. The notes also correct declarative misconceptions when the live result disproves a comment, such as `join_none` timing and virtual-interface meaning.
 
@@ -58,7 +59,7 @@ The signed-in Edge saved-playground list exposed thirteen new public SystemVeril
 - **Part 30 / `gjeT`:** the first `dist` constraint uses semicolons between alternatives. A legal distribution list uses commas, for example `wr_en dist {0 := 30, 1 := 70};`.
 - **Part 42 / `Cxwq`:** `transaction` has no `copy()` method, so `mbx.put(t.copy)` cannot compile. Even after restoring the method, `generator.run()` overwrites the injected derived `error` object with `t = new()`, so the intended error constraints would still be lost.
 
-This audit records the evidence for the verbatim-source and cited-Q&A pass. The naming-pass reference is baseline commit `491f409a1a09f224e0fa2d2eca4970e9f1ead00c`; work continued on the existing branch `kapil/systemverilog-playground-backlog` without creating or switching branches.
+This audit records the evidence for the verbatim-source, cited-Q&A, and final saved-name passes. The source captures predate the renames; the naming pass changed metadata only and preserved the captured code and settings.
 
 ## Identity, order, and one-to-one mapping
 

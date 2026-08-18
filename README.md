@@ -80,7 +80,7 @@ Reserved for larger SystemVerilog or verification projects as the repository pro
 
 ## Complete Learning Sequence
 
-Parts 01–29 retain their audited saved EDA names. Parts 30–42 were recovered from the new queue labels 000–012 and given descriptive indexed titles; each part README records both identities. For phase grouping and concept lookup, use the [canonical learning index](Codes/README.md).
+Parts 01–29 retain their audited saved EDA names. Parts 30–42 were recovered from the queue labels 000–012 and now carry descriptive saved EDA names; each part README records both the original queue label and the current saved name. For phase grouping and concept lookup, use the [canonical learning index](Codes/README.md).
 
 | # | Topic | Key Concepts | Resources |
 |---:|---|---|---|

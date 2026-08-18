@@ -5,7 +5,7 @@
 | Saved-playground field | Value |
 |---|---|
 | Original queue label | `011` |
-| Indexed EDA name | `SV 41 - Layered Adder Testbench and Object Copies` |
+| EDA Playground Name | `SV 41 - Layered Adder Testbench and Object Copies` |
 | Stable playground | [Xcxx](https://edaplayground.com/x/Xcxx) |
 | Saved code ID | `7362765` |
 | Simulator | Siemens Questa 2025.2 |

@@ -5,7 +5,7 @@
 | Saved-playground field | Value |
 |---|---|
 | Original queue label | `007` |
-| Indexed EDA name | `SV 37 - Generator-Driver Mailbox` |
+| EDA Playground Name | `SV 37 - Generator-Driver Mailbox` |
 | Stable playground | [A8er](https://edaplayground.com/x/A8er) |
 | Saved code ID | `7361961` |
 | Simulator | Aldec Riviera Pro 2025.04 |

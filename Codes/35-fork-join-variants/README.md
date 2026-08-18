@@ -5,7 +5,7 @@
 | Saved-playground field | Value |
 |---|---|
 | Original queue label | `005` |
-| Indexed EDA name | `SV 35 - Fork-Join Variants` |
+| EDA Playground Name | `SV 35 - Fork-Join Variants` |
 | Stable playground | [B3zJ](https://edaplayground.com/x/B3zJ) |
 | Saved code ID | `7361681` |
 | Simulator | Aldec Riviera Pro 2025.04 |

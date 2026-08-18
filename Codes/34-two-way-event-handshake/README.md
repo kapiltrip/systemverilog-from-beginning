@@ -5,7 +5,7 @@
 | Saved-playground field | Value |
 |---|---|
 | Original queue label | `004` |
-| Indexed EDA name | `SV 34 - Two-Way Event Handshake` |
+| EDA Playground Name | `SV 34 - Two-Way Event Handshake` |
 | Stable playground | [9yRX](https://edaplayground.com/x/9yRX) |
 | Saved code ID | `7361661` |
 | Simulator | Aldec Riviera Pro 2025.04 |

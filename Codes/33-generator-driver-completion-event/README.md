@@ -5,7 +5,7 @@
 | Saved-playground field | Value |
 |---|---|
 | Original queue label | `003` |
-| Indexed EDA name | `SV 33 - Generator-Driver Completion Event` |
+| EDA Playground Name | `SV 33 - Generator-Driver Completion Event` |
 | Stable playground | [J57K](https://edaplayground.com/x/J57K) |
 | Saved code ID | `7361613` |
 | Simulator | Aldec Riviera Pro 2025.04 |

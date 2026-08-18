@@ -5,7 +5,7 @@
 | Saved-playground field | Value |
 |---|---|
 | Original queue label | `012` |
-| Indexed EDA name | `SV 42 - Error Injection with Inheritance` |
+| EDA Playground Name | `SV 42 - Error Injection with Inheritance` |
 | Stable playground | [Cxwq](https://edaplayground.com/x/Cxwq) |
 | Saved code ID | `7365122` |
 | Simulator | Aldec Riviera Pro 2025.04 |

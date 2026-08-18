@@ -5,7 +5,7 @@
 | Saved-playground field | Value |
 |---|---|
 | Original queue label | `009` |
-| Indexed EDA name | `SV 39 - Parameterized Transaction Mailbox` |
+| EDA Playground Name | `SV 39 - Parameterized Transaction Mailbox` |
 | Stable playground | [tEEA](https://edaplayground.com/x/tEEA) |
 | Saved code ID | `7362039` |
 | Simulator | Siemens Questa 2025.2 |

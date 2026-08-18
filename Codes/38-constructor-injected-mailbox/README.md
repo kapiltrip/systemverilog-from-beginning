@@ -5,7 +5,7 @@
 | Saved-playground field | Value |
 |---|---|
 | Original queue label | `008` |
-| Indexed EDA name | `SV 38 - Constructor-Injected Mailbox` |
+| EDA Playground Name | `SV 38 - Constructor-Injected Mailbox` |
 | Stable playground | [gjvi](https://edaplayground.com/x/gjvi) |
 | Saved code ID | `7361990` |
 | Simulator | Siemens Questa 2025.2 |

@@ -5,7 +5,7 @@
 | Saved-playground field | Value |
 |---|---|
 | Original queue label | `006` |
-| Indexed EDA name | `SV 36 - Semaphore-Controlled Resource Access` |
+| EDA Playground Name | `SV 36 - Semaphore-Controlled Resource Access` |
 | Stable playground | [gjuf](https://edaplayground.com/x/gjuf) |
 | Saved code ID | `7361930` |
 | Simulator | Siemens Questa 2025.2 |
