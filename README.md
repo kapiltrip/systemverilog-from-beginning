@@ -2,9 +2,20 @@
 
 > A structured, hands-on SystemVerilog learning repository built from first principles.
 
-This repository is an ordered SystemVerilog practice notebook. Each numbered part preserves the user-authored source captured from its saved EDA Playground panes, records the exact saved playground name and link, and adds study notes. The READMEs explain questions written in the source; they do not replace, correct, or improve the source code.
+This repository is an ordered SystemVerilog practice notebook. Each numbered part preserves the user-authored code from its saved EDA Playground, records the saved identity and stable link, and adds study notes. A design file is included only when the design pane contains real lesson code; EDA Playground's untouched `// Code your design here` placeholder is not duplicated locally. The READMEs answer questions written in the source and explain observed failures without silently replacing the learning snapshot with different code.
 
-The current learning path covers simulation time, concurrent procedural execution, clocks and phase, data types, arrays and iteration, queues, classes and handles, functions and tasks, argument passing, constructors, composition, object copying, and constrained-random stimulus.
+The 42-part path now runs from simulation time, types, arrays, classes, copying, inheritance, and constrained randomization through events, process control, semaphores, mailboxes, interfaces, virtual interfaces, layered drivers, and polymorphic error injection.
+
+## Start Here
+
+| I want to… | Open |
+|---|---|
+| Follow the course in order | [Canonical 42-part learning index](Codes/README.md) |
+| Find one concept quickly | [Quick concept lookup](Codes/README.md#quick-concept-lookup) |
+| Reconcile a local part with EDA Playground | [EDA/source audit](EDA_PLAYGROUND_AUDIT.md) |
+| Continue from the newly captured queue | [Part 30 — FIFO Transaction and Weighted Constraints](Codes/30-fifo-transaction-and-weighted-constraints/README.md) |
+
+The detailed index groups the material into five phases, so earlier parts are no longer one undifferentiated list. Every topic row links to both the notes and its stable editable playground.
 
 ## Repository Structure
 
@@ -39,7 +50,10 @@ systemverilog-from-beginning/
 │   ├── 26-dynamic-range-constraints-with-post-randomize/
 │   ├── 27-runtime-constraint-range-changes-with-randc/
 │   ├── 28-constraint-operators-distribution-and-modes/
-│   └── 29-distribution-constraints-with-colon-equal-and-colon-slash/
+│   ├── 29-distribution-constraints-with-colon-equal-and-colon-slash/
+│   ├── 30-fifo-transaction-and-weighted-constraints/
+│   ├── ...
+│   └── 42-error-injection-with-inheritance/
 ├── Project/
 ├── EDA_PLAYGROUND_AUDIT.md
 ├── .gitignore
@@ -48,15 +62,15 @@ systemverilog-from-beginning/
 
 ### `Codes/`
 
-Each numbered directory contains the corresponding `design.sv` and `testbench.sv` panes when present, a part README, and in part 16 the additional `editor_testbench.sv` capture that existed in the baseline. The source files are preserved verbatim from the canonical EDA Playground editor contents apart from line-ending normalization. No corrected or self-checking substitute is part of the learning source.
+Every numbered directory contains `README.md` and `testbench.sv`. A `design.sv` is present only when the live design pane contains substantive code; currently those are Parts 22, 30, and 40–42. Part 16 also retains the additional `editor_testbench.sv` capture that existed in the baseline. Source tokens and comments are preserved from the canonical EDA editor contents; line endings, trailing whitespace, and CodeMirror display-only spacing characters are normalized. When saved code fails, the original failure remains in the source and the README explains the correction separately.
 
 ### `Project/`
 
 Reserved for larger SystemVerilog or verification projects as the repository progresses beyond isolated language exercises.
 
-## Learning Sequence
+## Complete Learning Sequence
 
-The bold index titles below are the exact saved EDA Playground Names for parts 01–29.
+Parts 01–29 retain their audited saved EDA names. Parts 30–42 were recovered from the new queue labels 000–012 and given descriptive indexed titles; each part README records both identities. For phase grouping and concept lookup, use the [canonical learning index](Codes/README.md).
 
 | # | Topic | Key Concepts | Resources |
 |---:|---|---|---|
@@ -89,16 +103,29 @@ The bold index titles below are the exact saved EDA Playground Names for parts 0
 | 27 | **Runtime Constraint Range Changes with randc** | Two randomization phases with changed effective ranges | [Notes](Codes/27-runtime-constraint-range-changes-with-randc/README.md) · [EDA Playground](https://edaplayground.com/x/Jsd4) |
 | 28 | **Constraint Operators, Distribution, and Modes** | Implication, equivalence, distribution weights, conditional constraints, and constraint mode | [Notes](Codes/28-constraint-operators-distribution-and-modes/README.md) · [EDA Playground](https://edaplayground.com/x/Lb86) |
 | 29 | **Distribution Constraints with := and :/** | Per-value versus range-level distribution weights | [Notes](Codes/29-distribution-constraints-with-colon-equal-and-colon-slash/README.md) · [EDA Playground](https://edaplayground.com/x/6Yt4) |
+| 30 | **SV 30 - FIFO Transaction and Weighted Constraints** | FIFO transaction roles, response fields, weighted constraints, intentional syntax diagnosis | [Notes](Codes/30-fifo-transaction-and-weighted-constraints/README.md) · [EDA Playground](https://edaplayground.com/x/gjeT) |
+| 31 | **SV 31 - Event Trigger and Wait Semantics** | Named events, `@(event)`, `wait(event.triggered)` | [Notes](Codes/31-event-trigger-and-wait-semantics/README.md) · [EDA Playground](https://edaplayground.com/x/F6qC) |
+| 32 | **SV 32 - Event Races and Triggered State** | Same-time-slot synchronization and missed-trigger races | [Notes](Codes/32-event-races-and-triggered-state/README.md) · [EDA Playground](https://edaplayground.com/x/Lhvp) |
+| 33 | **SV 33 - Generator-Driver Completion Event** | Parallel generator/receiver processes and end-of-test control | [Notes](Codes/33-generator-driver-completion-event/README.md) · [EDA Playground](https://edaplayground.com/x/J57K) |
+| 34 | **SV 34 - Two-Way Event Handshake** | Per-item acknowledgement, completion event, shared-state timing | [Notes](Codes/34-two-way-event-handshake/README.md) · [EDA Playground](https://edaplayground.com/x/9yRX) |
+| 35 | **SV 35 - Fork-Join Variants** | `join`, `join_any`, `join_none`, parent/child timing | [Notes](Codes/35-fork-join-variants/README.md) · [EDA Playground](https://edaplayground.com/x/B3zJ) |
+| 36 | **SV 36 - Semaphore-Controlled Resource Access** | Single-key arbitration and critical-section scope | [Notes](Codes/36-semaphore-controlled-resource-access/README.md) · [EDA Playground](https://edaplayground.com/x/gjuf) |
+| 37 | **SV 37 - Generator-Driver Mailbox** | Shared mailbox handle, blocking `get`, queued data | [Notes](Codes/37-generator-driver-mailbox/README.md) · [EDA Playground](https://edaplayground.com/x/A8er) |
+| 38 | **SV 38 - Constructor-Injected Mailbox** | Constructor dependency injection and shared handles | [Notes](Codes/38-constructor-injected-mailbox/README.md) · [EDA Playground](https://edaplayground.com/x/gjvi) |
+| 39 | **SV 39 - Parameterized Transaction Mailbox** | Typed mailbox and object-handle transport | [Notes](Codes/39-parameterized-transaction-mailbox/README.md) · [EDA Playground](https://edaplayground.com/x/tEEA) |
+| 40 | **SV 40 - Interface, Modport, and Virtual Interface** | Static interface instance, modport view, class binding | [Notes](Codes/40-interface-modport-and-virtual-interface/README.md) · [EDA Playground](https://edaplayground.com/x/VgAA) |
+| 41 | **SV 41 - Layered Adder Testbench and Object Copies** | Transaction snapshots, generator, mailbox, driver, completion | [Notes](Codes/41-layered-adder-testbench-and-object-copies/README.md) · [EDA Playground](https://edaplayground.com/x/Xcxx) |
+| 42 | **SV 42 - Error Injection with Inheritance** | Derived stimulus, clone/factory pitfalls, intentional compile diagnosis | [Notes](Codes/42-error-injection-with-inheritance/README.md) · [EDA Playground](https://edaplayground.com/x/Cxwq) |
 
 ## How to Study This Repository
 
 For each numbered part:
 
 1. Read the part-level README before running the code.
-2. Inspect the verbatim `testbench.sv` and identify what the source intends to do at each simulation time.
+2. Inspect `testbench.sv` and, when the lesson has one, `design.sv`; identify object identity, data flow, and what each process intends to do at each simulation time.
 3. Open the linked EDA Playground example and run the original experiment with its recorded settings.
 4. Compare the console output and waveform with your prediction.
 5. Read the Questions and Answers section for the questions and doubts written in that source.
-6. Record the reason for any unexpected simulator result rather than silently editing the example.
+6. Treat a compile failure or surprising output as evidence: compare it with the README diagnosis rather than silently editing the example.
 
 The [EDA Playground audit](EDA_PLAYGROUND_AUDIT.md) contains the one-to-one identity, settings, source-fingerprint, and question-coverage ledger for all captured parts.

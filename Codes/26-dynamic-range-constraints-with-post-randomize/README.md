@@ -1,10 +1,16 @@
 # Part 26 — Dynamic Range Constraints with post_randomize
 
+[← Part 25](../25-constraint-outside-a-class/README.md) · [Learning index](../README.md) · [Part 27 →](../27-runtime-constraint-range-changes-with-randc/README.md)
+
 EDA Playground: [Dynamic Range Constraints with post_randomize](https://edaplayground.com/x/Zw3t)  
 EDA Playground Name: `Dynamic Range Constraints with post_randomize`  
 Saved code ID: `7358906`
 
-This README documents the exact source currently saved in the linked EDA Playground. The source panes are preserved verbatim; the explanations below do not replace, correct, or improve the code.
+## Why this example matters
+
+The constraint's bounds are ordinary object state, so changing those members changes the legal solution space used by a later `randomize()` call. This is a useful pattern for phase-specific stimulus without rewriting or toggling the constraint block itself.
+
+`post_randomize()` is a callback invoked automatically after a successful solve. It is a good observation or derived-value hook, but it should not be mistaken for the solver: the constraints choose the random values first, and the callback runs afterward.
 
 ## Saved playground settings
 
@@ -14,13 +20,7 @@ This README documents the exact source currently saved in the linked EDA Playgro
 - Run options: `-voptargs=+acc=npr`
 - run.do, run.bash, EPWave, output-file, and download options: off
 
-## Verbatim design.sv
-
-~~~systemverilog
-// Code your design here
-~~~
-
-## Verbatim testbench.sv
+## Testbench code
 
 ~~~systemverilog
 // Code your testbench here
@@ -61,14 +61,11 @@ module tb;
 endmodule 
 ~~~
 
-## Source fidelity
-The two code blocks above are rendered from the corresponding live EDA Playground editor panes for short ID Zw3t. No corrected, reformatted, or self-checking replacement is included. The linked short ID, saved name, and simulator settings are retained for running the original experiment.
-
-## Questions and Answers from the Code
+## Questions from the code, explained
 
 ### Why does `post_randomize()` run when the source never calls it?
 
-**Original code question**
+**Question in the source**
 
 > // I AM NOT CALLING POST RANDOMIZE RATHER ITS GETTING CALLED ITSELF 
 
@@ -76,7 +73,7 @@ The two code blocks above are rendered from the corresponding live EDA Playgroun
 
 testbench.sv:30, after g.randomize() and #10.
 
-**Context in this playground**
+**What the code is doing**
 
 The class defines an ordinary pre_random helper that copies 3 and 8 into min and max, plus a method named post_randomize. The initial block explicitly calls pre_random, then g.randomize(); it never explicitly calls post_randomize.
 
@@ -84,21 +81,21 @@ The class defines an ordinary pre_random helper that copies 3 and 8 into min and
 
 SystemVerilog automatically invokes the built-in post_randomize() callback after a successful randomize() call. The method here overrides that callback, so its $display runs after the solver assigns a and b.
 
-**Deep explanation**
+**Why this works**
 
 The [Accellera random-constraints proposal](https://www.accellera.org/images/eda/sv-ec/att-0248/01-Random-Constraints_Proposal.pdf) says classes have built-in pre_randomize() and post_randomize() functions automatically called by randomize() before and after new values are computed; a failed randomization does not call post_randomize(). The name pre_random in this source is different, so it is an ordinary function that runs only because the testbench calls it. The Questa run printed ten post-randomization lines.
 
-**Practical implication or pitfall**
+**Watch for**
 
 Automatic callback behavior depends on the exact names pre_randomize and post_randomize and on a successful randomize() call. The source's pre_random method is explicit setup code.
 
-**Sources**
+**References**
 
 [Accellera random-constraints proposal](https://www.accellera.org/images/eda/sv-ec/att-0248/01-Random-Constraints_Proposal.pdf), [Accellera SV-EC pre/post-randomize discussion](https://www.accellera.org/images/eda/sv-ec/2202.html), and [IEEE 1800 standard page](https://standards.ieee.org/ieee/1800/7743/).
 
 ### What do `rand` and `randc` remember about the constraint?
 
-**Original code question**
+**Question in the source**
 
 > //rand and randc : will create a bucket and it have an idea of the constraint 
 
@@ -106,7 +103,7 @@ Automatic callback behavior depends on the exact names pre_randomize and post_ra
 
 testbench.sv:31, immediately after the first randomize() call.
 
-**Context in this playground**
+**What the code is doing**
 
 The class declares a and b as randc bit [3:0] and constrains each to the current min–max interval. The source calls randomize() ten times with the same interval, 3 through 8.
 
@@ -114,21 +111,21 @@ The class declares a and b as randc bit [3:0] and constrains each to the current
 
 The language does not define a literal bucket. randc traverses a random permutation of legal values without repeating within that permutation; the constraint limits the legal values, and the permutation is recomputed when the effective constraints change or remaining values cannot satisfy them.
 
-**Deep explanation**
+**Why this works**
 
 The [Accellera random-constraints proposal](https://www.accellera.org/images/eda/sv-ec/att-0248/01-Random-Constraints_Proposal.pdf) distinguishes rand from randc and states that randc walks a random permutation, starts a new permutation after a cycle, and recomputes when constraints change. Here each interval has six values, while the loop makes ten calls, so a repeat after a cycle boundary is compatible with randc. No bucket or weighted dist construct appears.
 
-**Practical implication or pitfall**
+**Watch for**
 
 randc means no repeat within a cycle, not never repeat for the whole simulation. Changing state used by the constraint can change the relevant permutation.
 
-**Sources**
+**References**
 
 [Accellera random-constraints proposal](https://www.accellera.org/images/eda/sv-ec/att-0248/01-Random-Constraints_Proposal.pdf), [Accellera SV-EC pre/post-randomize discussion](https://www.accellera.org/images/eda/sv-ec/2202.html), and [IEEE 1800 standard page](https://standards.ieee.org/ieee/1800/7743/).
 
 ### Would changing the constraint at runtime allow repetitions?
 
-**Original code question**
+**Question in the source**
 
 > // but if i changed the constraint in the run time we could see the repetition 
 
@@ -136,7 +133,7 @@ randc means no repeat within a cycle, not never repeat for the whole simulation.
 
 testbench.sv:32, after the unchanged g.pre_random(3,8) call.
 
-**Context in this playground**
+**What the code is doing**
 
 This saved source does not actually change the range: every iteration calls g.pre_random(3,8), so the same min and max feed constraint pre_rand. The comment describes a possible experiment rather than an operation performed here.
 
@@ -144,19 +141,19 @@ This saved source does not actually change the range: every iteration calls g.pr
 
 If values used by the constraint changed between randomize() calls, the effective legal set would change and a randc permutation could be recomputed, allowing a value from the previous set to appear again. In this saved source, no such change occurs; observed repetition comes from completing cycles.
 
-**Deep explanation**
+**Why this works**
 
 The constraint reads class state min and max, which pre_random assigns before each solve. The [Accellera random-constraints proposal](https://www.accellera.org/images/eda/sv-ec/att-0248/01-Random-Constraints_Proposal.pdf) says randomize() solves active variables under active constraints and that randc recomputes when constraints change. The observed Questa values are run evidence, not a language guarantee.
 
-**Practical implication or pitfall**
+**Watch for**
 
 Do not call this exact saved source a dynamic-constraint demonstration: pre_random(3,8) repeats with the same arguments. The repository preserves the live code without adding the varying-bounds experiment.
 
-**Sources**
+**References**
 
 [Accellera random-constraints proposal](https://www.accellera.org/images/eda/sv-ec/att-0248/01-Random-Constraints_Proposal.pdf), [Accellera SV-EC pre/post-randomize discussion](https://www.accellera.org/images/eda/sv-ec/2202.html), and [IEEE 1800 standard page](https://standards.ieee.org/ieee/1800/7743/).
 
-## Verification observed
+## What happened when it ran
 
 Live EDA run: Questa completed with Errors: 0 and Warnings: 3 total, including the stand-alone randomize() compile warning and optimization warnings; ten post-randomization display lines were observed.
 

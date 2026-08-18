@@ -1,10 +1,16 @@
 # Part 24 — Constrained randc: inside and Excluded Ranges
 
+[← Part 23](../23-constrained-randomization-with-a-single-constraint/README.md) · [Learning index](../README.md) · [Part 25 →](../25-constraint-outside-a-class/README.md)
+
 EDA Playground: [Constrained randc: inside and Excluded Ranges](https://edaplayground.com/x/A7hT)  
 EDA Playground Name: `Constrained randc: inside and Excluded Ranges`  
 Saved code ID: `7358861`
 
-This README documents the exact source currently saved in the linked EDA Playground. The source panes are preserved verbatim; the explanations below do not replace, correct, or improve the code.
+## Why this example matters
+
+`inside` describes set membership directly. Wrapping it in logical negation turns an allowed set into an excluded set, so the active constraints remove `a` values 3 through 7 and `b` values 5 through 9 from their 4-bit domains.
+
+Think of each constraint as filtering a candidate set before random selection. Writing the remaining legal values on paper makes overlapping ranges, singleton values, and negated membership much easier to verify.
 
 ## Saved playground settings
 
@@ -14,13 +20,7 @@ This README documents the exact source currently saved in the linked EDA Playgro
 - Run options: `-voptargs=+acc=npr`
 - run.do, run.bash, EPWave, output-file, and download options: off
 
-## Verbatim design.sv
-
-~~~systemverilog
-// Code your design here
-~~~
-
-## Verbatim testbench.sv
+## Testbench code
 
 ~~~systemverilog
 // Code your testbench here
@@ -61,14 +61,7 @@ module tb;
 endmodule 
 ~~~
 
-## Source fidelity
-The two code blocks above are rendered from the corresponding live EDA Playground editor panes for short ID A7hT. No corrected, reformatted, or self-checking replacement is included. The linked short ID, saved name, and simulator settings are retained for running the original experiment.
-
-## Questions and Answers from the Code
-
-No explicit or implicit natural-language question appears in the design.sv or testbench.sv source. The comments are topic labels rather than questions, so no Q&A entry is invented.
-
-## Verification observed
+## What happened when it ran
 
 Live EDA run: Questa completed with Errors: 0 and Warnings: 1; ten display lines reported status 1.
 

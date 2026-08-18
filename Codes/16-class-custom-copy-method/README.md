@@ -1,10 +1,16 @@
 # Part 16 — Class Custom Copy Method
 
+[← Part 15](../15-class-shallow-copy/README.md) · [Learning index](../README.md) · [Part 17 →](../17-class-deep-copy-with-nested-objects/README.md)
+
 EDA Playground: [Class Custom Copy Method](https://edaplayground.com/x/X4c6)  
 EDA Playground Name: `Class Custom Copy Method`  
 Saved code ID: `7357655`
 
-This README documents the exact source currently saved in the linked EDA Playground. The source panes are preserved verbatim; the explanations below do not replace or correct the code.
+## Why this example matters
+
+A custom `copy()` method makes the copy policy explicit: it allocates a destination object, assigns the members that should be preserved, and returns the new handle. Unlike the constructor, it starts from an existing object's state rather than only from call arguments or defaults.
+
+The method is easy to reason about because every copied field is visible, but that is also its maintenance cost. When the class gains a member, the copy method must deliberately include it or deliberately document why it is excluded.
 
 ## Saved playground settings
 
@@ -12,13 +18,7 @@ This README documents the exact source currently saved in the linked EDA Playgro
 - Compile options: `-timescale 1ns/1ns`
 - Run options: `+access+r`
 
-## Verbatim design.sv
-
-~~~systemverilog
-// Code your design here
-~~~
-
-## Verbatim testbench.sv
+## Testbench code
 
 ~~~systemverilog
 // Code your testbench here
@@ -65,7 +65,7 @@ module tb ;
 endmodule
 ~~~
 
-## Verbatim editor_testbench.sv
+## Preserved editor copy (`editor_testbench.sv`)
 
 ~~~systemverilog
 // Code your testbench here
@@ -112,15 +112,11 @@ module tb ;
 endmodule
 ~~~
 
-## Source fidelity
-
-The code blocks above are rendered from the corresponding live EDA Playground editor panes. Part 16 includes the same captured pane under both repository filenames because both files existed in the baseline; no corrected or self-checking replacement is included. The linked short ID and saved settings are retained for running the original experiment.
-
-## Questions and Answers from the Code
+## Questions from the code, explained
 
 ### What is a custom method for copying?
 
-**Original code question**
+**Question in the source**
 
 >   // custom methods to copy 
 
@@ -128,7 +124,7 @@ The code blocks above are rendered from the corresponding live EDA Playground ed
 
 `testbench.sv:7` — the exact comment in the live EDA Playground testbench pane; the identical baseline capture is also in `editor_testbench.sv:7`.
 
-**Context in this playground**
+**What the code is doing**
 
 The comment precedes function first copy(), which constructs a new first object and assigns its members.
 
@@ -136,21 +132,21 @@ The comment precedes function first copy(), which constructs a new first object 
 
 It is a user-defined class method that controls how a new object is created and which members receive copied values.
 
-**Deep explanation**
+**Why this works**
 
 The copy function returns first, allocates a new object with copy=new(), and explicitly assigns data and temp from the source object. This is different from relying on the language's shallow copy construction because the method makes the copy policy visible in source and can be extended for nested objects or selected fields. The returned handle is then used by the caller.
 
-**Practical implication or pitfall**
+**Watch for**
 
 A custom method must be maintained when the class gains new state. An omitted member is not copied merely because another member is.
 
-**Sources**
+**References**
 
 [IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf)
 
 ### Why is this not used in the member assignments?
 
-**Original code question**
+**Question in the source**
 
 >     copy.data = data;    // why am i not using this here, 
 
@@ -158,7 +154,7 @@ A custom method must be maintained when the class gains new state. An omitted me
 
 `testbench.sv:10` — the exact comment in the live EDA Playground testbench pane; the identical baseline capture is also in `editor_testbench.sv:10`.
 
-**Context in this playground**
+**What the code is doing**
 
 The comment is beside copy.data = data and asks why the method does not write this.data or this.temp on the right-hand side.
 
@@ -166,21 +162,21 @@ The comment is beside copy.data = data and asks why the method does not write th
 
 Inside the copy method, unqualified data and temp refer to the source object's members; this is also available, but this.data would explicitly name that same source member.
 
-**Deep explanation**
+**Why this works**
 
 A method executes with an implicit this handle referring to the object on which it was called. Therefore the right-hand-side data and temp resolve to the source object's properties. The left-hand side copy.data selects the newly constructed destination object through the returned local handle named copy. Writing copy.data = this.data would be more explicit but would express the same source-to-destination relationship for these members.
 
-**Practical implication or pitfall**
+**Watch for**
 
 Use this when clarity or name disambiguation requires it. The absence of this does not mean the method is copying from an unrelated object.
 
-**Sources**
+**References**
 
 [IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf)
 
 ### Why is a copy of f1 stored in f2?
 
-**Original code question**
+**Question in the source**
 
 >   // to store copy of f1 to f2
 
@@ -188,7 +184,7 @@ Use this when clarity or name disambiguation requires it. The absence of this do
 
 `testbench.sv:19` — the exact comment in the live EDA Playground testbench pane; the identical baseline capture is also in `editor_testbench.sv:19`.
 
-**Context in this playground**
+**What the code is doing**
 
 The comment labels the active initial block before f1 and f2 are constructed and f2 is assigned the result of f1.copy.
 
@@ -196,21 +192,21 @@ The comment labels the active initial block before f1 and f2 are constructed and
 
 f2 receives the new handle returned by f1.copy so it refers to a distinct object initialized from f1.
 
-**Deep explanation**
+**Why this works**
 
 The method call constructs a fresh first object and returns its handle. Assigning that handle to f2 gives the testbench a second object whose data and temp initially match f1. Subsequent mutations of f2's scalar members can be compared with f1 to demonstrate independent state. The assignment is to a handle variable, but the handle points to a newly allocated object because copy created it.
 
-**Practical implication or pitfall**
+**Watch for**
 
 Keep the source handle f1 alive while the copy is made, and remember that f2=f1.copy is not the same operation as f2=f1.
 
-**Sources**
+**References**
 
 [IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf)
 
 ### What does copying the data members mean?
 
-**Original code question**
+**Question in the source**
 
 >     f2=new f1;  // copy of the data members of f1 to f2
 
@@ -218,7 +214,7 @@ Keep the source handle f1 alive while the copy is made, and remember that f2=f1.
 
 `testbench.sv:25` — the exact comment in the live EDA Playground testbench pane; the identical baseline capture is also in `editor_testbench.sv:25`.
 
-**Context in this playground**
+**What the code is doing**
 
 This comment is inside a block-commented alternative that uses f2=new f1 and displays f2.data.
 
@@ -226,21 +222,21 @@ This comment is inside a block-commented alternative that uses f2=new f1 and dis
 
 It means initializing the corresponding members of a new f2 object from the current member values of f1.
 
-**Deep explanation**
+**Why this works**
 
 The phrase describes member-wise state transfer, not copying the handle bits as an alias. In the active custom method, data and temp are explicitly assigned into the new destination object. The commented alternative illustrates the language's built-in shallow copy path. For these scalar fields both approaches give f2 its own value storage; for nested class handles a shallow copy would share the nested object.
 
-**Practical implication or pitfall**
+**Watch for**
 
 State which members are copied and whether nested handles are cloned. “Copy the object” is too broad to determine aliasing by itself.
 
-**Sources**
+**References**
 
 [IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf)
 
 ### Why can f1.copy be called without parentheses?
 
-**Original code question**
+**Question in the source**
 
 >     f2= f1.copy;     //automatically copies  why i havent used f1.copy() 
 
@@ -248,7 +244,7 @@ State which members are copied and whether nested handles are cloned. “Copy th
 
 `testbench.sv:39` — the exact comment in the live EDA Playground testbench pane; the identical baseline capture is also in `editor_testbench.sv:39`.
 
-**Context in this playground**
+**What the code is doing**
 
 The active assignment is f2= f1.copy; and the comment asks about the missing empty parentheses on the zero-argument copy function.
 
@@ -256,19 +252,19 @@ The active assignment is f2= f1.copy; and the comment asks about the missing emp
 
 For a zero-argument method, SystemVerilog permits the empty argument list to be omitted in this method-call context, so f1.copy invokes copy and returns its handle.
 
-**Deep explanation**
+**Why this works**
 
 copy is declared as a function with no formal arguments and a return type first. The expression f1.copy is therefore the no-argument method call form accepted by the language; f1.copy() is the explicit spelling. In either form, the function body runs, allocates a new first object, copies data and temp, and returns the new handle. This is not a property read: the function call is what performs the allocation and copy.
 
-**Practical implication or pitfall**
+**Watch for**
 
 If a method gains arguments, write and preserve the explicit argument list. When readability matters, f1.copy() can make the call intent clearer even where omission is legal.
 
-**Sources**
+**References**
 
 [IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf)
 
-## Source references
+## Further reading
 
 The language explanations use [IEEE 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf) and [IEEE SystemVerilog standard overview](https://standards.ieee.org/ieee/1800/4934/). The page's editor panes and settings are described by [EDA Playground settings documentation](https://eda-playground.readthedocs.io/en/latest/settings.html) and [EDA Playground compile/run options](https://eda-playground.readthedocs.io/en/latest/compile_run_options.html).
 

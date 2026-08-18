@@ -1,10 +1,16 @@
 # Part 23 — Constrained Randomization with a Single Constraint
 
+[← Part 22](../22-constrained-randomization-with-randc/README.md) · [Learning index](../README.md) · [Part 24 →](../24-constrained-randc-inside-and-excluded-ranges/README.md)
+
 EDA Playground: [Constrained Randomization with a Single Constraint](https://edaplayground.com/x/gixd)  
 EDA Playground Name: `Constrained Randomization with a Single Constraint`  
 Saved code ID: `7358850`
 
-This README documents the exact source currently saved in the linked EDA Playground. The source panes are preserved verbatim; the explanations below do not replace, correct, or improve the code.
+## Why this example matters
+
+One constraint block may contain several expressions, and all active expressions must be satisfied together. Here the legal region is the intersection of the bounds on `a` and `b`, not a sequence in which one statement overwrites another.
+
+The loop constructs a fresh generator every iteration, which matters for `randc`: cyclic history belongs to the object. Recreating the object can restart that state, so keeping one object across calls is the clearer experiment when the goal is to observe a full random cycle.
 
 ## Saved playground settings
 
@@ -14,13 +20,7 @@ This README documents the exact source currently saved in the linked EDA Playgro
 - Run options: `-voptargs=+acc=npr`
 - run.do, run.bash, EPWave, output-file, and download options: off
 
-## Verbatim design.sv
-
-~~~systemverilog
-// Code your design here
-~~~
-
-## Verbatim testbench.sv
+## Testbench code
 
 ~~~systemverilog
 // Code your testbench here
@@ -53,14 +53,7 @@ module tb;
 endmodule 
 ~~~
 
-## Source fidelity
-The two code blocks above are rendered from the corresponding live EDA Playground editor panes for short ID gixd. No corrected, reformatted, or self-checking replacement is included. The linked short ID, saved name, and simulator settings are retained for running the original experiment.
-
-## Questions and Answers from the Code
-
-No explicit or implicit natural-language question appears in the design.sv or testbench.sv source. The comments are topic labels rather than questions, so no Q&A entry is invented.
-
-## Verification observed
+## What happened when it ran
 
 Live EDA run: Questa completed with Errors: 0 and Warnings: 1; ten display lines reported status 1.
 
