@@ -2,7 +2,7 @@
 
 [Repository home](../README.md) · [EDA/source audit](../EDA_PLAYGROUND_AUDIT.md)
 
-This is the canonical study index for all 42 captured parts. Repository part numbers describe the learning order. Parts 30–42 came from the newly saved EDA queue labels 000–012; that original label is recorded in every matching README so the browser list, stable short link, and local folder can always be reconciled.
+This is the canonical study index for all 42 captured parts. Repository part numbers describe the learning order. Parts 30–42 began as EDA queue labels 000–012 and have now been renamed to match this index; every matching README retains the original label beside the current saved name, stable short link, and local folder.
 
 ## Phase 1 — Simulation and collections
 

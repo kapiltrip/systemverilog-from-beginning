@@ -5,7 +5,7 @@
 | Saved-playground field | Value |
 |---|---|
 | Original queue label | `000` |
-| Indexed EDA name | `SV 30 - FIFO Transaction and Weighted Constraints` |
+| EDA Playground Name | `SV 30 - FIFO Transaction and Weighted Constraints` |
 | Stable playground | [gjeT](https://edaplayground.com/x/gjeT) |
 | Saved code ID | `7361120` |
 | Simulator | Siemens Questa 2025.2 |

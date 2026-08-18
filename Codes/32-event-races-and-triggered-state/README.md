@@ -5,7 +5,7 @@
 | Saved-playground field | Value |
 |---|---|
 | Original queue label | `002` |
-| Indexed EDA name | `SV 32 - Event Races and Triggered State` |
+| EDA Playground Name | `SV 32 - Event Races and Triggered State` |
 | Stable playground | [Lhvp](https://edaplayground.com/x/Lhvp) |
 | Saved code ID | `7361563` |
 | Simulator | Aldec Riviera Pro 2025.04 |

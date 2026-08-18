@@ -5,7 +5,7 @@
 | Saved-playground field | Value |
 |---|---|
 | Original queue label | `001` |
-| Indexed EDA name | `SV 31 - Event Trigger and Wait Semantics` |
+| EDA Playground Name | `SV 31 - Event Trigger and Wait Semantics` |
 | Stable playground | [F6qC](https://edaplayground.com/x/F6qC) |
 | Saved code ID | `7361162` |
 | Simulator | Aldec Riviera Pro 2025.04 |

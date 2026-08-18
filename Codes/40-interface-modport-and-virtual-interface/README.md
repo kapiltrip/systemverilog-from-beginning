@@ -5,7 +5,7 @@
 | Saved-playground field | Value |
 |---|---|
 | Original queue label | `010` |
-| Indexed EDA name | `SV 40 - Interface, Modport, and Virtual Interface` |
+| EDA Playground Name | `SV 40 - Interface, Modport, and Virtual Interface` |
 | Stable playground | [VgAA](https://edaplayground.com/x/VgAA) |
 | Saved code ID | `7362135` |
 | Simulator | Siemens Questa 2025.2 |
