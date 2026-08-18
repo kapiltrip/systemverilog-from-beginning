@@ -4,16 +4,6 @@
 
 This is the canonical study index for all 42 captured parts. Repository part numbers describe the learning order. Parts 30–42 came from the newly saved EDA queue labels 000–012; that original label is recorded in every matching README so the browser list, stable short link, and local folder can always be reconciled.
 
-## Roadmap at a glance
-
-| Phase | Parts | What changes in this phase |
-|---|---:|---|
-| 1. Simulation and collections | 01–08 | Time, clocks, scalar types, arrays, queues |
-| 2. Classes and object behavior | 09–21 | Handles, methods, argument passing, construction, copying, inheritance, polymorphism |
-| 3. Constrained random stimulus | 22–29 | `randc`, `inside`, external constraints, dynamic bounds, implication, distribution |
-| 4. Testbench process communication | 30–39 | Transactions, events, fork/join, semaphores, mailboxes |
-| 5. Layered DUT communication | 40–42 | Interfaces, modports, virtual interfaces, object snapshots, error injection |
-
 ## Phase 1 — Simulation and collections
 
 | Part | Topic | Main idea | Playground |

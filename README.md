@@ -17,6 +17,16 @@ The 42-part path now runs from simulation time, types, arrays, classes, copying,
 
 The detailed index groups the material into five phases, so earlier parts are no longer one undifferentiated list. Every topic row links to both the notes and its stable editable playground.
 
+## Roadmap at a glance
+
+| Phase | Parts | What changes in this phase |
+|---|---:|---|
+| 1. Simulation and collections | 01–08 | Time, clocks, scalar types, arrays, queues |
+| 2. Classes and object behavior | 09–21 | Handles, methods, argument passing, construction, copying, inheritance, polymorphism |
+| 3. Constrained random stimulus | 22–29 | `randc`, `inside`, external constraints, dynamic bounds, implication, distribution |
+| 4. Testbench process communication | 30–39 | Transactions, events, fork/join, semaphores, mailboxes |
+| 5. Layered DUT communication | 40–42 | Interfaces, modports, virtual interfaces, object snapshots, error injection |
+
 ## Repository Structure
 
 ```text
