@@ -5,7 +5,7 @@ This repository is organized by topic. Open a track below to reach its ordered l
 | Track | Current contents |
 |---|---|
 | [SV Basics](SV%20Basics/README.md) | Parts 01–44, covering language fundamentals through a layered monitor-and-scoreboard testbench. |
-| [SV Assertions](SV%20Assertions/README.md) | The next ordered learning track for SystemVerilog Assertions (SVA). |
+| [SV Assertions](SV%20Assertions/README.md) | Foundation 00 explains event regions and assertion types; the ordered browser-playground sequence is ready to begin at Part 01. |
 
 ## How this grows
 
