@@ -1,6 +1,6 @@
 # Part 05 — From Signals to Assertion Directives
 
-[← Part 04](../04-assertion-control-and-disable/README.md) · [SV Assertions index](../README.md) · Next part not captured yet
+[← Part 04](../04-assertion-control-and-disable/README.md) · [SV Assertions index](../README.md) · [Part 06 →](../06-overlapped-and-nonoverlapped-implication/README.md)
 
 | Playground field | Value |
 |---|---|

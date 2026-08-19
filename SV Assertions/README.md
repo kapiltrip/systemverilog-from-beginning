@@ -9,7 +9,7 @@
 1. Read [Foundation 00 — Event Scheduling Regions and Assertion Types](Foundations/00-event-scheduling-regions-and-assertion-types/README.md) for sampling, evaluation, pass/fail scheduling, immediate assertion types, the lecture screenshots, and all 17 event regions.
 2. Continue through the [ordered assertion playground index](Codes/README.md), beginning with Part 01.
 
-The foundation note remains outside `Codes/` because it is a source-checked reference rather than a captured playground. `Codes/` now contains the five browser lessons in creation order.
+The foundation note remains outside `Codes/` because it is a source-checked reference rather than a captured playground. `Codes/` now contains the twelve browser lessons in creation order.
 
 ## Current sequence
 
@@ -20,6 +20,13 @@ The foundation note remains outside `Codes/` because it is a source-checked refe
 | 03 | Immediate checks versus NBA-updated DFF state |
 | 04 | Assertion control tasks, labeled disable, and reset gating |
 | 05 | Signals → Boolean expressions → sequences → properties → directives |
+| 06 | Overlapped/nonoverlapped implication and vacuous outcomes |
+| 07 | Current procedural values versus concurrent assertion samples |
+| 08 | Reusable sequences, properties, and formal arguments |
+| 09 | `$fell` and sampled transitions |
+| 10 | Gated `$past` plus answers to the source requirement questions |
+| 11 | Sampled-history and vector-inspection system functions |
+| 12 | Assertion clocking events and `disable iff` abort behavior |
 
 ## Track structure
 
@@ -37,6 +44,13 @@ SV Assertions/
 │   ├── 03-clocked-immediate-assertion-and-nba-timing/
 │   ├── 04-assertion-control-and-disable/
 │   ├── 05-assertion-building-blocks/
+│   ├── 06-overlapped-and-nonoverlapped-implication/
+│   ├── 07-current-and-sampled-values/
+│   ├── 08-reusable-sequences-and-properties/
+│   ├── 09-fell-and-sampled-transitions/
+│   ├── 10-gated-past-sampled-values/
+│   ├── 11-sampled-and-vector-system-functions/
+│   ├── 12-clocking-events-and-disable-iff/
 │   └── README.md
 └── README.md
 ```
