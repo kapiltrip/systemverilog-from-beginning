@@ -4,13 +4,13 @@
 
 This repository is an ordered SystemVerilog practice notebook. Each numbered part preserves the user-authored code from its saved EDA Playground, records the saved identity and stable link, and adds study notes. A design file is included only when the design pane contains real lesson code; EDA Playground's untouched `// Code your design here` placeholder is not duplicated locally. The READMEs answer questions written in the source and explain observed failures without silently replacing the learning snapshot with different code.
 
-The 42-part path now runs from simulation time, types, arrays, classes, copying, inheritance, and constrained randomization through events, process control, semaphores, mailboxes, interfaces, virtual interfaces, layered drivers, and polymorphic error injection.
+The 44-part path now runs from simulation time, types, arrays, classes, copying, inheritance, and constrained randomization through events, process control, semaphores, mailboxes, interfaces, virtual interfaces, layered drivers, polymorphic error injection, monitors, and scoreboards.
 
 ## Start Here
 
 | I want to… | Open |
 |---|---|
-| Follow the course in order | [Canonical 42-part learning index](Codes/README.md) |
+| Follow the course in order | [Canonical 44-part learning index](Codes/README.md) |
 | Find one concept quickly | [Quick concept lookup](Codes/README.md#quick-concept-lookup) |
 | Reconcile a local part with EDA Playground | [EDA/source audit](EDA_PLAYGROUND_AUDIT.md) |
 | Continue from the newly captured queue | [Part 30 — FIFO Transaction and Weighted Constraints](Codes/30-fifo-transaction-and-weighted-constraints/README.md) |
@@ -25,7 +25,7 @@ The detailed index groups the material into five phases, so earlier parts are no
 | 2. Classes and object behavior | 09–21 | Handles, methods, argument passing, construction, copying, inheritance, polymorphism |
 | 3. Constrained random stimulus | 22–29 | `randc`, `inside`, external constraints, dynamic bounds, implication, distribution |
 | 4. Testbench process communication | 30–39 | Transactions, events, fork/join, semaphores, mailboxes |
-| 5. Layered DUT communication | 40–42 | Interfaces, modports, virtual interfaces, object snapshots, error injection |
+| 5. Layered DUT communication | 40–44 | Interfaces, modports, virtual interfaces, object snapshots, error injection, monitors, scoreboards |
 
 ## Repository Structure
 
@@ -63,7 +63,7 @@ systemverilog-from-beginning/
 │   ├── 29-distribution-constraints-with-colon-equal-and-colon-slash/
 │   ├── 30-fifo-transaction-and-weighted-constraints/
 │   ├── ...
-│   └── 42-error-injection-with-inheritance/
+│   └── 44-monitor-scoreboard-separate-mailboxes/
 ├── Project/
 ├── EDA_PLAYGROUND_AUDIT.md
 ├── .gitignore
@@ -72,7 +72,7 @@ systemverilog-from-beginning/
 
 ### `Codes/`
 
-Every numbered directory contains `README.md` and `testbench.sv`. A `design.sv` is present only when the live design pane contains substantive code; currently those are Parts 22, 30, and 40–42. Part 16 also retains the additional `editor_testbench.sv` capture that existed in the baseline. Source tokens and comments are preserved from the canonical EDA editor contents; line endings, trailing whitespace, and CodeMirror display-only spacing characters are normalized. When saved code fails, the original failure remains in the source and the README explains the correction separately.
+Every numbered directory contains `README.md` and `testbench.sv`. A `design.sv` is present only when the live design pane contains substantive code; currently those are Parts 22, 30, and 40–44. Part 16 also retains the additional `editor_testbench.sv` capture that existed in the baseline. Part 44 additionally preserves the compilable single-mailbox failure snapshot that preceded its saved correction. Source tokens and comments are preserved from the canonical EDA editor contents; line endings, trailing whitespace, and CodeMirror display-only spacing characters are normalized. When saved code fails or behaves incorrectly, the learning evidence remains visible and the README explains the correction separately.
 
 ### `Project/`
 
@@ -80,7 +80,7 @@ Reserved for larger SystemVerilog or verification projects as the repository pro
 
 ## Complete Learning Sequence
 
-Parts 01–29 retain their audited saved EDA names. Parts 30–42 were recovered from the queue labels 000–012 and now carry descriptive saved EDA names; each part README records both the original queue label and the current saved name. For phase grouping and concept lookup, use the [canonical learning index](Codes/README.md).
+Parts 01–29 retain their audited saved EDA names. Parts 30–42 were recovered from the queue labels 000–012 and carry descriptive saved EDA names. Parts 43–44 continue from the two later Edge playgrounds, preserving their current saved-name state and stable links. For phase grouping and concept lookup, use the [canonical learning index](Codes/README.md).
 
 | # | Topic | Key Concepts | Resources |
 |---:|---|---|---|
@@ -126,6 +126,8 @@ Parts 01–29 retain their audited saved EDA names. Parts 30–42 were recovered
 | 40 | **SV 40 - Interface, Modport, and Virtual Interface** | Static interface instance, modport view, class binding | [Notes](Codes/40-interface-modport-and-virtual-interface/README.md) · [EDA Playground](https://edaplayground.com/x/VgAA) |
 | 41 | **SV 41 - Layered Adder Testbench and Object Copies** | Transaction snapshots, generator, mailbox, driver, completion | [Notes](Codes/41-layered-adder-testbench-and-object-copies/README.md) · [EDA Playground](https://edaplayground.com/x/Xcxx) |
 | 42 | **SV 42 - Error Injection with Inheritance** | Derived stimulus, clone/factory pitfalls, intentional compile diagnosis | [Notes](Codes/42-error-injection-with-inheritance/README.md) · [EDA Playground](https://edaplayground.com/x/Cxwq) |
+| 43 | **SV 43 - Polymorphic Copy for Error Injection** | Virtual copy override, base handles, transformed transaction snapshots | [Notes](Codes/43-polymorphic-copy-error-injection/README.md) · [EDA Playground](https://edaplayground.com/x/F5HU) |
+| 44 | **SV 44 - Monitor and Scoreboard with Separate Mailboxes** | Directed mailbox channels, clock-edge separation, response checking, completion gaps | [Notes](Codes/44-monitor-scoreboard-separate-mailboxes/README.md) · [EDA Playground](https://edaplayground.com/x/Rvwd) |
 
 ## How to Study This Repository
 

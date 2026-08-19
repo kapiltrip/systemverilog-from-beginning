@@ -1,6 +1,6 @@
 # Part 42 — Error Injection with Inheritance
 
-[← Part 41](../41-layered-adder-testbench-and-object-copies/README.md) · [Learning index](../README.md) · Next part not captured yet
+[← Part 41](../41-layered-adder-testbench-and-object-copies/README.md) · [Learning index](../README.md) · [Part 43 →](../43-polymorphic-copy-error-injection/README.md)
 
 | Saved-playground field | Value |
 |---|---|
