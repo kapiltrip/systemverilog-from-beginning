@@ -12,7 +12,7 @@ The 44-part path now runs from simulation time, types, arrays, classes, copying,
 |---|---|
 | Follow the course in order | [Canonical 44-part learning index](Codes/README.md) |
 | Find one concept quickly | [Quick concept lookup](Codes/README.md#quick-concept-lookup) |
-| Reconcile a local part with EDA Playground | [EDA/source audit](EDA_PLAYGROUND_AUDIT.md) |
+| Reconcile a local part with EDA Playground | [EDA/source audit](docs/internal/EDA_PLAYGROUND_AUDIT.md) |
 | Continue from the newly captured queue | [Part 30 — FIFO Transaction and Weighted Constraints](Codes/30-fifo-transaction-and-weighted-constraints/README.md) |
 
 The detailed index groups the material into five phases, so earlier parts are no longer one undifferentiated list. Every topic row links to both the notes and its stable editable playground.
@@ -65,7 +65,11 @@ systemverilog-from-beginning/
 │   ├── ...
 │   └── 44-monitor-scoreboard-separate-mailboxes/
 ├── Project/
-├── EDA_PLAYGROUND_AUDIT.md
+├── docs/
+│   └── internal/
+│       ├── EDA_PLAYGROUND_AUDIT.md
+│       ├── issues.md
+│       └── README.md
 ├── .gitignore
 └── README.md
 ```
@@ -140,4 +144,4 @@ For each numbered part:
 5. Read the Questions and Answers section for the questions and doubts written in that source.
 6. Treat a compile failure or surprising output as evidence: compare it with the README diagnosis rather than silently editing the example.
 
-The [EDA Playground audit](EDA_PLAYGROUND_AUDIT.md) contains the one-to-one identity, settings, source-fingerprint, and question-coverage ledger for all captured parts.
+The [EDA Playground audit](docs/internal/EDA_PLAYGROUND_AUDIT.md) contains the one-to-one identity, settings, source-fingerprint, and question-coverage ledger for all captured parts.
