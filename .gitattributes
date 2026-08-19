@@ -1,4 +1,4 @@
 # EDA editor panes and their verbatim README renderings retain user-authored
 # trailing spaces; whitespace checks must not rewrite captured source.
-Codes/**/*.sv -whitespace
-Codes/**/README.md -whitespace
+"SV Basics/Codes/**/*.sv" -whitespace
+"SV Basics/Codes/**/README.md" -whitespace

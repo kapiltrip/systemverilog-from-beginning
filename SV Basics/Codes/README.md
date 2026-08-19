@@ -1,6 +1,6 @@
 # SystemVerilog Learning Index
 
-[Repository home](../README.md) · [EDA/source audit](../docs/internal/EDA_PLAYGROUND_AUDIT.md)
+[SV Basics home](../README.md) · [All learning tracks](../../README.md) · [EDA/source audit](../docs/internal/EDA_PLAYGROUND_AUDIT.md)
 
 This is the canonical study index for all 44 captured parts. Repository part numbers describe the learning order. Parts 30–42 began as EDA queue labels 000–012 and were renamed to match this index. Parts 43–44 are the next two Edge playgrounds and preserve their current saved-name state, stable short link, and local folder.
 
