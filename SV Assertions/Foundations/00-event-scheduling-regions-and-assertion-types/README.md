@@ -27,8 +27,9 @@ The lecture screenshots compress the scheduler into five memorable stages—Prep
 | [Deferred immediate assertions](#7-deferred-immediate-assertions-in-depth) | What is actually deferred, and how are glitches suppressed? |
 | [Concurrent assertions](#8-concurrent-assertions-in-depth) | How do sampling, temporal evaluation, and action blocks interact? |
 | [Screenshot 3: handwritten notes](#9-screenshot-3-line-by-line-confirmation-and-corrections) | Which handwritten statements are exact, and which need qualification? |
-| [Worked time-slot trace](#10-worked-time-slot-trace) | What happens region by region at one clock edge? |
-| [Examples and pitfalls](#11-practical-examples) | How do these ideas appear in real code? |
+| [Tasks, reporting, and sampled-value functions](#10-system-tasks-reporting-and-sampled-value-functions) | Where do common tasks run, when do they print, and which version of a value do they use? |
+| [Worked time-slot trace](#11-worked-time-slot-trace) | What happens region by region at one clock edge? |
+| [Examples and pitfalls](#12-practical-examples) | How do these ideas appear in real code? |
 
 ## 1. The scheduler vocabulary
 
@@ -568,7 +569,281 @@ There are two unrelated uses that look similar:
 
 Do not explain one using the other.
 
-## 10. Worked time-slot trace
+## 10. System tasks, reporting, and sampled-value functions
+
+The blue annotations in Screenshot 1 and the handwritten list in Screenshot 3 correctly associate ordinary procedural reporting with Active, concurrent-assertion actions with Reactive, and final reporting with Postponed. The association becomes fully precise only after separating three questions:
+
+1. **Execution context:** In which region does the calling process reach the statement?
+2. **Value source:** Does an argument read the current simulator value, the assertion-sampled value, or sampled history?
+3. **Report time:** Is text emitted immediately, or is an output event deferred until the end of the time slot?
+
+These questions are independent. A task name by itself often does not answer all three.
+
+### 10.1 The two families must not be mixed
+
+The first family performs reporting or changes simulation control:
+
+- <code>$display</code> and <code>$write</code>;
+- <code>$info</code>, <code>$warning</code>, <code>$error</code>, and <code>$fatal</code>;
+- <code>$strobe</code>;
+- <code>$monitor</code>, <code>$monitoron</code>, and <code>$monitoroff</code>.
+
+The second family returns a value to an expression:
+
+- <code>$sampled</code>;
+- <code>$rose</code> and <code>$fell</code>;
+- <code>$stable</code> and <code>$changed</code>;
+- <code>$past</code>.
+
+The second group does not print anything and does not create a new event-region stage. It lets code ask for values from the assertion sampling model.
+
+### 10.2 Correct region and value map
+
+| Task or function | Where the call is encountered | Value or history used | When visible output occurs |
+|---|---|---|---|
+| <code>$display(...)</code> | Current caller region; often Active in an ordinary module process, but Reactive in a concurrent-assertion action | Its argument expressions are evaluated when the call executes | Immediately as part of the call |
+| <code>$write(...)</code> | Same caller-region rule as <code>$display</code> | Same current argument evaluation as <code>$display</code> | Immediately, without the automatic trailing newline |
+| <code>$info</code>, <code>$warning</code>, <code>$error</code> | Current caller region for a simulation-time call | Arguments are formatted like <code>$display</code> | Immediately as part of the severity-task call |
+| <code>$fatal</code> | Current caller region for a simulation-time call | Arguments are formatted like <code>$display</code> | Reports a fatal run-time error and implicitly invokes <code>$finish</code> |
+| <code>$strobe(...)</code> | The calling process requests the report in its current region | Values reported are the final values reached in the current time slot | The strobed report occurs in Postponed |
+| <code>$monitor(...)</code> | The call installs or replaces a continuous monitor from the caller's context | When a monitored argument changes, the complete list is reported using the settled end-of-step values | Monitor output is scheduled for Postponed |
+| <code>$monitoroff</code> / <code>$monitoron</code> | The calling context changes the monitor-enable flag | They control the most recently installed monitor list | Any resulting monitor line follows continuous-monitor reporting semantics |
+| <code>$sampled(expr)</code> | The function is evaluated wherever its containing expression is evaluated | Returns the sampled value defined by the assertion sampling rules | No output; it returns a value |
+| <code>$rose</code>, <code>$fell</code>, <code>$stable</code>, <code>$changed</code> | Evaluated in their expression context | Compare the present sample with the most recent strictly prior sample of the relevant clocking event | No output; each returns one Boolean bit |
+| <code>$past(expr,...)</code> | Evaluated in its expression context | Returns an earlier sample selected by clock ticks, optional tick count, optional gate, and clocking event | No output; it returns the historical sampled value |
+
+The most important correction to the easy-to-memorize diagram is therefore:
+
+> Preponed is normally where ordinary concurrent-assertion operands obtain their sample. It is not a general execution queue into which every call to <code>$sampled</code>, <code>$rose</code>, or <code>$past</code> is placed.
+
+For example, <code>$sampled(a)</code> inside a concurrent assertion action is evaluated while that action runs in Reactive, but it retrieves the sampled value associated with the assertion attempt. **Function evaluation time** and **returned-value origin** are not the same thing.
+
+### 10.3 Why <code>$info</code> is not inherently Reactive
+
+Consider an ordinary module process:
+
+~~~systemverilog
+always @(posedge clk) begin
+  $info("ordinary process: a=%0b", a);
+end
+~~~
+
+The edge normally awakens this module process in Active. The process reaches <code>$info</code> in Active, so the task reports from that execution context.
+
+Now place the same task name in a concurrent assertion action:
+
+~~~systemverilog
+a_must_be_high: assert property (@(posedge clk) a)
+  $info("PASS: sampled a=%0b", $sampled(a));
+else
+  $error("FAIL: sampled a=%0b", $sampled(a));
+~~~
+
+The sequence is:
+
+~~~text
+Preponed: sample a
+    -> Observed: evaluate property a
+        -> Reactive: execute $info or $error action
+~~~
+
+Here the severity task executes in Reactive because the concurrent assertion action executes there. The task did not move the action into Reactive; the action's scheduling put the task there.
+
+The same caller-region rule applies to <code>$display</code> and <code>$write</code>. It also applies to simulation-time severity calls. There is a separate elaboration-time form of <code>$fatal</code>, <code>$error</code>, <code>$warning</code>, and <code>$info</code> when such a call appears outside procedural code; elaboration occurs before simulation and therefore has no simulation event region.
+
+### 10.4 <code>$display</code> versus <code>$strobe</code>: an exact trace
+
+~~~systemverilog
+logic q = 1'b0;
+
+always @(posedge clk) begin
+  q <= 1'b1;
+  $display("DISPLAY q=%0b", q);
+  $strobe ("STROBE  q=%0b", q);
+end
+~~~
+
+At the edge, with old <code>q=0</code>:
+
+| Region | Scheduler action | What can be reported? |
+|---|---|---|
+| Active | Evaluate the RHS of <code>q &lt;= 1'b1</code> and queue the LHS update. Execute <code>$display</code>. Request the strobed report. | <code>$display</code> sees current <code>q=0</code>. |
+| NBA | Apply the queued LHS update. | <code>q</code> becomes 1. |
+| Postponed | Produce the strobed report after the slot has settled. | <code>$strobe</code> reports final <code>q=1</code>. |
+
+Expected lines:
+
+~~~text
+DISPLAY q=0
+STROBE  q=1
+~~~
+
+Both lines can carry the same <code>$time</code>. The difference is scheduler position, not elapsed time.
+
+This also exposes a useful wording distinction. The process **calls** <code>$strobe</code> while it is running, but the task arranges a strobed output event for Postponed. Saying only “the whole call runs in Postponed” hides that scheduling mechanism; saying only “the call happened in Active” hides when its data is actually reported.
+
+### 10.5 <code>$monitor</code> is an installed observer, not a loop
+
+~~~systemverilog
+initial begin
+  $monitor("t=%0t req=%0b grant=%0b", $time, req, grant);
+end
+~~~
+
+One call installs the monitor. The simulator then performs this lifecycle:
+
+~~~text
+install one display list
+    -> an argument expression changes
+        -> let the current time step settle
+            -> print the entire list at the end of the time step
+~~~
+
+Precise consequences:
+
+- Do not repeatedly call <code>$monitor</code> in a polling loop.
+- Only one ordinary <code>$monitor</code> display list can be active at a time. A later call replaces the active list.
+- If two or more monitored arguments change during the same time step, only one line is produced, containing the settled values.
+- Changes to <code>$time</code>, <code>$stime</code>, or <code>$realtime</code> alone do not trigger a monitor line.
+- <code>$monitoroff</code> disables reporting without forgetting the installed list.
+- <code>$monitoron</code> re-enables the most recently installed list and causes a display so the resumed session has an initial state.
+- File-oriented <code>$fmonitor</code> differs in one advanced respect: multiple file monitor lists may be active simultaneously.
+
+Thus <code>$monitor</code> and <code>$strobe</code> share end-of-slot reporting, but their triggers differ:
+
+- <code>$strobe</code>: one report for each explicit call;
+- <code>$monitor</code>: install once, then report when its argument list changes.
+
+### 10.6 Current, sampled, and past are three different value sets
+
+At one clock edge, a signal can have all three of these meanings:
+
+| Expression | Meaning in a concurrent assertion diagnostic |
+|---|---|
+| <code>a</code> in the property | The sampled value used to evaluate this assertion attempt |
+| plain <code>a</code> in its Reactive action block | The current raw value when the action executes; it may include changes made after sampling |
+| <code>$sampled(a)</code> in the action block | The sampled value associated with the assertion decision |
+| <code>$past(a)</code> | The sample from a prior occurrence of the applicable assertion clock, one prior tick by default |
+
+That distinction is visible here:
+
+~~~systemverilog
+a_equals_b: assert property (@(posedge clk) a == b)
+  $info("PASS sampled=(%0b,%0b) current=(%0b,%0b)",
+        $sampled(a), $sampled(b), a, b);
+else
+  $error("FAIL sampled=(%0b,%0b) current=(%0b,%0b)",
+         $sampled(a), $sampled(b), a, b);
+~~~
+
+Suppose the property sampled <code>a=0</code> and <code>b=1</code>, so it failed, but NBA activity made the current values <code>a=0</code> and <code>b=0</code> before Reactive. A diagnostic using only plain <code>a</code> and <code>b</code> would misleadingly print two equal values for a failed equality. The <code>$sampled</code> fields explain the actual decision.
+
+Inside the property expression itself, wrapping an ordinary sampled operand in <code>$sampled</code> is normally redundant:
+
+~~~systemverilog
+assert property (@(posedge clk) a == b);
+// Normally the same sampled comparison as:
+assert property (@(posedge clk) $sampled(a) == $sampled(b));
+~~~
+
+Its main practical use is in an action block or another context where a plain expression would otherwise mean a current value.
+
+### 10.7 What every sampled-value function actually asks
+
+| Function | Question answered | Crucial precision |
+|---|---|---|
+| <code>$sampled(expr)</code> | “What is this expression's sampled value?” | It does not step backward in history and does not take an explicit clocking-event argument. |
+| <code>$rose(expr)</code> | “Did the sampled least-significant bit change to 1?” | For a vector, only the LSB determines the answer. Use a reduction or explicit bit if vector-wide intent differs. |
+| <code>$fell(expr)</code> | “Did the sampled least-significant bit change to 0?” | Like <code>$rose</code>, it is an LSB transition test. |
+| <code>$stable(expr)</code> | “Is the present sampled expression equal to its preceding sample?” | The entire expression is compared. Stable does not mean “never glitched between samples.” |
+| <code>$changed(expr)</code> | “Is the present sampled expression different from its preceding sample?” | It detects a sampled difference, not every physical or delta-cycle transition between ticks. |
+| <code>$past(expr)</code> | “What value was sampled at an earlier qualifying clock tick?” | With no tick count it means one prior tick, not one prior nanosecond and not the preceding scheduler region. |
+
+For <code>$rose</code>, <code>$fell</code>, <code>$stable</code>, and <code>$changed</code>, “previous” means the most recent strictly prior time step in which the applicable clocking event occurred. At or before the first clock occurrence, the comparison uses the expression's defined default sampled value. A robust property often uses a validity flag or reset discipline when startup history matters.
+
+### 10.8 <code>$past</code> counts qualifying clock events
+
+The full form is conceptually:
+
+~~~systemverilog
+$past(expression, number_of_ticks, gating_expression, clocking_event)
+~~~
+
+Key rules:
+
+- <code>number_of_ticks</code> defaults to 1, must be at least 1, and is an elaboration-time constant.
+- The optional gating expression filters the clock occurrences that count toward history.
+- The optional clocking event selects which events sample the expression.
+- If omitted, the clock is inferred from the assertion or procedural context under the language's clock-inference rules.
+- In a concurrent assertion action block, sampled-value functions other than <code>$sampled</code> normally inherit the assertion's leading clock.
+- If the requested amount of qualifying history does not yet exist, <code>$past</code> returns the expression's default sampled value; it does not wait for history to become available.
+
+Example without gating:
+
+~~~systemverilog
+pipeline: assert property (
+  @(posedge clk)
+  past_valid |-> q == $past(d)
+);
+~~~
+
+The check compares sampled <code>q</code> at this positive edge with sampled <code>d</code> at the preceding positive edge.
+
+Example with gating:
+
+~~~systemverilog
+enabled_history: assert property (
+  @(posedge clk)
+  done |-> result == $past(input_data, 2, enable)
+);
+~~~
+
+Here “2” means the second prior <code>posedge clk</code> for which <code>enable</code> qualified the sampling event. Disabled clock edges do not count. It does not necessarily mean two raw clock periods ago.
+
+### 10.9 The verified compact map
+
+~~~text
+PREPONED
+  ordinary concurrent operands obtain their sample
+       |
+       v
+ACTIVE
+  ordinary module process runs
+  RHS of <= is evaluated; NBA update is queued
+  $display/$write/$info run here if called by that process
+       |
+       v
+NBA
+  queued sequential LHS updates are applied
+       |
+       v
+OBSERVED
+  concurrent property is evaluated from sampled values
+       |
+       v
+REACTIVE
+  concurrent pass/fail action runs
+  $display/$info/$error run here if called by that action
+  $sampled(...) called here can retrieve the decision's sample
+       |
+       v
+POSTPONED
+  $strobe and $monitor output final settled values
+  no new current-slot value changes are allowed
+~~~
+
+Memorize these rules, then attach the qualifications above:
+
+| Memory rule | Precise meaning |
+|---|---|
+| <code>$display</code> = **report now** | “Now” means the region in which its caller executes. |
+| <code>$info/$warning/$error/$fatal</code> = **severity now** | A simulation-time call follows its caller; <code>$fatal</code> also terminates through an implicit <code>$finish</code>. |
+| <code>$strobe</code> = **report this call after this slot settles** | Output is a Postponed event using final slot values. |
+| <code>$monitor</code> = **install one changed-value observer** | A change causes one settled end-of-step report for the active display list. |
+| <code>$sampled</code> = **retrieve the assertion sample** | It returns a sampled value; it does not force the containing code to execute in Preponed. |
+| <code>$past</code> = **retrieve sampled clock history** | History is counted in qualifying clock events, not units of simulator time. |
+
+## 11. Worked time-slot trace
 
 Consider this clocked code:
 
@@ -607,11 +882,11 @@ The same 10 ns time slot unfolds as follows:
 
 Nothing in this trace advances beyond 10 ns. The different results are caused by region ordering, not by elapsed simulation time.
 
-## 11. Practical examples
+## 12. Practical examples
 
 The companion [examples.sv](examples.sv) gathers the forms below into one standard-oriented source file. It is an illustrative foundation file, not a verbatim EDA Playground capture. Run the full file only with a simulator configuration that implements concurrent and deferred immediate SVA syntax; a basic Verilog parser can support simple immediate assertions yet still reject the other standard forms.
 
-### 11.1 Why display and strobe disagree
+### 12.1 Why display and strobe disagree
 
 ~~~systemverilog
 always @(posedge clk) begin
@@ -626,7 +901,7 @@ If <code>q</code> starts at 0 and <code>d</code> is 1:
 - <code>$display</code> usually prints 0 because the NBA update has not happened;
 - <code>$strobe</code> prints 1 because it reports in Postponed after NBA.
 
-### 11.2 A same-region race
+### 12.2 A same-region race
 
 ~~~systemverilog
 always @(posedge clk)
@@ -645,7 +920,7 @@ The correct repair depends on intent:
 - drive testbench stimulus away from the sampling edge or through an appropriate clocking block;
 - do not use arbitrary <code>#0</code> delays as a race-hiding strategy.
 
-### 11.3 A pipeline relationship
+### 12.3 A pipeline relationship
 
 ~~~systemverilog
 always_ff @(posedge clk)
@@ -659,7 +934,7 @@ pipeline_check: assert property (
 
 This checks the sampled architectural relationship: the output register’s current sampled state equals the input sampled on the preceding clock tick.
 
-### 11.4 Immediate versus concurrent intent
+### 12.4 Immediate versus concurrent intent
 
 Use immediate assertion for a procedural calculation:
 
@@ -686,7 +961,7 @@ grant_deadline: assert property (
 
 The first checks one call’s present arguments. The second starts and tracks temporal obligations across assertion clock ticks.
 
-### 11.5 Glitch-sensitive and glitch-filtered forms
+### 12.5 Glitch-sensitive and glitch-filtered forms
 
 ~~~systemverilog
 always_comb begin
@@ -698,7 +973,7 @@ end
 
 All three evaluate <code>condition</code> when their statements execute. They differ in report timing and in the opportunity to flush transient reports.
 
-## 12. Common exam and debugging traps
+## 13. Common exam and debugging traps
 
 1. **“The assertion sees the NBA value because Observed is after NBA.”**
    Wrong for ordinary concurrent operands. Evaluation occurs after NBA, but it uses Preponed sampled values.
@@ -730,7 +1005,19 @@ All three evaluate <code>condition</code> when their statements execute. They di
 10. **“The values printed in an action block are automatically the values used by the property.”**
     Wrong. Use sampled-value functions when reporting the decision inputs.
 
-## 13. Revision checklist
+11. **“Sampled-value functions execute in Preponed.”**
+    Wrong framing. Sampling normally supplies the Preponed value; the function is evaluated in the context containing its call and retrieves sampled data.
+
+12. **“$past(signal) means the value one time unit ago.”**
+    Wrong. By default it means the value at the preceding qualifying occurrence of the applicable clocking event.
+
+13. **“$rose(bus) detects a rising transition on any bit.”**
+    Wrong. <code>$rose</code> and <code>$fell</code> use the least-significant bit of their expression.
+
+14. **“Call $monitor every time you want a line.”**
+    Wrong. One call installs the active display list; argument changes cause settled end-of-step reports until monitoring is replaced or disabled.
+
+## 14. Revision checklist
 
 You should be able to answer these without looking:
 
@@ -744,13 +1031,20 @@ You should be able to answer these without looking:
 8. Can a Postponed action modify a signal?
 9. Are PLI callbacks legal in Observed?
 10. Why can two Active processes still race?
+11. If <code>$info</code> appears in an ordinary module process and in a concurrent assertion action, in which region does each call execute?
+12. What are the three separate questions of caller region, value source, and report time?
+13. Why can plain <code>a</code> and <code>$sampled(a)</code> differ in a Reactive action block?
+14. Does <code>$past(a)</code> mean a previous time unit, a previous scheduler region, or a previous qualifying sample?
+15. Why can <code>$stable(a)</code> be true even if <code>a</code> glitched between two assertion clock ticks?
+16. How many ordinary <code>$monitor</code> display lists can be active, and what happens when several arguments change in one time step?
 
-## 14. Standards references
+## 15. Standards references
 
 The explanations above were checked against:
 
 - [IEEE Std 1800-2023 official standard page](https://standards.ieee.org/ieee/1800/7743/) — the active SystemVerilog language standard.
-- [IEEE Std 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F24/documentation/1800-2017.pdf) — Clause 4.4 for event regions; Clauses 16.2 through 16.5 for directive roles, immediate assertions, deferred immediate assertions, and concurrent assertions. This is the edition whose Figure 4-1 appears in the lecture screenshot.
+- [IEEE Std 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F24/documentation/1800-2017.pdf) — Clause 4.4 for event regions; Clauses 16.2 through 16.5 for directive roles, immediate assertions, deferred immediate assertions, and concurrent assertions; Clause 16.9.3 for sampled-value functions; Clause 20.10 for severity tasks; and Clause 21.2 for display, strobe, and monitor behavior. This is the edition whose Figure 4-1 appears in the lecture screenshot.
 - [IEEE Std 1800-2017 published errata](https://standards.ieee.org/wp-content/uploads/import/documents/erratas/1800-2017_errata.pdf) — checked for corrections affecting the cited scheduler and deferred-assertion explanations.
+- [Accellera SystemVerilog Assertions Tutorial](https://www.accellera.org/images/resources/videos/SystemVerilog_Assertions_Tutorial_2016.pdf) — assertion sampling, Observed evaluation, Reactive actions, and the practical recommendation to use <code>$sampled</code> in action blocks.
 
 The screenshots are retained as lecture evidence. The prose deliberately paraphrases the standard and adds worked reasoning rather than reproducing its text.
