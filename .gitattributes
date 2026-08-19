@@ -2,3 +2,5 @@
 # trailing spaces; whitespace checks must not rewrite captured source.
 "SV Basics/Codes/**/*.sv" -whitespace
 "SV Basics/Codes/**/README.md" -whitespace
+"SV Assertions/Codes/**/*.sv" -whitespace
+"SV Assertions/Codes/**/README.md" -whitespace
