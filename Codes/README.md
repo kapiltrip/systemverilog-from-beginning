@@ -2,7 +2,7 @@
 
 [Repository home](../README.md) · [EDA/source audit](../EDA_PLAYGROUND_AUDIT.md)
 
-This is the canonical study index for all 42 captured parts. Repository part numbers describe the learning order. Parts 30–42 began as EDA queue labels 000–012 and have now been renamed to match this index; every matching README retains the original label beside the current saved name, stable short link, and local folder.
+This is the canonical study index for all 44 captured parts. Repository part numbers describe the learning order. Parts 30–42 began as EDA queue labels 000–012 and were renamed to match this index. Parts 43–44 are the next two Edge playgrounds and preserve their current saved-name state, stable short link, and local folder.
 
 ## Phase 1 — Simulation and collections
 
@@ -70,6 +70,8 @@ This is the canonical study index for all 42 captured parts. Repository part num
 | 40 | 010 | [Interface, Modport, and Virtual Interface](40-interface-modport-and-virtual-interface/README.md) | Bind a class driver to static DUT signals | Pass | [VgAA](https://edaplayground.com/x/VgAA) |
 | 41 | 011 | [Layered Adder Testbench and Object Copies](41-layered-adder-testbench-and-object-copies/README.md) | Generator, copy, mailbox, driver, completion event | Pass | [Xcxx](https://edaplayground.com/x/Xcxx) |
 | 42 | 012 | [Error Injection with Inheritance](42-error-injection-with-inheritance/README.md) | Derived stimulus, clone/factory pitfalls | Compile lesson: missing `copy()` | [Cxwq](https://edaplayground.com/x/Cxwq) |
+| 43 | — | [Polymorphic Copy for Error Injection](43-polymorphic-copy-error-injection/README.md) | Virtual override transforms a copied transaction | Pass: 16 zero-valued driver snapshots | [F5HU](https://edaplayground.com/x/F5HU) |
+| 44 | — | [Monitor and Scoreboard with Separate Mailboxes](44-monitor-scoreboard-separate-mailboxes/README.md) | Two directed channels, edge-safe sampling, arithmetic comparison | Partial: only 8 of 16 results checked before finish | [Rvwd](https://edaplayground.com/x/Rvwd) |
 
 ## Quick concept lookup
 
@@ -78,13 +80,14 @@ This is the canonical study index for all 42 captured parts. Repository part num
 | Simulation time and clocks | Parts 01–04 |
 | Arrays and queues | Parts 05–08 |
 | Object construction and copying | Parts 09, 13–18 |
-| Inheritance and dynamic dispatch | Parts 19–21 and 42 |
+| Inheritance and dynamic dispatch | Parts 19–21 and 42–43 |
 | Constraint syntax and probability | Parts 22–30 |
 | Events and parallel-process control | Parts 31–35 |
 | Shared-resource arbitration | Part 36 |
-| Mailbox transport and handle identity | Parts 37–39 and 41 |
-| Interfaces, modports, and class-to-DUT binding | Parts 40–42 |
-| Why a generated transaction is not yet a checked result | Parts 41–42 |
+| Mailbox transport and handle identity | Parts 37–39, 41, and 44 |
+| Interfaces, modports, and class-to-DUT binding | Parts 40–44 |
+| Why a generated transaction is not yet a checked result | Parts 41–44 |
+| Monitor sampling, scoreboard comparison, and end-of-test drain | Part 44 |
 
 ## Per-part file contract
 
@@ -93,6 +96,6 @@ Every numbered directory contains:
 - `README.md` — navigation, saved settings, inline code, technical explanation, source-question answers, and live-result evidence;
 - `testbench.sv` — the captured testbench code.
 
-`design.sv` is intentionally optional. It is kept only when the live design pane contains substantive lesson code: Parts 22, 30, and 40–42 currently have one. When EDA Playground contains only its untouched `// Code your design here` placeholder, neither an empty local file nor an empty README code block is created. Part 16 separately retains `editor_testbench.sv`, an additional baseline capture.
+`design.sv` is intentionally optional. It is kept only when the live design pane contains substantive lesson code: Parts 22, 30, and 40–44 currently have one. When EDA Playground contains only its untouched `// Code your design here` placeholder, neither an empty local file nor an empty README code block is created. Part 16 separately retains `editor_testbench.sv`, an additional baseline capture; Part 44 retains a second testbench file as the faulty pre-fix learning snapshot.
 
 The source files are learning evidence. A compile failure is retained when it is present in the saved playground and is explained in the README rather than silently corrected.
