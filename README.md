@@ -13,8 +13,10 @@ systemverilog-from-beginning/
 │   ├── Codes/
 │   ├── Foundations/
 │   └── README.md
+├── REALIZATION.md
 └── README.md
 ```
 
 - [SV Basics](SV%20Basics/README.md)
 - [SV Assertions](SV%20Assertions/README.md)
+- [SystemVerilog Realizations](REALIZATION.md)
