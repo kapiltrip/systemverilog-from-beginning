@@ -1,6 +1,6 @@
 # Part 12 — Clocking Events and `disable iff`
 
-[← Part 11](../11-sampled-and-vector-system-functions/README.md) · [SV Assertions index](../README.md) · Next part not captured yet
+[← Part 11](../11-sampled-and-vector-system-functions/README.md) · [SV Assertions index](../README.md) · [Part 13 →](../13-delay-operators-and-ranges/README.md)
 
 | Playground field | Value |
 |---|---|
