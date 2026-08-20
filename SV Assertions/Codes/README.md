@@ -18,10 +18,10 @@ Before Part 01, study [event scheduling regions and assertion types](../Foundati
 | 10 | [Gated `$past` and Sampled Requirements](10-gated-past-sampled-values/README.md) | Enabled history plus corrected source requirements | Gated history freezes after `en=0`; 0 errors | [tNt9](https://edaplayground.com/x/tNt9) |
 | 11 | [Sampled and Vector System Functions](11-sampled-and-vector-system-functions/README.md) | `$stable`, one-hot/one-cold, unknowns, and bit counts | Function trace completes with 0 errors | [JE4r](https://edaplayground.com/x/JE4r) |
 | 12 | [Clocking Events and `disable iff`](12-clocking-events-and-disable-iff/README.md) | Named/default clocks, both-edge events, and abort semantics | 0 compile errors; 19 intentional assertion failures | [GeAH](https://edaplayground.com/x/GeAH) |
-| 13 | [Delay Operators and Delay Ranges](13-delay-operators-and-ranges/README.md) | Exact/ranged cycle delays and implication timing arithmetic | Final live rerun pending | [LSZN](https://edaplayground.com/x/LSZN) |
-| 14 | [Strong Unbounded Eventuality](14-strong-unbounded-eventuality/README.md) | Why an unbounded eventual response needs `strong(...)` | Expected strong failure because `ack` never rises | [ZTL5](https://edaplayground.com/x/ZTL5) |
-| 15 | [Consecutive Repetition Ranges](15-consecutive-repetition-ranges/README.md) | `[*n]`, `[*m:n]`, accepted endpoints, and explicit termination | Final live rerun pending | [EZ5Z](https://edaplayground.com/x/EZ5Z) |
-| 16 | [Consecutive and Nonconsecutive Repetition](16-consecutive-and-nonconsecutive-repetition/README.md) | `[*]` versus `[=]`, event counting, and source correction | Original `info(...)` call blocks compilation | [M3RC](https://edaplayground.com/x/M3RC) |
+| 13 | [Delay Operators and Delay Ranges](13-delay-operators-and-ranges/README.md) | Exact/ranged cycle delays and implication timing arithmetic | 0 compile errors; 6 stimulus-driven assertion failures | [LSZN](https://edaplayground.com/x/LSZN) |
+| 14 | [Strong Unbounded Eventuality](14-strong-unbounded-eventuality/README.md) | Why an unbounded eventual response needs `strong(...)` | 0 compile errors; intentional strong failure at 140 ns | [ZTL5](https://edaplayground.com/x/ZTL5) |
+| 15 | [Consecutive Repetition Ranges](15-consecutive-repetition-ranges/README.md) | `[*n]`, `[*m:n]`, accepted endpoints, and explicit termination | 8 passes; 0 compile and simulation errors | [EZ5Z](https://edaplayground.com/x/EZ5Z) |
+| 16 | [Consecutive and Nonconsecutive Repetition](16-consecutive-and-nonconsecutive-repetition/README.md) | `[*]` versus `[=]`, event counting, and source correction | `vlog` passes; `vopt` rejects unresolved `info` | [M3RC](https://edaplayground.com/x/M3RC) |
 
 ## Per-part file contract
 

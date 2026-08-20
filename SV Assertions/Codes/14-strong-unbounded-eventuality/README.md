@@ -7,8 +7,7 @@
 | EDA Playground Name | `SVA 14 - Strong Unbounded Eventuality` |
 | Stable playground | [ZTL5](https://edaplayground.com/x/ZTL5) |
 | Simulator | Siemens Questa 2025.2 |
-| Expected result | One nonvacuous strong-property failure because `ack` never rises |
-| Verification status | Exact saved source recovered; final live rerun is pending Edge control |
+| Live result | 0 compile errors; one intentional strong-property failure at 140 ns because `ack` never rises |
 | EPWave | Enabled by the source's VCD dump |
 
 ## Exact browser source
@@ -125,4 +124,3 @@ Use the unbounded strong form only when “eventually, with no architectural max
 - [IEEE Std 1800-2023 — active SystemVerilog standard](https://standards.ieee.org/ieee/1800/7743/)
 - [IEEE Std 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F24/documentation/1800-2017.pdf) — Clauses 16.7, 16.12.1, and 16.12.2
 - [Accellera SystemVerilog Assertions tutorial](https://www.accellera.org/resources/videos/systemverilog-assertions-tutorial-2016)
-

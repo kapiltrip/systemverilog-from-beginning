@@ -7,7 +7,7 @@
 | EDA Playground Name | `SVA 13 - Delay Operators and Delay Ranges` |
 | Stable playground | [LSZN](https://edaplayground.com/x/LSZN) |
 | Simulator | Siemens Questa 2025.2 |
-| Verification status | Exact saved source recovered; final live rerun is pending Edge control |
+| Live result | 0 compile errors; 6 assertion failures (`A1` at 35/65/95 ns and `A2` at 55/85/115 ns) |
 | EPWave | Enabled by the source's VCD dump |
 
 ## Exact browser source
@@ -123,6 +123,8 @@ posedge N+1:         assertion can observe that assigned value
 
 The random value also makes the pass/fail trace seed-dependent. For a deterministic lesson, drive a known `ack` schedule on a clocking block or on the opposite edge.
 
+The verified Questa 2025.2 run produced no compiler errors. With that run's random values, every triggered attempt failed: `A1` at 35, 65, and 95 ns, and `A2` at 55, 85, and 115 ns. These are property failures caused by the generated stimulus, not language or compilation failures.
+
 ## Vacuity and termination
 
 Each implication attempt is nonvacuous only when `$rose(req)` is true. At clock samples where it is false, the implication passes vacuously. `$assertvacuousoff(0)` suppresses vacuous-success action execution; it does not disable genuine successes or failures.
@@ -141,4 +143,3 @@ Each implication attempt is nonvacuous only when `$rose(req)` is true. At clock 
 - [IEEE Std 1800-2023 — active SystemVerilog standard](https://standards.ieee.org/ieee/1800/7743/) — concurrent assertions and sequence operators are standardized in Clause 16
 - [IEEE Std 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F24/documentation/1800-2017.pdf) — Clauses 16.7, 16.9, and 16.12
 - [Accellera SystemVerilog Assertions tutorial](https://www.accellera.org/resources/videos/systemverilog-assertions-tutorial-2016)
-

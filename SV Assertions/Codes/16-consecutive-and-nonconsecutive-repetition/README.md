@@ -7,7 +7,7 @@
 | EDA Playground Name | `SVA 16 - Consecutive and Nonconsecutive Repetition` |
 | Stable playground | [M3RC](https://edaplayground.com/x/M3RC) |
 | Simulator | Siemens Questa 2025.2 |
-| Live result | Original source has a compile/elaboration error: `info(...)` must be `$info(...)` |
+| Live result | `vlog`: 0 errors; `vopt`: 1 error — unresolved `info` at line 75 because `$` is missing |
 | EPWave | Enabled by the source's VCD dump |
 
 ## Exact browser source

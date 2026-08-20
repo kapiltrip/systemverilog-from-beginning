@@ -7,7 +7,7 @@
 | EDA Playground Name | `SVA 15 - Consecutive Repetition Ranges` |
 | Stable playground | [EZ5Z](https://edaplayground.com/x/EZ5Z) |
 | Simulator | Siemens Questa 2025.2 |
-| Verification status | Exact saved source recovered; final live rerun is pending Edge control |
+| Live result | 0 compile errors; 8 assertion passes and 0 simulation errors |
 | EPWave | Enabled by the source's VCD dump |
 
 ## Exact browser source
@@ -140,6 +140,8 @@ It repeats a ten-nanosecond delay followed by a null statement. A clearer equiva
 
 The random initial delays can align a signal assignment with a positive clock edge. The concurrent assertion has already sampled in Preponed before an Active-region assignment at that edge, so the observed rise may move to the next positive edge. For deterministic verification, drive stimulus at `negedge clk` or through a clocking block with a defined output skew.
 
+In the verified Questa 2025.2 run, `a1` passed at 25, 85, 135, and 195 ns; `a2` passed at 25, 85, 155, and 225 ns. Compilation and simulation both completed without errors. The exact times remain seed-dependent because both initial delays are randomized.
+
 ## “Remain stable” versus “remain high”
 
 The source comment says “remain stable,” but the property checks `req1[*2]`, which specifically requires `req1` to be **true** twice. Stability is a different condition:
@@ -162,4 +164,3 @@ Even that wording needs careful intent: `$stable` compares successive sampled va
 - [IEEE Std 1800-2023 — active SystemVerilog standard](https://standards.ieee.org/ieee/1800/7743/)
 - [IEEE Std 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F24/documentation/1800-2017.pdf) — Clauses 16.7 and 16.9.2
 - [Accellera SystemVerilog Assertions tutorial](https://www.accellera.org/resources/videos/systemverilog-assertions-tutorial-2016)
-
