@@ -22,6 +22,17 @@ Before Part 01, study [event scheduling regions and assertion types](../Foundati
 | 14 | [Strong Unbounded Eventuality](14-strong-unbounded-eventuality/README.md) | Why an unbounded eventual response needs `strong(...)` | 0 compile errors; intentional strong failure at 140 ns | [ZTL5](https://edaplayground.com/x/ZTL5) |
 | 15 | [Consecutive Repetition Ranges](15-consecutive-repetition-ranges/README.md) | `[*n]`, `[*m:n]`, accepted endpoints, and explicit termination | 8 passes; 0 compile and simulation errors | [EZ5Z](https://edaplayground.com/x/EZ5Z) |
 | 16 | [Consecutive and Nonconsecutive Repetition](16-consecutive-and-nonconsecutive-repetition/README.md) | `[*]` versus `[=]`, event counting, and source correction | `vlog` passes; `vopt` rejects unresolved `info` | [M3RC](https://edaplayground.com/x/M3RC) |
+| 17 | [Nonconsecutive and Goto Repetition Ranges](17-nonconsecutive-and-goto-repetition-ranges/README.md) | `[=m:n]`, `[->m:n]`, tail behavior, and `strong` completion | `vlog` rejects the bare post-module scratch expression at line 69 | [SGyj](https://edaplayground.com/x/SGyj) |
+| 18 | [Sequence `or` Operator](18-sequence-or-operator/README.md) | Alternative temporal branches with different lengths | Compiles; one intentional stimulus-driven assertion failure at 35 ns | [aVj3](https://edaplayground.com/x/aVj3) |
+| 19 | [Sequence `and`, Property `not`, and `strong`](19-sequence-and-not-strong/README.md) | Common-start sequence conjunction and finite versus unbounded completion | `a1` passes at 55 ns; 0 assertion errors; VCD task-order warning | [Gg3J](https://edaplayground.com/x/Gg3J) |
+| 20 | [`throughout`, `within`, and `intersect`](20-throughout-within-and-intersect/README.md) | Level coverage, containment, and common endpoints | All three assertions pass at 65 ns | [FH_u](https://edaplayground.com/x/FH_u) |
+| 21 | [`eventually`, `s_eventually`, and `always`](21-eventually-and-always-property-operators/README.md) | Bounded/strong eventuality, unbounded invariance, and an action typo | Compiles; undefined `$into` errors and one horizon failure | [v2k2](https://edaplayground.com/x/v2k2) |
+| 22 | [`nexttime` and `s_nexttime`](22-nexttime-and-strong-nexttime/README.md) | Future-clock counting and weak versus strong incomplete attempts | Early checks pass; 10 late strong attempts fail at 100 ns | [VsLs](https://edaplayground.com/x/VsLs) |
+| 23 | [Followed-By Property Operators](23-followed-by-property-operators/README.md) | `#=#`/`#-#`, overlap, and nonvacuous left-sequence matching | `A3` and `A4` fail at 5 ns | [CdVx](https://edaplayground.com/x/CdVx) |
+| 24 | [Strong Until](24-strong-until/README.md) | Sustaining a condition until a mandatory terminator | `rst s_until ce` fails at 55 ns | [J3Hp](https://edaplayground.com/x/J3Hp) |
+| 25 | [Property-Local Variables](25-property-local-variables/README.md) | Per-attempt state, match-item updates, and counter-width wrap | `p2` passes at 85 ns and displays 2 | [mJvr](https://edaplayground.com/x/mJvr) |
+| 26 | [Request/ACK Local Snapshots](26-request-ack-local-snapshots/README.md) | Per-thread counter snapshots and the limits of ordinal matching | Pass at 35 ns; failure at 105 ns | [Edgi](https://edaplayground.com/x/Edgi) |
+| 27 | [Request/ACK Latency with Local Time](27-request-ack-latency-with-local-time/README.md) | Per-attempt timestamps, randomized latency, and weak unbounded silence | 0 errors; no pass/display output by 500 ns | [HwSU](https://edaplayground.com/x/HwSU) |
 
 ## Per-part file contract
 

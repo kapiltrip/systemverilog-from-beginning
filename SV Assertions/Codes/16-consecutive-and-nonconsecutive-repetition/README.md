@@ -1,6 +1,6 @@
 # Part 16 — Consecutive and Nonconsecutive Repetition
 
-[← Part 15](../15-consecutive-repetition-ranges/README.md) · [SV Assertions index](../README.md) · Next part is the active playground and remains untouched
+[← Part 15](../15-consecutive-repetition-ranges/README.md) · [SV Assertions index](../README.md) · [Part 17 →](../17-nonconsecutive-and-goto-repetition-ranges/README.md)
 
 | Playground field | Value |
 |---|---|
