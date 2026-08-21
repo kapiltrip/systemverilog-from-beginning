@@ -136,19 +136,122 @@ Sequence `and` requires a common start and successful matches of both operands, 
 
 ## Reading the commented requirements
 
-The block comment is a useful requirement scratchpad, not runnable source. Before activating any line, resolve its clock, start event, endpoint, repetition count, and parentheses. For example, “two requests from A and three from B must complete at the same time” naturally suggests:
+The block comment is a useful requirement scratchpad, not runnable source. Before activating any line, resolve its clock, start event, endpoint, repetition count, and whether “assert” means a sampled high level or a new edge.
+
+Keep the operand shapes straight:
+
+| Operator | Left operand | Right operand | Meaning |
+|---|---|---|---|
+| `throughout` | Boolean expression | Sequence | Boolean must hold on every sample of the chosen sequence match |
+| `within` | Sequence | Sequence | Complete left match must fit inside a complete right match |
+| `intersect` | Sequence | Sequence | Both matches must have the same start and the same endpoint |
+
+The corrected examples below assume `clk` is a reference clock fast enough to observe the protocol and use edges when the English describes transactions.
+
+### 1. SCLK toggles for the entire active-low chip-select window
+
+The saved `!cs throughout $changed(sclk)` has a one-sample right operand, so it cannot describe an entire transaction. It also needs a finite end to the CS-low window. One explicit version is:
 
 ~~~systemverilog
-$rose(start) |-> a[->2] intersect b[->3]
+assert property (@(posedge clk)
+  $fell(cs) |-> strong(
+    ($changed(sclk) || cs)
+      throughout ((!cs)[*1:$] ##1 $rose(cs))
+  )
+);
 ~~~
 
-By contrast, “A must remain high until the third B request” asks for a level constraint over a temporal match:
+While `cs` is low, the left Boolean reduces to `$changed(sclk)`; at the final CS-rise sample, `cs` itself makes the endpoint legal. `strong` requires chip select eventually to end. This demands an SCLK change on **every reference-clock sample** while selected, which may be stricter than a real serial-clock specification. If the requirement is a particular SCLK period or alternating edges, write that rate explicitly. Sampling only on `posedge sclk` would be a poor check because `$changed(sclk)` is then nearly tautological and falling edges are invisible.
+
+### 2. DOUT increments while CE enables counting
+
+The saved expression:
 
 ~~~systemverilog
-$rose(start) |-> a throughout b[->3]
+ce |=> ce throughout (dout == $past(dout) + 1)
 ~~~
 
-Those statements use `intersect` and `throughout` for different protocol intentions.
+does not mean “throughout the CE window.” Its right-hand sequence is only one Boolean sample, so `throughout` merely combines two conditions at that one endpoint. For a synchronous counter whose sampled high CE at clock 0 causes a value one larger at clock 1, the direct invariant is clearer:
+
+~~~systemverilog
+assert property (@(posedge clk) disable iff (rst)
+  ce |=> dout == $past(dout) + 1
+);
+~~~
+
+Every high CE sample launches a next-clock check, so a multi-clock high naturally creates overlapping checks for every increment. If the DUT instead uses the next sample's CE to decide the update, require both samples explicitly. Also size the `+ 1` expression to the counter width when overflow behavior matters.
+
+### 3. Two A requests and three B requests finish on the same clock
+
+~~~systemverilog
+assert property (@(posedge clk)
+  $rose(start) |-> strong(
+    $rose(a)[->2] intersect $rose(b)[->3]
+  )
+);
+~~~
+
+`intersect` gives both request-counting sequences the same start (the `start` sample) and requires their second-A and third-B endpoints to coincide. Using `a[->2]`/`b[->3]` instead would count sampled high levels; that is different if a request can remain high for multiple clocks. `strong` prevents a run with too few requests from ending silently.
+
+### 4. A remains high until the third B request
+
+~~~systemverilog
+assert property (@(posedge clk)
+  $rose(start) |-> strong(a throughout $rose(b)[->3])
+);
+~~~
+
+The goto sequence spans from the start sample through the third B rise, and `a throughout ...` requires `a` at every sample including that endpoint. It does not require `a` to fall afterward. Add an explicit continuation if deassertion timing also matters.
+
+### 5. Reset remains deasserted until both a read and a write occur
+
+~~~systemverilog
+assert property (@(posedge clk)
+  $fell(rst) |-> strong(
+    !rst throughout
+      (($rose(rd)[->1]) and ($rose(wr)[->1]))
+  )
+);
+~~~
+
+Sequence `and` allows read and write in either order and completes when the later event occurs. `throughout` requires reset to remain low over that entire match, and `strong` requires both events eventually. Parentheses matter: without them, operator precedence can group `throughout` with only one side of `and`. If the actual reset is active low, rename it `rst_n` and use the correct assertion/deassertion edge.
+
+### 6. LOAD is asserted on the same clock as the first ACK after REQ
+
+The clearest form combines the endpoint conditions instead of making `intersect` discover their coincidence:
+
+~~~systemverilog
+assert property (@(posedge clk)
+  $rose(req) |-> strong(
+    ##1 $rose(ack)[->1] ##0 $rose(load)
+  )
+);
+~~~
+
+Goto repetition selects the first ACK rise at least one clock after the request; `##0` requires the LOAD rise on that same sampled clock. Use `load` instead of `$rose(load)` if a pre-existing high level is acceptable. The scratchpad's `req ##1 ack[->1] intersect load[->1]` also makes the first LOAD since the common start part of the endpoint rule, which is stronger and more timing-dependent than the English sentence makes clear.
+
+### 7. Between START and STOP, a request is followed by an ACK
+
+~~~systemverilog
+assert property (@(posedge clk)
+  $rose(start) |-> strong(
+    ($rose(req) ##1 $rose(ack)[->1])
+      within (1'b1 ##1 $rose(stop)[->1])
+  )
+);
+~~~
+
+The consequent starts at the START sample. Its outer sequence extends at least one clock and finishes on the first later STOP rise. The complete REQ→ACK sequence must fit inside that window. If REQ must be strictly later than START rather than allowed at the trigger sample, add a leading `##1` to the contained sequence. The saved `[->]` is incomplete without a count, and `stop[->1]` counts a high level rather than a new stop event.
+
+### 8. Read and write must never occur together
+
+This is a per-sample mutual-exclusion invariant, so no repetition operator is needed:
+
+~~~systemverilog
+assert property (@(posedge clk) !(rd && wr));
+~~~
+
+If only simultaneous **new requests** are forbidden, use `!($rose(rd) && $rose(wr))`. The saved `not (wr[->1]) within rd[*2]` asks a multi-clock sequence question and does not directly encode same-clock exclusion. Prefer the smallest temporal structure that matches the requirement.
 
 ## Revision checks
 
@@ -163,4 +266,3 @@ Those statements use `intersect` and `throughout` for different protocol intenti
 - [IEEE Std 1800-2023 — active SystemVerilog standard](https://standards.ieee.org/ieee/1800/7743/)
 - [IEEE Std 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F24/documentation/1800-2017.pdf) — Clause 16, Assertions
 - [Accellera SystemVerilog Assertions tutorial](https://www.accellera.org/resources/videos/systemverilog-assertions-tutorial-2016)
-

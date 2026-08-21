@@ -109,7 +109,7 @@ The class declares a and b as randc bit [3:0] and constrains each to the current
 
 **Answer**
 
-The language does not define a literal bucket. randc traverses a random permutation of legal values without repeating within that permutation; the constraint limits the legal values, and the permutation is recomputed when the effective constraints change or remaining values cannot satisfy them.
+The language does not define a literal bucket. Each `randc` variable traverses its own random permutation of legal values without repeating within that permutation; the constraint limits the legal values, and a permutation is recomputed when the effective constraints change or no remaining value can satisfy them. The pair `(a,b)` is not itself one `randc` value, so pair uniqueness is not guaranteed.
 
 **Why this works**
 
@@ -117,7 +117,7 @@ The [Accellera random-constraints proposal](https://www.accellera.org/images/eda
 
 **Watch for**
 
-randc means no repeat within a cycle, not never repeat for the whole simulation. Changing state used by the constraint can change the relevant permutation.
+`randc` means no repeat for each variable within its current cycle, not never repeat for the whole simulation and not “every `(a,b)` pair is unique.” Changing state used by the constraint can change the relevant permutation. Also check `g.randomize()`; in the exact source its Boolean result is discarded, and `post_randomize()` runs only after a successful solve.
 
 **References**
 

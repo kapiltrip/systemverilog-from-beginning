@@ -221,15 +221,24 @@ The comment is in the half-adder portion of the data-types testbench and concern
 
 **Answer**
 
-The output connection must be compatible with how the instantiated module drives it; a net-style connection is required when the module output is driving the signal as a port connection, whereas a variable declaration is used for procedural assignment.
+The source comment is incorrect for **SystemVerilog**. In this example, `reg f, g, h;` may legally be connected to the half-adder output ports, provided each variable has only the one permitted driver. Replacing `reg` with `logic` is clearer modern style, but replacing it with `wire` is not required merely because the driver is a module output.
 
 **Why this works**
 
-A module output drives the connected expression through the port connection. In traditional Verilog, an output driven by a module instance is connected to a net, not a procedural reg written by an initial or always block. SystemVerilog broadened port and variable rules in several contexts, so the precise legality depends on the port kind, direction, and whether the connected object is otherwise procedurally driven. In this example the comment reflects the older net-versus-reg distinction exposed by module-instantiation wiring. The safest interpretation is that the receiving signal's driver type must match the port connection, rather than that every output can never be a variable in SystemVerilog.
+Four separate ideas are easy to mix together here:
+
+1. **Port direction** says which way values flow (`input`, `output`, or `inout`).
+2. **Port kind** says whether the port itself is a net or a variable.
+3. **Data type** says what values it can represent (`logic`, `bit`, a packed vector, and so on).
+4. **Driver rules** decide whether all assignments and port connections are compatible.
+
+The half adder declares `sum` and `cout` as output nets and drives them with continuous assignments. At the `ha1` instance boundary, those output values may drive the SystemVerilog variables `f` and `g`; `ha2` may similarly drive `sum` and `h`. SystemVerilog permits a variable to be driven by one continuous source, including one module-output connection. The declaration becomes illegal if another continuous or procedural driver is also added to the same variable.
+
+The comment reflects a **legacy Verilog** rule: in Verilog, an output of an instantiated module normally connected to a net in the parent, while `reg` denoted a procedural variable. SystemVerilog relaxed that receiving-variable restriction. That historical distinction explains the comment, but it is not the rule for the saved SystemVerilog source.
 
 **Watch for**
 
-Do not generalize this comment to all SystemVerilog output ports. Check the port declaration and the connection's other drivers; the example is about this module-instance connection.
+`logic` does not mean “procedural only,” and `wire` does not mean “output only.” Check the complete driver graph. If `f`, `g`, or `h` is also assigned in an `always` block, the extra driver creates the real problem.
 
 **References**
 

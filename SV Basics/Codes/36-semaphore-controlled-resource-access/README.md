@@ -18,9 +18,11 @@ This part runs two tasks concurrently but gives them a semaphore containing one 
 
 `sem = new(1)` creates one available key. `sem.get(1)` is blocking: if the key is unavailable, the caller waits. `sem.put(1)` returns it. A semaphore controls permission to enter a protected region; unlike a mailbox, it does not carry the randomized data.
 
-Because the key is held across each entire loop, the observed ordering is:
+The waiting queue is FIFO **after requests arrive at the semaphore**, but that does not make the source's first forked statement a guaranteed winner. `send_first()` and `send_second()` start concurrently, and the language does not impose source-order priority on their initial `get(1)` calls. Whichever call reaches the available key first acquires it; if several callers are already blocked, the semaphore serves those queued requests in arrival order.
 
-1. One task obtains the key and prints ten values from its class-specific range.
+Because the key is held across each entire loop, the structural ordering is:
+
+1. Whichever task acquires the key prints ten values from its class-specific range.
 2. It returns the key.
 3. The other task obtains the key and prints its ten values.
 
@@ -128,13 +130,14 @@ endmodule
 
 ## What happened when it ran
 
-The live Questa run completed with 0 errors and 5 total warnings. The first ten values were within 1–9, then the second ten were within 11–19, confirming single-key serialization. `$finish` ran at 250 ns.
+The live Questa run completed with 0 errors and 5 total warnings. In that observed run, `send_first()` acquired the key first: ten values were within 1–9, followed by ten values within 11–19. That confirms single-key serialization but does not establish a guaranteed winner for every legal simulation. `$finish` ran at 250 ns.
 
 ## Points to remember
 
 - A semaphore guards access; a mailbox transports data.
 - The location of `get`/`put` defines the size of the critical section.
 - `join` waits for children; the semaphore orders their protected work.
+- FIFO waiting order preserves request-arrival order; it does not define which concurrent caller arrives first.
 - Always check `randomize()` when failure would invalidate the test.
 
 ## References

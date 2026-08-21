@@ -123,7 +123,7 @@ Both a and b are randc bit [3:0]. The active constraint restricts them to min an
 
 **Answer**
 
-There is no literal bucket. randc uses a random permutation of legal values and avoids repetition within that cycle. This is not a weighted-distribution example: it has no dist constraint, and the Accellera proposal says dist may not be applied to randc.
+There is no literal bucket. Each `randc` variable uses its own random permutation of legal values and avoids repetition within that cycle. The pair `(a,b)` is not guaranteed to be unique merely because both components are `randc`. This is not a weighted-distribution example: it has no `dist` constraint, and the Accellera proposal says `dist` may not be applied to `randc`.
 
 **Why this works**
 
@@ -131,7 +131,7 @@ The [Accellera random-constraints proposal](https://www.accellera.org/images/eda
 
 **Watch for**
 
-Do not infer probability weights from the comment or a repeated value. SystemVerilog uses dist for weights and randc for cyclic behavior.
+Do not infer probability weights from the comment or a repeated value. SystemVerilog uses `dist` for weights and `randc` for per-variable cyclic behavior. The exact source also discards both `randomize()` return values; assertion-checked calls are required if a failed solve must stop or fail the test.
 
 **References**
 

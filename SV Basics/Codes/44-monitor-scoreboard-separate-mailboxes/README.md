@@ -676,6 +676,8 @@ The comment has the right object-identity idea, with one wording correction: `ru
 
 The monitor has already allocated a fresh transaction for the current sample and does not mutate it after `mbx.put(trans)`. Passing that fresh handle is safe for this simple ownership pattern. A clone would become useful if the monitor reused or modified the object after putting it, or if multiple consumers needed independent ownership.
 
+Also, the transaction currently contains only scalar bit vectors. The source's “deep copy” label should therefore be read as “new independent transaction snapshot”; no nested class handle exists here to prove recursive deep-copy behavior. If one is added later, allocating a fresh outer transaction alone will not make that nested state independent.
+
 ### Why use `negedge` in the driver and `posedge` plus `#1` in the monitor?
 
 The negative-edge drive gives `a` and `b` half a clock period to settle before the DUT's positive-edge calculation. The DUT assigns `sum` nonblockingly, so the additional `#1` lets the NBA update complete before sampling. This resolves the stale/unknown sum race shown in the faulty log, although a clocking block is the cleaner long-term mechanism.

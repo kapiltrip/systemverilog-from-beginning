@@ -93,7 +93,9 @@ A shallow copy copies the object's class properties; it does not copy methods as
 
 **Why this works**
 
-Methods are part of the class type and are invoked through an object handle; they are not independent data stored inside each object instance. The shallow-copy operation creates a new outer object and copies its properties. Thus data2 is copied as a scalar value, while f1 is copied as the same nested handle. The later s2.f1.data1=56 is therefore visible through s1.f1.data1 in this exact source.
+Methods are part of the class type and are invoked through an object handle; they are not independent data stored inside each object instance. The shallow-copy operation creates a new outer object and copies its properties. Thus `data2` is copied as a scalar value, while `f1` is copied as the same nested handle. The later `s2.f1.data1=56` is therefore visible through `s1.f1.data1` in this exact source.
+
+An especially important detail is what **does not** run: `s2 = new s1` does not invoke `second.new()` and does not rerun property initializers. If it did invoke `second.new()`, that constructor would allocate a new nested `first` object and the alias would disappear. Instead, the built-in shallow-copy operation copies the already-existing `s1.f1` handle directly into `s2.f1`. That is why the observed shared nested object is proof of shallow-copy semantics, not a constructor bug.
 
 **Watch for**
 

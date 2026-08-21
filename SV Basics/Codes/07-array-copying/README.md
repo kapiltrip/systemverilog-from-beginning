@@ -165,15 +165,23 @@ The question follows a commented arr.delete() call in the active dynamic-array e
 
 **Answer**
 
-delete removes the dynamic-array storage and leaves it with size zero; it does not leave thirty-four-state elements available to print. Also, the declared int is not the four-state logic type assumed by the comment.
+`delete()` deallocates every element and leaves the dynamic array with size zero. It therefore leaves no elements whose bits could print as X. The comment also assumes the wrong element type: SystemVerilog `int` is a **2-state**, 32-bit signed type, so newly created/default `int` elements are zero, not X.
 
 **Why this works**
 
-The delete method on a dynamic array deallocates its elements and sets its size to zero. With no elements, there is no indexed collection whose default bits can be displayed as XXXX. If the array is later allocated again, the element type's default-value rules apply to the new elements. The source declares int, whereas the LRM distinguishes two-state and four-state integral types; the comment's four-state assumption should not be silently applied to this declaration. The exact printed representation of an empty aggregate is simulator formatting, but it is not a row of X-valued elements.
+There are three different states to distinguish:
+
+1. After `arr = new[5]`, five `int` elements exist and initially hold zero.
+2. After `arr.delete()`, `arr.size()` is zero; there is no `arr[0]` through `arr[4]` to display.
+3. After a later `arr = new[30]`, thirty fresh `int` elements exist and default to zero.
+
+If the element declaration were `integer arr[]` or `logic [31:0] arr[]`, newly allocated uninitialized elements could contain X because those are four-state types. Even then, deleting the dynamic array would print an empty aggregate (with simulator-specific `%p` formatting), not a row of X-valued elements.
+
+In the exact saved source, `arr.delete()` is commented out, so the live run never performs state 2. The question is still valuable, but it describes a hypothetical edit rather than the executed trace.
 
 **Watch for**
 
-Check both the array size and the declared element type before interpreting %p output. Do not use an expected X pattern to diagnose an array that has already been deleted.
+Check both `arr.size()` and the element type before interpreting `%p`. Do not confuse `int` with the four-state `integer` type, and do not diagnose element values after the elements have been deallocated.
 
 **References**
 
@@ -199,7 +207,9 @@ A dynamic array needs new[n] to allocate its element storage and establish a siz
 
 **Why this works**
 
-The declaration `int arr[]` describes a dynamic-array variable but does not allocate a fixed number of elements. The `new` constructor creates the run-time array object with the requested size. After `arr = new[5]`, indexed assignments have storage to write. The later form `new[30](arr)` creates a new thirty-element dynamic array and initializes it from the old array, which is why the original values can be retained while the capacity changes. This is different from a queue, whose push methods grow the queue directly.
+The declaration `int arr[]` describes a dynamic-array variable but initially gives it no elements. `arr = new[5]` allocates five elements, so indexed assignments become valid. The later form `arr = new[30](arr)` allocates a replacement array of thirty elements, copies the old five-element prefix into indices `0` through `4`, and default-initializes indices `5` through `29` to zero because their type is `int`. If the new size were smaller, only the prefix that fits would survive.
+
+The following `arrfixed = arr` is a value copy into the fixed array. It succeeds because `arr` has been resized to exactly thirty compatible `int` elements before the assignment. A dynamic-to-fixed whole-array assignment is not universally safe merely because both element types are `int`; the dynamic source must also have the destination's element count at run time. This is different from a queue, whose push methods grow the queue directly.
 
 **Watch for**
 

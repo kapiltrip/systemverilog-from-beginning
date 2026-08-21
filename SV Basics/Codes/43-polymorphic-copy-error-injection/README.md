@@ -82,6 +82,8 @@ The constructor initially creates a base object with `t = new()`, but `g.t = err
 
 `error.copy()` returns a newly allocated base `transaction`, not a new `error`. This is sufficient for delivering the forced zero values to the current driver, but it does not preserve the dynamic type. A general polymorphic clone would allocate an `error` object and return it through the base return type, so later virtual behavior and derived members remain available.
 
+The source header calls this a “deep copy,” but the current transaction contains only scalar bit-vector properties. Allocating a new outer object and explicitly copying those values gives a fully independent snapshot, yet it does not exercise the shallow-versus-deep distinction for a nested object graph. That distinction would matter only after adding handle-valued members, at which point each intended owned child would need its own clone policy.
+
 ## Design code
 
 ~~~systemverilog

@@ -109,7 +109,7 @@ endmodule
 
 ## Questions from the code, explained
 
-### How is the fixed array size determined?
+### How does `bit arr[] = {1,0,1,1}` get a size of four?
 
 **Question in the source**
 
@@ -121,19 +121,28 @@ endmodule
 
 **What the code is doing**
 
-The comment is next to a fixed unpacked array declaration with an explicitly written range.
+The comment is next to a **dynamic unpacked array** declaration. The empty brackets in `arr[]` do not declare a fixed range; the declaration initializer supplies a four-element unpacked value.
 
 **Answer**
 
-The declared range determines the number of elements; the compiler does not choose an arbitrary size.
+`bit arr[]` declares a dynamic array whose initial size would otherwise be zero. In this declaration-assignment context, `{1,0,1,1}` is treated as a four-element unpacked array concatenation, so assignment allocates/resizes `arr` to four elements and copies one value into each element. The size comes from the initializer—not from a fixed bound in the declaration.
 
 **Why this works**
 
-A fixed unpacked array has bounds in its declaration. For a declaration using four element positions, the compiler knows the array shape at elaboration/compile time and allocates that fixed set of elements. This is different from a dynamic array, whose size is set at run time with new. The comment is therefore best read as an observation that the declared form makes the size known to the compiler, not that the tool infers four from no information.
+Compare the declarations directly:
+
+| Declaration | Collection kind | When the size is established |
+|---|---|---|
+| `bit arr1[8];` | Fixed unpacked array | The declaration creates eight elements, indexed `0` through `7` |
+| `bit arr[];` | Dynamic unpacked array | It starts empty; `arr.size()` is zero |
+| `bit arr[] = {1,0,1,1};` | Dynamic unpacked array with initializer | Whole-array assignment creates four elements |
+| `bit arr[] = new[4];` | Dynamic unpacked array with explicit allocation | `new[4]` creates four default-valued elements |
+
+An assignment pattern such as `'{1,0,1,1}` is another clear aggregate spelling. The saved source's `{...}` is legal here because the unpacked-array target supplies the required context. Neither spelling turns `arr[]` into a fixed array; later assignment or `new[n]` may resize it.
 
 **Watch for**
 
-When changing a fixed array, count the actual index range rather than assuming the size from the type name. Dynamic and fixed arrays use different sizing mechanisms.
+Do not use empty `[]` as evidence of a fixed array. A fixed unpacked dimension contains a size or range; an empty unpacked dimension denotes a dynamic array.
 
 **References**
 
@@ -155,15 +164,15 @@ The comment appears before the example allocates or fills an array and contrasts
 
 **Answer**
 
-A dynamic array must be allocated with a nonzero size before an indexed element can be stored; a fixed array already has storage from its declaration.
+A dynamic array must already contain the indexed element before `arr[i]` can store into it. Storage may be established by `new[n]` **or** by a compatible whole-array assignment/initializer such as the four-element initializer above. An indexed write does not append to or grow an empty dynamic array.
 
 **Why this works**
 
-A dynamic array declaration creates a variable whose elements are allocated later. Until new[n] has supplied a size, there is no indexed element storage to receive arr[i]. A fixed unpacked array, by contrast, gets its bounds from the declaration and can be indexed immediately. The exact source also experiments with initialization forms, so the comment is about storage availability, not about whether an assignment statement is syntactically possible.
+A bare dynamic-array declaration creates a size-zero array. Until allocation or whole-array assignment supplies elements, index `0` is already out of bounds, so `arr[0] = value` cannot create the first element. A fixed unpacked array, by contrast, gets all of its storage from its declared bounds and can be indexed immediately. A queue is different again: methods such as `push_back` are designed to grow it one element at a time.
 
 **Watch for**
 
-Call new with the intended size before indexing a dynamic array. Resizing later can replace the dynamic storage, so use the constructor-with-initializer form when old values must be preserved.
+Check `arr.size()` before indexing. Use `new[n]`, `new[n](old_arr)`, or a compatible whole-array assignment according to whether you want default elements, a resized copy, or replacement contents.
 
 **References**
 
@@ -189,7 +198,9 @@ It distinguishes aggregate initialization patterns: explicitly different element
 
 **Why this works**
 
-SystemVerilog array literals and assignment patterns can initialize collections in more than one way. An explicit list gives position-specific values; a repeated/default pattern applies one value or a type default across the selected elements. The visible result depends on the element type: integral four-state elements can show X when left at their default, while an explicit integer pattern produces known values. This playground is comparing initialization syntax with later indexed traversal.
+SystemVerilog assignment patterns begin with an apostrophe: `'{1,2,3,4,5}` supplies position-specific values, `'{5{1'b0}}` repeats a value five times, and `'{default:2}` assigns the default arm to every otherwise-unmatched element. The saved dynamic-array example instead uses an unpacked array concatenation, `{1,0,1,1}`, in an assignment-like context. Both constructs can produce aggregate values, but their grammar and their type/context rules are not interchangeable in every expression.
+
+The element type still matters. In this source the later fixed arrays have `int` elements, and `int` is a 2-state, 32-bit signed type, so a newly created/default `int` element is zero rather than X. Four-state types such as `integer` or `logic` can retain X in an uninitialized element.
 
 **Watch for**
 

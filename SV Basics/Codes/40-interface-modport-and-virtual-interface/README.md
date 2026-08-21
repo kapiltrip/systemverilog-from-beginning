@@ -61,6 +61,18 @@ The interface signal changes are real and visible. The synchronous `add` module 
 
 Yes. The driver waits for `posedge aif.clk` and then uses blocking assignments to `a` and `b`, while the DUT also samples them on that same edge. Both processes run in the active region, so the DUT may see either the previous or new input values depending on scheduling order. Drive before the sampling edge (for example at the negative edge) or use a clocking block with defined skew to remove this race.
 
+### Can an interface variable be connected to a DUT output?
+
+**Question in the source**
+
+> `//interface with all reg type then we r not allowed to connect varialbe to the out put of dut`
+
+**Answer**
+
+The comment is incorrect for SystemVerilog. `aif.sum` is a `logic` variable, and it may legally be driven by the DUT's output port because that port connection is its single continuous driver. Declaring the interface signal as legacy `reg` would not by itself make the connection illegal; `logic` is simply the clearer modern declaration.
+
+The real restriction is the driver count and driver kind. A SystemVerilog variable may be written procedurally **or** driven by one continuous source such as a module-output connection, but it cannot simultaneously receive incompatible additional drivers. In this source, the testbench/driver writes `aif.a` and `aif.b`, while the DUT alone drives `aif.sum`. If an `initial` or `always` block also assigned `aif.sum`, that extra procedural driver would create the conflict. Port direction, variable data type, and driver ownership must be considered separately.
+
 ## Design code
 
 ~~~systemverilog

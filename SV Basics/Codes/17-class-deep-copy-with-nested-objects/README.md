@@ -437,11 +437,29 @@ The block comment separates declarations from calls: new is declared as a constr
 
 **Answer**
 
-The first and third lines are method definitions; the second is a constructor invocation; the fourth is a copy-method invocation; and the last is a constructor invocation nested inside that copy method.
+The four lines have four precise roles:
+
+| Source form | Role | Receiver/source state |
+|---|---|---|
+| `function new()` | Defines the class constructor | Initializes the object currently being constructed |
+| `f1 = new()` | Allocates a `first` object and invokes its constructor | No existing object is being copied |
+| `function first copy()` | Defines an ordinary method returning a `first` handle | Reads the existing receiver through implicit `this` |
+| `copy = new()` inside `copy()` | Allocates the destination and stores its handle in the function return variable | The following assignments transfer selected source state |
+
+The active `s1.copy()` or nested `f1.copy()` expression is the separate **invocation of the copy method**; it is not one of the four definition/allocation lines listed in the question.
 
 **Why this works**
 
-function new() defines the special constructor method for a class. f1=new() invokes construction and returns a handle to a new object. function first copy() defines a separate ordinary function whose receiver is an existing first object. Inside that function, copy=new() invokes construction to obtain the destination object. The same keyword therefore appears in a declaration name and in an allocation expression, while copy remains a user-defined method name.
+`function new()` defines the special constructor method, while an expression such as `f1 = new()` invokes allocation and construction. `function first copy()` defines an ordinary function: `first` is the return type and `copy` is the method name. Inside that function, `copy` is also the implicit function-result variable, so `copy = new()` allocates the object whose handle will be returned.
+
+The outer deep-copy flow is therefore: call `s1.copy()` → construct a fresh `second` destination → copy `data2` → call `s1.f1.copy()` → construct a fresh nested `first` destination → copy `data1` → return both new handles. That produces two independent paths:
+
+~~~text
+s1 ──> second #1 ──f1──> first #1
+s2 ──> second #2 ──f1──> first #2
+~~~
+
+With a built-in shallow copy, the outer objects would differ but both `f1` members would point at `first #1`.
 
 **Watch for**
 
@@ -467,15 +485,17 @@ The saved source literally contains f1.copy() with an empty pair of parentheses,
 
 **Answer**
 
-In the captured gchG source, copy is called with parentheses: f1.copy(). The code does not demonstrate a parenthesis-free call.
+In the captured source, the comment is factually inconsistent with the line: `f1.copy()` **does** contain parentheses. Because the method has no arguments, SystemVerilog would also permit the call as `f1.copy`; the saved line simply uses the clearer explicit form.
 
 **Why this works**
 
-The parentheses are the empty argument list of the ordinary function method call. The call executes first.copy, allocates a new first object, and returns its handle for assignment to copy.f1. The authoritative object-method reference shows method calls in the form p.current_status(), while the constructor syntax has its own new forms. A broader claim that an ordinary zero-argument user method may omit the parentheses is not verified from the authoritative sources opened for this pass; that claim should not be inferred from this line.
+The parentheses are the empty argument list of an ordinary function-method call. The IEEE subroutine-call rules allow omission of an empty argument list when no arguments are supplied (and likewise when all omitted formals have defaults). In either spelling, the call executes `first.copy`, allocates a new `first` object, copies `data1`, and returns the handle for assignment to `copy.f1`.
+
+This optional-parentheses rule is unrelated to the shallow-copy distinction in Part 15. `f1.copy` versus `f1.copy()` are two spellings of the same no-argument **method call**. By contrast, `new f1` versus `new(f1)` select different `new` grammar forms and are not interchangeable.
 
 **Watch for**
 
-Use the exact saved expression when reasoning about this playground. Do not silently rewrite f1.copy() to another spelling or treat the comment as proof that the parentheses are absent.
+Use `f1.copy()` in teaching code because it visibly communicates “execute a function.” Still recognize `f1.copy` as a legal no-argument call when reading existing SystemVerilog.
 
 **References**
 

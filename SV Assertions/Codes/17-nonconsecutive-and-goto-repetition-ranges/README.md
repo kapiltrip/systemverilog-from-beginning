@@ -200,15 +200,155 @@ The post-module lines are requirement notes, not yet legal SVA. Each needs three
 2. Define an unambiguous start and finite endpoint.
 3. Decide whether levels, transitions, or transaction counts are intended.
 
-For example, “write request must be followed by read request” can become:
+The examples below assume an active-high `rst`, positive-edge sampling, and pulse-like request/response events. If the real protocol uses active-low reset, level handshakes, overlapping transactions, or IDs, the properties must change. These are requirement translations, not edits to the preserved playground.
+
+### 1. Write request, read response, or timeout reset
+
+The saved expressions mention reset and timeout but never connect them to `$rose(wr)` or a read response. First define the boundary. If `TIMEOUT` means “accept a new read rise on clocks 1 through `TIMEOUT-1`; otherwise require reset on clock `TIMEOUT`,” one bounded formulation is:
 
 ~~~systemverilog
+parameter int TIMEOUT = 4; // must be greater than 1 for this form
+
 assert property (@(posedge clk)
-  $rose(wr) |=> $rose(rd)
+  $rose(wr) |=>
+    (($rose(rd)[->1]) within 1'b1[*TIMEOUT-1])
+    or
+    ((!$rose(rd))[*TIMEOUT-1] ##1 rst)
 );
 ~~~
 
-That exact version means the read rises on the next clock. If the read may arrive within a window, use an explicit delay range. Likewise, a bare `[->]` must include a repetition count such as `[->1]`, `$rise` should be `$rose`, and a second implication cannot simply be chained without defining the intended property structure.
+Because `|=>` starts the consequent on clock 1, the fixed window covers clocks 1 through `TIMEOUT-1`; the second branch checks reset on the following clock. Do not add `disable iff (rst)` using the same reset being checked—the reset endpoint would abort the attempt instead of satisfying it. If `timeout` is an actual DUT signal, replace the counted boundary with that signal only after defining whether it is a pulse or a level.
+
+### 2. Write followed by read
+
+~~~systemverilog
+$rose(wr) |=> $rose(rd)
+~~~
+
+This is legal, but it means **exactly the next sampled clock**. English “followed by” is incomplete until the latency is specified. Use `|-> ##[1:N] $rose(rd)` for a bounded later window, or a strong unbounded sequence only when eventual completion is truly intended.
+
+### 3. `b` exactly five clocks after `a`
+
+~~~systemverilog
+$rose(a) |-> ##5 $rose(b)
+~~~
+
+With overlapped implication, the trigger is clock 0 and `b` must rise at clock 5. `|=> ##5` would add the nonoverlapped one-clock shift and check clock 6, so it is not an equivalent rewrite.
+
+### 4. CE within one to three clocks after reset deassertion
+
+~~~systemverilog
+$fell(rst) |-> ##[1:3] $rose(ce)
+~~~
+
+This is correct only for an active-high reset, where falling means deassertion, and only if a **new CE edge** is required. Use `ce` instead of `$rose(ce)` if CE may already be high and a high level is sufficient. For active-low `rst_n`, deassertion is `$rose(rst_n)`.
+
+### 5. Reassert request only if no ACK arrives in three clocks
+
+The saved `$rose(req) |-> ##3 $rose(req)` ignores ACK, while `$rose(req) ##1 !ack[*3] |-> ...` has an unclear endpoint. If the next three clocks are the response window and reassertion is required on clock 4 only when no **new ACK rise** occurred, write both outcomes explicitly:
+
+~~~systemverilog
+assert property (@(posedge clk)
+  $rose(req) |=>
+    (($rose(ack)[->1]) within 1'b1[*3])
+    or
+    ((!$rose(ack))[*3] ##1 $rose(req))
+);
+~~~
+
+Timeline: request at clock 0; ACK may rise at clocks 1, 2, or 3; otherwise request must rise again at clock 4. If “three-clock timeout” means reassert on clock 3 instead, shorten the no-ACK portion accordingly. If ACK is a level rather than an event, use `ack`/`!ack` consistently.
+
+### 6. Hold `a` high for three sampled clocks
+
+~~~systemverilog
+$rose(a) |-> a[*3]
+~~~
+
+This includes the trigger sample: `a` is required at clocks 0, 1, and 2. It means **at least** those three samples because it says nothing about clock 3. For exactly three sampled highs followed by low, use `$rose(a) |-> a[*3] ##1 !a`. For three full clocks *after* the rise, use nonoverlapped implication.
+
+### 7. Reset high for the first three sampled clocks
+
+One explicit one-shot check is:
+
+~~~systemverilog
+initial begin : startup_reset_check
+  startup_reset: assert property (@(posedge clk) rst[*3]);
+end
+~~~
+
+This launches one three-sample attempt from the `initial` process; it is not an always-active property that restarts on every clock. It also assumes the assertion is enabled before the first relevant edge. A procedural `repeat (3) @(posedge clk) assert (rst);` is often clearer for a pure startup test.
+
+### 8. CE must eventually rise after reset deassertion
+
+~~~systemverilog
+$fell(rst) |-> strong(##[1:$] $rose(ce))
+~~~
+
+The source misspells `$rose` as `rose`. The unbounded range permits any finite later clock, and `strong` converts noncompletion at the end of simulation into failure. This still needs an environment-defined simulation or transaction endpoint; “sometime during simulation” is otherwise an open-ended liveness requirement.
+
+### 9. Every CE transaction contains at least one read and one write
+
+Define the transaction window from CE's rise through its first sampled low. The following version counts new request edges while CE is high and requires the CE window to finish:
+
+~~~systemverilog
+assert property (@(posedge clk)
+  $rose(ce) |-> strong(
+    ((($rose(rd) && ce)[->1]) and (($rose(wr) && ce)[->1]))
+      within (ce[*1:$] ##1 !ce)
+  )
+);
+~~~
+
+Sequence `and` lets read and write arrive in either order; the compound match ends with the later one. `within` confines both to the CE transaction, and `strong` requires a finite CE-low endpoint. Replace `$rose(rd)`/`$rose(wr)` with levels only if a stretched-high request should count as one valid transaction. The source's `$rise` is a typo, and `[->]` is incomplete without a count such as `[->1]`.
+
+### 10. After reset, eventually start a CE transaction containing a write
+
+This combines two liveness stages into one explicitly nested sequence:
+
+~~~systemverilog
+assert property (@(posedge clk)
+  $fell(rst) |-> strong(
+    ##[1:$] (
+      $rose(ce) ##0
+      (($rose(wr) && ce)[->1] within (ce[*1:$] ##1 !ce))
+    )
+  )
+);
+~~~
+
+It requires a finite future CE rise, at least one write rise while CE is high, and a finite CE-low endpoint. The source's unparenthesized chain of two implications does not define those boundaries clearly and can create vacuity or precedence surprises. If many CE transactions may occur and only one must contain a write, say whether the first CE transaction decides the result or a later one may rescue it.
+
+### 11. `a` asserts twice during the run
+
+`a[=2]` is only a sequence fragment. It needs a clock, an assertion context, and a completion policy. To require at least two **rising events** in a one-shot simulation check:
+
+~~~systemverilog
+initial begin : two_a_events_check
+  two_a_events: assert property (@(posedge clk) strong($rose(a)[=2]));
+end
+~~~
+
+Using `a[=2]` counts two sampled high levels, not necessarily two separate assertions. Neither form means “exactly two over the entire run”; excluding a third occurrence requires a defined end-of-test event and an additional no-third-event condition.
+
+### 12. `b` on the immediate clock after `a`
+
+~~~systemverilog
+$rose(a) |=> $rose(b)
+~~~
+
+This is the same exact-next-clock relationship as item 2. It does not mean “one or more clocks later.”
+
+### 13. Ready one clock after completion of a request
+
+If the first new `done` edge after the request completes the transfer and `ready` must be high on the following clock:
+
+~~~systemverilog
+assert property (@(posedge clk)
+  $rose(req) |-> strong(##1 $rose(done)[->1] ##1 ready)
+);
+~~~
+
+The leading `##1` excludes a same-clock `done`; goto repetition selects the first later `done` rise, and `strong` requires it to occur finitely. Use `$rose(ready)` instead of `ready` only if a new ready edge—not merely a high ready level—is required. The source's chained implication can allow the first subproperty to succeed without enforcing one coherent request→done→ready attempt, and `done[->]` is missing its repetition count.
 
 ## Revision checks
 

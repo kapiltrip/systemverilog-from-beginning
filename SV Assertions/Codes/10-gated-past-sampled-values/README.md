@@ -171,7 +171,7 @@ The source consequent says `ack`, which does not match its English requirement. 
 
 ### 5. “Address must be one greater than its previous value if start is asserted”
 
-For every cycle during which `start` is high:
+If `start` is a qualifier for an already-observed state relation on the **same** sample:
 
 ~~~systemverilog
 assert property (@(posedge clk)
@@ -180,7 +180,16 @@ assert property (@(posedge clk)
 );
 ~~~
 
-`$rose(start)` checks only the first cycle of a high stretch. Use it only for “when start rises.” A reset/history guard prevents the property from relying on pre-reset or first-tick default history.
+For the more common synchronous interpretation—`start` sampled high on clock 0 commands the register update that becomes observable on clock 1—use:
+
+~~~systemverilog
+assert property (@(posedge clk)
+  disable iff (!rst_n)
+  start |=> addr == $past(addr) + 1
+);
+~~~
+
+The two properties differ at a change of `start`; choose from the RTL's control-to-state timing, not from wording alone. `$rose(start)` checks only the first cycle of a high stretch. A reset/history guard prevents either form from relying on pre-reset or first-tick default history.
 
 ### 6. “If reset deasserts, `dout` must be 0”
 
@@ -226,29 +235,29 @@ XOR marks each changed bit. `$onehot` requires exactly one marked bit. Use `$one
 
 ### 10. “A DFF output remains constant if CE is low”
 
+For the usual synchronous interpretation—CE sampled low on clock 0 controls the update visible on clock 1—write:
+
 ~~~systemverilog
 assert property (@(posedge clk)
-  !ce |-> $stable(q)
+  disable iff (rst)
+  !ce |=> $stable(q)
 );
 ~~~
 
-Equivalent sampled comparison:
-
-~~~systemverilog
-!ce |-> q == $past(q)
-~~~
-
-The source's `$fell(c)` checks a transition of a different signal and only on the transition tick; it does not express “for every clock while CE is low.”
+At the consequent sample, `$stable(q)` compares `q` with its clock-0 value. An equivalent current-state invariant uses the prior CE explicitly: `!$past(ce) |-> q == $past(q)`. The shorter `!ce |-> $stable(q)` is correct only if the **current** CE value qualifies the already-observed current transition. The source's `$fell(c)` checks a transition of a different signal and only on that one transition tick; it does not express “for every clock while CE is low.”
 
 ### 11. “In a TFF, if CE is asserted, output toggles”
 
+For a synchronous T flip-flop whose current CE sample controls the next state:
+
 ~~~systemverilog
 assert property (@(posedge clk)
-  ce |-> q == ~$past(q)
+  disable iff (rst)
+  ce |=> q == ~$past(q)
 );
 ~~~
 
-Use `$rose(ce)` only if toggling is required on the first enable edge and not throughout the enabled interval.
+The same-sample state-invariant form is `$past(ce) |-> q == ~$past(q)`. Use `$rose(ce)` only if toggling is required after the first enable edge and not after every enabled clock. Again, align the implication with when the RTL samples CE and when its nonblocking state update becomes visible.
 
 ### 12. `assertvacuousoff(0)`
 

@@ -45,7 +45,16 @@ The copy does not eliminate legitimate random repeats in general. Here `a` and `
 
 ### Is the manual `#20` delay needed?
 
-It is needed for this exact source's pacing, but it is not a robust synchronization protocol. It spaces generation to roughly one clock period and lets the driver keep up. A better environment uses a bounded mailbox, request/acknowledgement event, or clock-aware sequencing so correctness does not depend on matching a literal delay to the clock period.
+It is **not needed for mailbox correctness**: the mailbox is unbounded, so the generator can enqueue all 16 independent transaction handles at time 0 and the driver can drain them later. However, deleting `#20` from this exact testbench exposes a separate completion bug. The generator would trigger `genDone` at time 0, and the top-level process could call `$finish` before the driver had applied all queued transactions.
+
+The current delay accidentally serves two unrelated purposes:
+
+1. It paces production to one item per 20 ns, roughly matching the driver's clocked consumption.
+2. It postpones `genDone` until 320 ns, by which time the observed driver has consumed all 16 entries.
+
+Neither purpose is a correctness proof. `genDone` means only “the producer has finished putting items”; it does not mean “the mailbox is empty,” “the driver has driven the last item,” or “the DUT response has been checked.” The robust completion condition must come from the consumer/checking side. For example, have the driver count 16 completed drives and trigger `driverDone`, then let the top wait for that event (and, in a fuller environment, wait for monitor/scoreboard completion). A bounded mailbox can supply backpressure if generation should not outrun driving.
+
+A timing literal may still be useful as intentional stimulus spacing, but it must not be the reason queued work happens to finish before `$finish`.
 
 ### What is the use of `d.aif = aif`?
 
@@ -225,7 +234,8 @@ The saved Questa run compiled with 0 errors and completed at 320 ns. It produced
 - A copy method copies only the fields its body assigns.
 - Bind the virtual interface before starting the driver.
 - A driver applies stimulus; a monitor must sample DUT response; a scoreboard compares expected and actual values.
-- Literal delays are pacing, not a substitute for protocol synchronization.
+- Producer completion is not consumer drain; finish on driver/monitor/scoreboard completion.
+- Literal delays are optional pacing, not a substitute for protocol synchronization.
 
 ## References
 
