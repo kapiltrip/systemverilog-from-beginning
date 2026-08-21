@@ -1,6 +1,6 @@
 # Part 27 — Request/ACK Latency with Local Time
 
-[← Part 26](../26-request-ack-local-snapshots/README.md) · [SV Assertions index](../README.md) · Latest captured part
+[← Part 26](../26-request-ack-local-snapshots/README.md) · [SV Assertions index](../README.md) · [Part 28 →](../28-measuring-clock-period-with-property-local-time/README.md)
 
 | Playground field | Value |
 |---|---|

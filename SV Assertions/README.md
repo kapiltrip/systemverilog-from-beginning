@@ -8,8 +8,9 @@
 
 1. Read [Foundation 00 — Event Scheduling Regions and Assertion Types](Foundations/00-event-scheduling-regions-and-assertion-types/README.md) for sampling, evaluation, pass/fail scheduling, immediate assertion types, the lecture screenshots, and all 17 event regions.
 2. Continue through the [ordered assertion playground index](Codes/README.md), beginning with Part 01.
+3. Use the separate [assertion projects index](Projects/README.md) for exercises that combine substantive RTL and verification code.
 
-The foundation note remains outside `Codes/` because it is a source-checked reference rather than a captured playground. `Codes/` now contains the twenty-seven captured browser lessons in creation order. Duplicate open tabs that share one stable playground ID are represented once.
+The foundation note remains outside `Codes/` because it is a source-checked reference rather than a captured playground. `Codes/` now contains twenty-eight captured browser lessons in creation order. `Projects/` contains integrated RTL-and-verification work without consuming lesson numbers. Duplicate open tabs that share one stable playground ID are represented once.
 
 ## Current sequence
 
@@ -42,6 +43,7 @@ The foundation note remains outside `Codes/` because it is a source-checked refe
 | 25 | Property-local variables, match-item updates, and width wrap |
 | 26 | Request/ACK snapshots, counter timing, and transaction identity |
 | 27 | Local request/ACK timestamps, randomized latency, and silent weak completion |
+| 28 | Measuring a sampled clock period with property-local timestamps |
 
 ## Track structure
 
@@ -81,6 +83,13 @@ SV Assertions/
 │   ├── 25-property-local-variables/
 │   ├── 26-request-ack-local-snapshots/
 │   ├── 27-request-ack-latency-with-local-time/
+│   ├── 28-measuring-clock-period-with-property-local-time/
+│   └── README.md
+├── Projects/
+│   ├── 01-fsm-verification-with-sva/
+│   │   ├── design.sv
+│   │   ├── testbench.sv
+│   │   └── README.md
 │   └── README.md
 └── README.md
 ```
