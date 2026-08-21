@@ -12,6 +12,7 @@ systemverilog-from-beginning/
 ├── SV Assertions/
 │   ├── Codes/
 │   ├── Foundations/
+│   ├── Projects/
 │   └── README.md
 ├── REALIZATION.md
 └── README.md

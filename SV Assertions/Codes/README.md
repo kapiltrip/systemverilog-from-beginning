@@ -33,6 +33,7 @@ Before Part 01, study [event scheduling regions and assertion types](../Foundati
 | 25 | [Property-Local Variables](25-property-local-variables/README.md) | Per-attempt state, match-item updates, and counter-width wrap | `p2` passes at 85 ns and displays 2 | [mJvr](https://edaplayground.com/x/mJvr) |
 | 26 | [Request/ACK Local Snapshots](26-request-ack-local-snapshots/README.md) | Per-thread counter snapshots and the limits of ordinal matching | Pass at 35 ns; failure at 105 ns | [Edgi](https://edaplayground.com/x/Edgi) |
 | 27 | [Request/ACK Latency with Local Time](27-request-ack-latency-with-local-time/README.md) | Per-attempt timestamps, randomized latency, and weak unbounded silence | 0 errors; no pass/display output by 500 ns | [HwSU](https://edaplayground.com/x/HwSU) |
+| 28 | [Measuring a Clock Period with Property-Local Time](28-measuring-clock-period-with-property-local-time/README.md) | Per-attempt timestamps across adjacent property clock events | Nine 10 ns measurements; 0 errors | [8V8G](https://edaplayground.com/x/8V8G) |
 
 ## Per-part file contract
 
