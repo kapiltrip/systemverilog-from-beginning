@@ -90,6 +90,10 @@ SV Assertions/
 │   │   ├── design.sv
 │   │   ├── testbench.sv
 │   │   └── README.md
+│   ├── 02-counter-assertions-with-bind/
+│   │   ├── design.sv
+│   │   ├── testbench.sv
+│   │   └── README.md
 │   └── README.md
 └── README.md
 ```

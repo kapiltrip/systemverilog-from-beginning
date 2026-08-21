@@ -1,6 +1,6 @@
 # Project 01 — FSM Verification with SVA
 
-[SV Assertions home](../../README.md) · [Projects index](../README.md) · First captured project
+[SV Assertions home](../../README.md) · [Projects index](../README.md) · [Project 02 →](../02-counter-assertions-with-bind/README.md)
 
 | Playground field | Value |
 |---|---|

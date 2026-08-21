@@ -21,3 +21,7 @@ systemverilog-from-beginning/
 - [SV Basics](SV%20Basics/README.md)
 - [SV Assertions](SV%20Assertions/README.md)
 - [SystemVerilog Realizations](REALIZATION.md)
+
+## Next study session
+
+- **Tomorrow — August 22, 2026:** Start **Assertions in FIFO — Part 1**.
