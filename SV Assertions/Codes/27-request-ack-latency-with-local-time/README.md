@@ -131,15 +131,17 @@ For this source, a generated repeat count `d` produces a sampled request-to-ACK 
 
 Thus `p1(50)` can pass only for the 4-repeat case. Driving on the negative edge would remove the positive-edge testbench/assertion race and make the next positive-edge sample intentional.
 
-### Q: Is `$urandom_range(4, 6)` the portable order?
+### Q: Is `$urandom_range(4, 6)` legal, and what range does it produce?
 
-The SystemVerilog system function takes the maximum value first and the minimum second. For an inclusive 4–6 range, write:
+Yes. The formal argument order is `$urandom_range(maxval, minval = 0)`, so the conventional spelling for an inclusive 4–6 range is:
 
 ~~~systemverilog
 delay = $urandom_range(6, 4);
 ~~~
 
-The exact browser source uses the reversed arguments and Questa runs it, but portable teaching code should use the standard max/min order.
+However, the SystemVerilog standard also specifies that if `maxval` is less than `minval`, the function automatically reverses the two values. Therefore the preserved `$urandom_range(4, 6)` is **legal standard syntax** and still returns an inclusive value from 4 through 6. It is not a Questa-only extension and not a portability error.
+
+The source explanation was wrong to imply otherwise. Prefer `(6, 4)` because it follows the formal max/min order and is easier for a reader to recognize, not because `(4, 6)` changes the legal range.
 
 ### Q: What property checks exactly five sampled clocks?
 
@@ -165,7 +167,7 @@ Also remember that `time` measures simulation time under the current time unit. 
 2. Why does the embedded `$display` not print every ACK latency?
 3. How can an unbounded weak search end silently at `$finish`?
 4. Why does `delay=4` correspond to a sampled 50 ns interval here?
-5. What is the standard argument order for `$urandom_range`?
+5. What is the formal argument order for `$urandom_range`, and what does the standard do when the bounds are reversed?
 6. When should a protocol use cycle delays instead of `$realtime` subtraction?
 
 ## References

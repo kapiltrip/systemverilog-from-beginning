@@ -156,6 +156,171 @@ No useful behavior changes here. Vacuous success is associated with implications
 
 Use `$realtime` when the physical interval itself matters—for example, checking a generated clock's measured period. Use `##N` when the protocol requirement is stated in sampled clock events. The current `-timescale 1ns/1ns` makes this integer 10 ns measurement exact; fractional periods would deserve careful choice of `realtime`/`real` storage and time precision.
 
+## Answers to the preserved assertion scratchpad
+
+The block comment mixes Boolean expressions, sequence fragments, and complete properties. They are not interchangeable: a Boolean describes one sample, a sequence describes one or more sampled clocks, and a complete assertion supplies a clock and a property context.
+
+### Boolean operators
+
+For known one-bit values:
+
+| Requirement | Expression | Important distinction |
+|---|---|---|
+| Both high | `a && b` | Logical AND |
+| At least one high | `a || b` | Inclusive OR; both high also passes |
+| Exactly one high | `a ^ b` | XOR; both high fails |
+| Both low | `!a && !b` or `!(a || b)` | De Morgan-equivalent forms |
+
+With four-state signals, X or Z may make these expressions unknown. If unknown inputs must be reported rather than tolerated, add an explicit `$isunknown({a,b})` check.
+
+### “After `a` rises, keep it high for two clocks”
+
+The scratchpad's first attempt:
+
+~~~systemverilog
+$rose(a) |-> ##2 a ##1 !a
+~~~
+
+checks `a` only at clock 2 and `!a` at clock 3. It says nothing about clock 1, so it does **not** prove a continuous two-clock hold.
+
+The second attempt has the repetition operator in the wrong place: `[*2]a` is invalid. The repeated sequence item comes first:
+
+~~~systemverilog
+$rose(a) |-> a[*2] ##1 !a
+~~~
+
+With `|->`, the two highs are clocks 0 and 1, and low is required at clock 2. If “two clocks after the rise” means clocks 1 and 2, use `$rose(a) |=> a[*2]` and add the desired clock-3 endpoint separately.
+
+The alternative:
+
+~~~systemverilog
+$rose(a) |=> (a && $past(a))
+~~~
+
+checks at clock 1 that `a` is currently high and was high at clock 0. Because `$rose(a)` already proves the clock-0 high, `$past(a)` is redundant here; the form effectively proves high at clocks 0 and 1. `$past` becomes more useful when the antecedent does not already establish the historical value.
+
+### Fixed delay and ordered sequence
+
+~~~systemverilog
+$rose(a) |-> ##4 $rose(b)
+~~~
+
+requires a new B edge exactly four sampled clocks after the A edge. The fragment `a ##1 b ##1 c` means A, then B one clock later, then C one more clock later. A trigger-oriented complete property is:
+
+~~~systemverilog
+assert property (@(posedge clk)
+  $rose(a) |-> ##1 b ##1 c
+);
+~~~
+
+Use `$rose(b)`/`$rose(c)` if stretched high levels must not count as new events.
+
+### Same-clock or eventual B
+
+~~~systemverilog
+$rose(a) |-> ##[0:$] b
+~~~
+
+allows `b` on the trigger clock because the minimum delay is zero. It also uses an unbounded weak search; a pending attempt may end without failure at a finite `$finish`. If “must eventually rise” is mandatory, write:
+
+~~~systemverilog
+$rose(a) |-> strong(##[0:$] $rose(b))
+~~~
+
+Choose minimum 1 instead of 0 when “later” excludes the trigger sample. Also decide whether a high level (`b`) or a new edge (`$rose(b)`) is the real requirement.
+
+### B falls on the next or a later clock
+
+The correct sampled-value function is `$fell`, not `$fall`:
+
+~~~systemverilog
+$rose(a) |=> strong(##[0:$] $fell(b))
+~~~
+
+Because `|=>` shifts the consequent, the earliest fall is the next clock. This checks a transition. By contrast:
+
+~~~systemverilog
+$rose(a) |=> s_eventually !b
+~~~
+
+checks that B is eventually sampled low, even if no observable high-to-low edge occurs within the attempt. Edge and level requirements are not equivalent.
+
+### Standalone eventual and delay fragments need context
+
+`s_eventually b` and `##[4:5] !rst` are property/sequence fragments, not self-starting simulation checks. A one-shot eventual-B check can be written as:
+
+~~~systemverilog
+initial begin : eventual_b_check
+  eventual_b: assert property (@(posedge clk)
+    strong(##[1:$] $rose(b))
+  );
+end
+~~~
+
+A reset-window requirement needs a trigger, for example:
+
+~~~systemverilog
+$rose(start) |-> ##[4:5] !rst
+~~~
+
+That means reset is sampled low on either clock 4 or clock 5; it does not require reset low throughout both clocks or forever afterward.
+
+### ACK within zero to one clock
+
+~~~systemverilog
+$rose(req) |-> ##[0:1] ack
+~~~
+
+This bounded consequent accepts ACK high on the request clock or the next clock. Use `$rose(ack)` if the protocol requires a new grant edge. If the request and ACK can overlap across multiple transactions, a tag or transaction identity may be needed beyond this timing rule.
+
+### Repetition examples
+
+~~~systemverilog
+$rose(rd) |-> rd[*2]
+~~~
+
+requires RD high on the rise sample and the next sample. It does not require RD low afterward; append `##1 !rd` for an exactly-two-sample pulse.
+
+~~~systemverilog
+wr[*3] |=> rd[*2]
+~~~
+
+matches three consecutive high WR samples, then requires two consecutive high RD samples beginning one clock after the third WR. If WR remains high longer, overlapping three-WR antecedent matches can launch overlapping RD obligations. Count `$rose(wr)` events instead when the English means three distinct transactions rather than three high samples.
+
+### Why `ce[*1:$]` does not mean “CE remains high forever”
+
+~~~systemverilog
+$fell(rst) |-> ce[*1:$]
+~~~
+
+has a legal one-sample match, so the attempt may pass as soon as CE is high once. The `$` supplies an unbounded **maximum**, not a demand to choose an infinite repetition. Wrapping it in `strong` would require some finite match and still would not mean forever.
+
+If the actual invariant is “CE must be high on every sampled clock while active-high reset is deasserted,” state that directly:
+
+~~~systemverilog
+assert property (@(posedge clk) disable iff (rst) ce);
+~~~
+
+If CE may assert later or may stop at a transaction endpoint, define those start/end events and use an `until`/`throughout` property that matches that finite window.
+
+### Goto versus nonconsecutive repetition
+
+Both forms permit gaps before and between qualifying samples, but their endpoints differ:
+
+| Form | Completion point |
+|---|---|
+| `a[->2]` | Exactly on the second qualifying `a` sample |
+| `a[=2]` | May include a trailing run of non-`a` samples after the second occurrence |
+
+That difference becomes visible when another item follows:
+
+~~~systemverilog
+a[->2] ##1 b  // b must be one clock after the second a
+a[=2]  ##1 b  // the allowed false tail can postpone the point before b
+~~~
+
+Use `strong(...)` when an unbounded-gap sequence is a mandatory liveness obligation and finite noncompletion must fail.
+
 ## Verified live output
 
 The browser run produced nine copies of:

@@ -79,7 +79,7 @@ The property begins at the first positive edge because the assertion is inside `
 1. `rst` to remain true on every required sample before the terminating condition;
 2. `ce` eventually to become true.
 
-The clock samples `rst=1` at 5, 15, 25, 35, and 45 ns. The stimulus drives `rst=0` at 50 ns and never drives `ce=1). At the 55 ns sample, the terminating condition is still false and the sustaining condition has become false, so the property can no longer match. Questa reports the failure immediately at 55 ns rather than waiting for `$finish`.
+The clock samples `rst=1` at 5, 15, 25, 35, and 45 ns. The stimulus drives `rst=0` at 50 ns and never drives `ce=1`. At the 55 ns sample, the terminating condition is still false and the sustaining condition has become false, so the property can no longer match. Questa reports the failure immediately at 55 ns rather than waiting for `$finish`.
 
 ### Q: What does the `s_` change?
 
@@ -127,4 +127,3 @@ Remember that assignments made on a clock edge occur after the concurrent assert
 - [IEEE Std 1800-2023 — active SystemVerilog standard](https://standards.ieee.org/ieee/1800/7743/)
 - [IEEE Std 1800-2017 SystemVerilog LRM](https://rfsoc.mit.edu/6S965/_static/F24/documentation/1800-2017.pdf) — Clause 16, Assertions
 - [Accellera SystemVerilog Assertions tutorial](https://www.accellera.org/resources/videos/systemverilog-assertions-tutorial-2016)
-

@@ -96,15 +96,17 @@ The comment is beside f1=new() and describes the following p1 construction from 
 
 **Answer**
 
-It describes constructing a new class object using an existing object as the source for member initialization.
+The source comment is attached to the wrong operation. `f1 = new();` performs ordinary fresh construction; it does **not** copy one object into another. The shallow copy occurs later at `p1 = new f1;`.
 
 **Why this works**
 
-SystemVerilog supports a class copy-construction form using new with an existing class object. The destination handle p1 then refers to the new object, while f1 continues to refer to the original. For scalar members such as data, the copied value starts equal and later assignments are independent. For class-handle members, shallow copying preserves the referenced handle, so nested state would still be shared; this example contains only scalar members.
+With no user-declared constructor, `new()` invokes the implicit zero-argument constructor and creates a fresh `first` object. Its property initializer gives `data` the value 41, after which the source explicitly changes it to 24. Only then does `new f1` allocate a distinct object and shallow-copy `f1`'s current properties into it.
+
+This distinction matters because fresh construction and built-in shallow copy follow different rules. A constructor executes constructor code and property initialization. The built-in `new source_object` shallow-copy form does not call the constructor or rerun property initializers; it duplicates the source object's current property state.
 
 **Watch for**
 
-The word copy does not promise deep copying of nested objects. Inspect each member's type when deciding whether a copy is independent.
+Read the exact punctuation after `new`: `new()` means constructor invocation, while `new f1` is the language's shallow-copy expression. The word “copy” in a comment cannot change which grammar form is present.
 
 **References**
 
@@ -126,15 +128,25 @@ This is a commented alternative to the active p1 = new f1; statement.
 
 **Answer**
 
-The intended form constructs p1 from f1 and performs a shallow member copy; it is separate from assigning the handle p1=f1.
+No. `new(f1)` and `new f1` are **not equivalent spellings**. `new f1` is the built-in shallow-copy expression. `new(f1)` is an ordinary constructor call with `f1` passed as an argument; it copies only if the class defines a compatible constructor that explicitly implements that policy.
 
 **Why this works**
 
-The commented line distinguishes a copy construction from handle assignment. With a copy construction, the new object receives copied member values. Shallow means that a scalar is copied as a value but a member that is itself a class handle would be copied as the same nested handle rather than recursively cloned. The active source uses the equivalent no-parentheses spelling for this zero-argument-looking constructor-copy form, and then demonstrates independence for its int member.
+The class in this source declares no one-argument constructor, so its implicit constructor is the zero-argument form. Uncommenting `p1 = new(f1);` would therefore be illegal: no constructor accepts that `first` handle. The active `p1 = new f1;` is legal and performs the built-in shallow copy.
+
+There are three different operations:
+
+| Expression | Object identity | Member behavior |
+|---|---|---|
+| `p1 = f1;` | No new object; both handles alias one object | Every mutation is shared |
+| `p1 = new f1;` | New outer object | All properties are shallow-copied; nested class handles still alias their targets |
+| `p1 = new(f1);` | Calls `first::new(f1)` | Legal only if a matching constructor exists; behavior is whatever that constructor implements |
+
+The built-in shallow copy copies all class properties, including scalar values, nested handles, and object randomization/constraint state. It does not recursively clone objects reached through handle-valued properties and does not execute constructor code.
 
 **Watch for**
 
-Use the copy-construction syntax when a new object is required. Do not replace it with p1=f1 unless shared identity is intended.
+Do not add parentheses mechanically. In this case they change the grammar and make the line invalid. Use `new source_handle` for the language-defined shallow copy, or define a clearly named custom `copy()`/`clone()` method when you need a maintained copy policy.
 
 **References**
 

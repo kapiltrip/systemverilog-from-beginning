@@ -149,6 +149,8 @@ Compare the three families:
 
 `a3` already uses `$rose(rd)[=5]`, so it counts distinct sampled rising transitions rather than the number of high samples.
 
+There is also a completion issue: `[=5]` permits unbounded nonmatching gaps. Without `strong(...)`, an attempt that sees only four events before `$finish` can remain weakly incomplete instead of proving that five occurred. If all five events are mandatory in finite simulation time, write the consequent as `strong($rose(wr)[=5])` or, better, delimit the count with the protocol's real `done` endpoint.
+
 ## Do these properties prove “exactly five before done”?
 
 No. `done` is generated but never appears in `a2` or `a3`. The assertions ask for five eventual occurrences after reset falls; they do not delimit the observation window, reject a sixth occurrence, or prove that the fifth happened before `done`.

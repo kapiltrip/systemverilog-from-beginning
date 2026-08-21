@@ -22,9 +22,9 @@ This playground keeps `join` and `join_any` as commented alternatives and activa
 | `join_any` | After the first child completes | 20 ns; task 2 remains active until 30 ns |
 | `join_none` | Immediately after spawning children | 0 ns |
 
-The live output begins with the `third()` message and the following display at time 0, before either forked task announces its start. The child processes then start, task 1 completes at 20 ns, and task 2 completes at 30 ns.
+The live output begins with the `third()` message and the following display at time 0, before either forked task announces its start. That ordering is not merely a lucky scheduler choice: for `join_none`, the spawned child processes do not begin executing until the parent process suspends at a blocking statement or terminates. This parent encounters no timing/event wait after the fork, so it calls `third()`, prints, reaches the end of the `initial` block, and only then releases the children. Task 1 later completes at 20 ns and task 2 at 30 ns.
 
-This ordering corrects the nearby comment suggesting that `first()` blocks before `second()`. Both calls are separate concurrent child processes. Their first statements are eligible to run in the same time slot; `join_none` simply lets the parent also proceed without waiting.
+This ordering also corrects the nearby comment suggesting that `first()` blocks before `second()`. Both calls are separate concurrent child processes. Once released, both are eligible in the same time slot; their relative first-statement order is not a source-order priority guarantee. `join_none` determines that the parent does not wait for completion, while its special startup rule determines when these children first become eligible.
 
 ## How to wait later after `join_none`
 
@@ -76,8 +76,9 @@ Riviera compiled with 0 errors and 0 warnings. `third()` and the parent display 
 ## Points to remember
 
 - Forked statements are concurrent child processes.
-- `join_none` controls the parent wait policy; it does not delay child startup.
+- `join_none` lets the parent continue immediately, but holds the spawned children until that parent next suspends or terminates.
 - `join_any` does not automatically kill the unfinished children.
+- Add an intentional `#0`, event wait, mailbox operation, or other blocking point only when the parent really must yield before doing more work; do not rely on unspecified sibling execution order.
 - Use timestamps to test scheduling claims instead of relying on source order.
 
 ## References

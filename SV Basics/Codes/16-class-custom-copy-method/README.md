@@ -254,11 +254,15 @@ For a zero-argument method, SystemVerilog permits the empty argument list to be 
 
 **Why this works**
 
-copy is declared as a function with no formal arguments and a return type first. The expression f1.copy is therefore the no-argument method call form accepted by the language; f1.copy() is the explicit spelling. In either form, the function body runs, allocates a new first object, copies data and temp, and returns the new handle. This is not a property read: the function call is what performs the allocation and copy.
+`copy` is declared as a function with no formal arguments and return type `first`. SystemVerilog permits omission of the parentheses when a subroutine call supplies no arguments, so both `f1.copy` and `f1.copy()` invoke the method. The explicit `()` spelling is usually easier to recognize during review.
+
+Inside the function, the identifier `copy` has two related syntactic roles: it is the method's declared name and also the implicit function-result variable. Thus `copy = new()` stores a new `first` handle into the return value, and `copy.data`/`copy.temp` write the destination object. The unqualified right-hand sides `data` and `temp` mean `this.data` and `this.temp`, where `this` is `f1` for this call.
+
+The preceding `f2 = new();` does **not** provide the destination for `f1.copy`. It allocates one default object, but the very next assignment overwrites `f2` with the different handle returned by `copy()`. Because no other handle retains that first allocation, it becomes unreachable and may later be reclaimed. The line is redundant; `f2 = f1.copy();` is sufficient.
 
 **Watch for**
 
-If a method gains arguments, write and preserve the explicit argument list. When readability matters, f1.copy() can make the call intent clearer even where omission is legal.
+If a method gains required arguments, the call must supply them. Prefer `f1.copy()` here for unmistakable call syntax, and do not preallocate `f2` unless the copy API is specifically designed to fill an existing destination.
 
 **References**
 

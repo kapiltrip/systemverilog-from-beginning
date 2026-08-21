@@ -10,7 +10,7 @@ Saved code ID: `7358446`
 
 A derived constructor is responsible for establishing the complete object, including the inherited portion. `super.new(...)` delegates initialization of that base-class state to the base constructor instead of duplicating its rules in the derived class.
 
-Constructor arguments are inputs used while building the object; a constructor is not a general output-producing procedure. The object handle returned by `new` is the construction result, while initialized members hold the resulting state.
+Constructor arguments are normally inputs used while building the object, but SystemVerilog also permits ordinary function argument directions on constructor formals. An `output` formal is an additional copy-out channel; it is not how `new` returns the constructed object handle.
 
 ## Saved playground settings
 
@@ -71,7 +71,9 @@ super.new(data1) explicitly calls the constructor of the immediate superclass, f
 
 **Why this works**
 
-The child constructor is responsible for the second-specific initialization, but the inherited first portion must be initialized through the superclass constructor. The super.new call passes the child constructor's data1 argument to first.new. SystemVerilog requires the superclass constructor call to be the first executable statement when it is written explicitly; after it completes, the child constructor assigns data2. The source's two new methods therefore have different owners even though both use the constructor name.
+The child constructor is responsible for the `second`-specific initialization, but the inherited `first` portion must be initialized through the superclass constructor. `super.new(data1)` passes the child constructor's `data1` argument to `first.new`. SystemVerilog requires an explicit superclass-constructor call to be the first executable statement in the derived constructor; after it completes, the child assigns `data2`.
+
+If a derived constructor omits `super.new`, the language inserts an implicit zero-argument `super.new()` call. That would fail for this source because `first.new` requires `data1`. The explicit call is therefore not only descriptive—it supplies the required base-constructor argument. The two `new` definitions have different owners even though the constructor name is fixed by the language.
 
 **Watch for**
 
@@ -101,11 +103,15 @@ Yes, constructor formals use the function argument mechanism, so an output forma
 
 **Why this works**
 
-SystemVerilog functions can declare input, output, and inout formal arguments. An unqualified formal defaults to input, which is how both data1 and data2 are declared in the saved source. An output formal is copied out to the actual argument when the function completes, subject to the normal function-call rules. A class constructor is special: new is the construction method and has no ordinary declared return type, while the newly allocated object handle is produced by the construction operation. Therefore an output argument would be an additional communication channel, not a replacement for new or for the child-to-parent super.new call.
+SystemVerilog functions can declare `input`, `output`, and `inout` formals, and the standard explicitly permits those directions on constructors. An unqualified constructor formal defaults to `input`, which is how both `data1` and `data2` behave in the saved source.
+
+An `output` formal has normal copy-out semantics: the caller must pass a writable actual variable, the constructor writes its local formal, and the final value is copied back when the constructor returns. For example, a constructor could allocate an ID and copy that ID back to a caller-owned variable. That side result is independent of the special construction result: the `new(...)` expression still yields the newly allocated object handle, and a constructor still has no user-declared return type.
+
+Output formals are therefore legal, but they are rarely needed for simple member initialization. In this example both values flow into the object, so `input` is the correct direction.
 
 **Watch for**
 
-Do not use an output formal to try to return the constructed class object. Keep constructor inputs for initialization and use a separately declared output only when the caller genuinely needs a copy-out result.
+Do not use an output formal to try to return the constructed class object, and do not pass a literal or non-writable expression as its actual. Use a separately declared output only when the caller genuinely needs a copy-out result in addition to the new object handle.
 
 **References**
 

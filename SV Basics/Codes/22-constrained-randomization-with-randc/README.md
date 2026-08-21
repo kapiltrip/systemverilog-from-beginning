@@ -103,13 +103,15 @@ SystemVerilog generates constrained stimulus by declaring random variables, decl
 
 The official Accellera random-constraints proposal describes `rand` variables as ordinary random variables and `randc` variables as random-cyclic variables that traverse a random permutation of their declared range. It also states that the permutation is recomputed when the remaining values cannot satisfy the active constraints, and that randomization can fail when the constraint set has no solution. See the [Accellera random-constraints proposal](https://www.accellera.org/images/eda/sv-ec/att-0248/01-Random-Constraints_Proposal.pdf), especially its `rand`/`randc` and constraint-block sections; the proposal explains that constraints are SystemVerilog expressions and that `randomize()` must satisfy them.
 
+The source's `// no repetition` comment needs one qualification: the cycle belongs to **each `randc` variable separately**. `a` and `b` each maintain cyclic state; SystemVerilog does not promise that every pair `(a,b)` is unique. Two individually nonrepeating streams may form a pair seen earlier, especially across cycle boundaries or when constraints correlate the variables. A `randc` declaration is therefore not a substitute for tracking unique transactions or unique Cartesian-product combinations.
+
 The declared `bit [3:0] a` has sixteen unsigned representable values, 0 through 15. Therefore `a>10` leaves the five-value solution set 11, 12, 13, 14, and 15. That conclusion follows from the declared width and relational constraint; it is not a simulator-specific result. The Accellera material explains that a constraint expression restricts the random solution space and that `randomize()` solves for values satisfying the active constraints. The current [IEEE 1800 SystemVerilog standard overview](https://standards.ieee.org/ieee/1800/7743/) identifies the standard that defines these language semantics; the [IEEE 1800-2017 LRM](https://rfsoc.mit.edu/6S965/_static/F25/documentation/1800-2017.pdf) is retained as the repository's detailed language reference.
 
 The commented-out loop shows one possible repeated-stimulus structure, but it is not active in the saved source. The active code makes one constrained solve, prints the resulting `a` and `b`, and delays. A more complex legal sequence would require additional active randomization calls, variables, constraints, or a separate sequence-generation layer; none is added here.
 
 **Watch for**
 
-A `randc` declaration does not remove the active constraint. In this playground `a>10` is satisfiable, but it still limits `a` to 11–15. The commented-out `status = g.randomize()` and ten-iteration loop are preserved as experiments; the active source instead uses one assertion-checked randomization and a display.
+A `randc` declaration does not remove the active constraint. In this playground `a>10` is satisfiable, but it still limits `a` to 11–15. Scope “no repeat” to one variable, one active cycle, and one effective constraint set. The commented-out `status = g.randomize()` and ten-iteration loop are preserved as experiments; the active source instead uses one assertion-checked randomization and a display.
 
 **References**
 
