@@ -23,9 +23,44 @@ unavailable Aldec license. The same example was then verified locally with
 Vivado/XSim 2024.1: `PASS` at 101 ns, 0 DUT errors, and 100% functional
 coverage for both coverpoints.
 
+The report-printing problem was later reproduced in EDA Playground
+[`Y9rT`](https://edaplayground.com/x/Y9rT) with Questa 2025.2. The page was
+trying to open Vivado's nonexistent XCRG text file from a Questa run. Replacing
+that file-reader with the tracked [`run.do`](run.do) below and enabling
+`-coverage` made Questa print the covergroup, coverpoint, and bin details
+directly in the Log. The verified run reported 100% functional coverage, 8/8
+bins covered, and 0 errors.
+
 See the top-level [Riviera-PRO incident and Vivado workaround](../../README.md)
-for the exact `run.do`, failure chronology, XSim path workaround, report
-commands, and verified output.
+for the exact simulator-specific scripts, failure chronology, Questa repair,
+XSim path workaround, report commands, and verified output.
+
+## EDA Playground Questa setup
+
+Select **Siemens Questa 2025.2**, enable **Use run.do Tcl file**, and set the
+Run Options to:
+
+```text
+-coverage -voptargs=+acc=npr
+```
+
+The testbench-side file must be named exactly `run.do`:
+
+```tcl
+# Run the simulation until all scheduled activity is complete.
+run -all;
+
+# Print SystemVerilog covergroup, coverpoint, and bin details
+# directly in the Questa transcript/EDA Playground Log.
+coverage report -cvg -details;
+
+# Close the batch simulator cleanly after printing the report.
+quit -f;
+```
+
+The essential coverage switch is `-coverage`. The existing `+acc` option keeps
+signal visibility but produces a deprecation warning in Questa 2025.2; it does
+not prevent the coverage report or count as a simulation error.
 
 ## Design
 
@@ -125,9 +160,11 @@ The final `PASS` message proves only that every sampled output matched the
 input. It does **not** prove that all four bins were hit. The coverage report
 must be inspected separately to determine which values were observed.
 
-[`print-coverage-report.tcl`](print-coverage-report.tcl) prints a Vivado/XSim
-functional-coverage text report after that report has been generated. Simulator
-databases, logs, and compiled files are intentionally ignored by Git.
+[`run.do`](run.do) runs the Questa simulation and prints its native functional-
+coverage report directly in the Log. [`print-coverage-report.tcl`](print-coverage-report.tcl)
+is the separate Vivado/XSim helper that prints an XCRG text report only after
+XCRG has generated it. Simulator databases, logs, and compiled files are
+intentionally ignored by Git.
 
 ## Points to remember
 

@@ -4,7 +4,7 @@
 
 | Part | Topic | Main idea | Verified result | Files |
 |---:|---|---|---|---|
-| 01 | [Basic Coverpoints](01-basic-coverpoints/README.md) | Explicit `sample()` calls and automatically created bins | Riviera-PRO blocked by shared-license failure; Vivado/XSim passed at 101 ns with 100% coverage | [`design.sv`](01-basic-coverpoints/design.sv) · [`testbench.sv`](01-basic-coverpoints/testbench.sv) |
+| 01 | [Basic Coverpoints](01-basic-coverpoints/README.md) | Explicit `sample()` calls and automatically created bins | Questa 2025.2 printed 100% coverage (8/8 bins, 0 errors); Vivado/XSim also passed at 101 ns with 100% coverage | [`design.sv`](01-basic-coverpoints/design.sv) · [`testbench.sv`](01-basic-coverpoints/testbench.sv) · [`run.do`](01-basic-coverpoints/run.do) |
 
 ## Per-part file contract
 

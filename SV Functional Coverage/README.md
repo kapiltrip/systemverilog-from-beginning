@@ -1,7 +1,7 @@
 # SystemVerilog Functional Coverage
 
-> Lab record: the EDA Playground Riviera-PRO license failure, the exact Aldec
-> `run.do` flow, and the verified Vivado/XSim workaround.
+> Lab record: the EDA Playground Riviera-PRO license failure, the verified
+> Questa `run.do` repair, and the Vivado/XSim workaround.
 
 [All learning tracks](../README.md) · [Code index](Codes/README.md) · [Revision plan](../WORKING_REVISION_PLAN.md) · [Live tracker](../REVISION_TRACKER.md)
 
@@ -20,6 +20,8 @@ that report directly in the simulator Log.
 | Riviera-PRO run | Stopped before simulation because no valid Aldec license was available |
 | Retry | The same license failure occurred again |
 | Diagnosis | EDA Playground infrastructure/license availability, not a SystemVerilog or `run.do` error |
+| Questa repair | Replaced the Vivado-only XCRG file-reader with Questa's native `coverage report -cvg -details` command |
+| EDA Playground result | Questa 2025.2 printed 100% functional coverage, 8/8 bins covered, and 0 errors in playground [`Y9rT`](https://edaplayground.com/x/Y9rT) |
 | Local fallback | Vivado/XSim 2024.1 ran successfully at 101 ns with 0 DUT errors |
 | Coverage result | 100%: one covergroup instance and 4/4 bins for both `a` and `b` |
 
@@ -82,6 +84,50 @@ acdb save -file fcover.acdb;
 `acdb` is Aldec-specific. These commands are not interchangeable with
 Questa/ModelSim commands or Vivado/XSim commands. Tcl/DO-file comments begin
 with `#`, not `//`.
+
+## Verified Questa setup and exact `run.do`
+
+The current EDA Playground [`Y9rT`](https://edaplayground.com/x/Y9rT) uses
+**Siemens Questa 2025.2** with **Use run.do Tcl file** enabled. Its Run Options
+are:
+
+```text
+-coverage -voptargs=+acc=npr
+```
+
+The exact working `run.do` is tracked at
+[`Codes/01-basic-coverpoints/run.do`](Codes/01-basic-coverpoints/run.do):
+
+```tcl
+# Run the simulation until all scheduled activity is complete.
+run -all;
+
+# Print SystemVerilog covergroup, coverpoint, and bin details
+# directly in the Questa transcript/EDA Playground Log.
+coverage report -cvg -details;
+
+# Close the batch simulator cleanly after printing the report.
+quit -f;
+```
+
+The previous `.do` file tried to read
+`coverage_report/functionalCoverageReport/xcrg_func_cov_report.txt`. That path
+belongs to the Vivado/XCRG flow and does not exist during a Questa run. Questa
+collects functional coverage when `-coverage` is enabled and prints its native
+report with `coverage report -cvg -details`; no XCRG text file is needed.
+
+The verified Log reported:
+
+```text
+TOTAL COVERGROUP COVERAGE: 100.00%
+Covergroup Bins: 8 covered, 0 missing
+Coverpoint a: 4/4 bins covered
+Coverpoint b: 4/4 bins covered
+vsim: Errors: 0, Warnings: 0
+```
+
+Questa also emitted one optimization warning because `+acc` is deprecated in
+favor of newer visibility options. This warning does not affect the report.
 
 ## Failure sequence and diagnosis
 
@@ -214,6 +260,7 @@ the same bin hits every time.
 | Syntax error before simulation | Source problem | Repair the exact reported source line and recompile |
 | No valid Aldec/Riviera license | Remote service capacity/license problem | Retry later or run locally in a supported simulator |
 | `fcover.acdb` missing | Database was not saved under the expected name | Use `acdb save -file fcover.acdb` and verify the run reached simulation |
+| Questa cannot open an XCRG report path | A Vivado-only report-reader was used with Questa | Enable `-coverage` and use `coverage report -cvg -details` in `run.do` |
 | XSim generated-C failure with an absolute path | Local Vivado path-generation problem | Use relative `-cov_db_dir ./coverage` |
 | Report appears twice | Existing XCRG report was appended/reused | Generate into a fresh report directory |
 | PASS but coverage below 100% | DUT check passed, but some bins were not sampled | Inspect the missing bins before changing stimulus or the model |
@@ -226,6 +273,7 @@ SV Functional Coverage/
 │   ├── 01-basic-coverpoints/
 │   │   ├── design.sv
 │   │   ├── testbench.sv
+│   │   ├── run.do
 │   │   ├── print-coverage-report.tcl
 │   │   └── README.md
 │   └── README.md
