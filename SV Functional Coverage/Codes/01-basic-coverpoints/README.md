@@ -15,6 +15,18 @@ The DUT simply copies `a` to `b`. The testbench drives ten random values, waits
 for the continuous assignment to propagate, calls `ci.sample()`, and then
 checks that `b` matches `a`.
 
+## Simulator issue record
+
+This source came from EDA Playground `aaMC`. The Riviera-PRO flow compiled
+after a missing semicolon was repaired, but simulation was blocked twice by an
+unavailable Aldec license. The same example was then verified locally with
+Vivado/XSim 2024.1: `PASS` at 101 ns, 0 DUT errors, and 100% functional
+coverage for both coverpoints.
+
+See the top-level [Riviera-PRO incident and Vivado workaround](../../README.md)
+for the exact `run.do`, failure chronology, XSim path workaround, report
+commands, and verified output.
+
 ## Design
 
 ```systemverilog

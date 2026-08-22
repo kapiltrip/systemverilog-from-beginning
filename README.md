@@ -25,10 +25,18 @@ systemverilog-from-beginning/
 
 - [SV Basics](SV%20Basics/README.md)
 - [SV Assertions](SV%20Assertions/README.md)
-- [SV Functional Coverage](SV%20Functional%20Coverage/README.md)
+- [SV Functional Coverage — Riviera-PRO issue and Vivado workaround](SV%20Functional%20Coverage/README.md)
 - [SystemVerilog Realizations](REALIZATION.md)
 - [4-week revision and functional-coverage sprint](WORKING_REVISION_PLAN.md)
 - [Live revision tracker](REVISION_TRACKER.md)
+
+## Functional coverage simulator note
+
+The first coverage lab reached Aldec Riviera-PRO on EDA Playground after a
+testbench semicolon fix, but simulation was blocked twice by an unavailable
+Aldec license. The same source was verified locally in Vivado/XSim 2024.1 at
+101 ns with 100% functional coverage. See the complete
+[Riviera-PRO incident, `run.do`, diagnosis, and Vivado workaround](SV%20Functional%20Coverage/README.md).
 
 ## Next study session
 
