@@ -2,6 +2,11 @@
 *.vvp
 *.asdb
 *.log
+*.pb
 work/
 transcript
+
+# Vivado/XSim generated simulation and coverage products
+/_xsim_fcover_run/
+vivado-run/
 
