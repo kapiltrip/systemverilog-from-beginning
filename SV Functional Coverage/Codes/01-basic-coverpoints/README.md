@@ -58,9 +58,13 @@ coverage report -cvg -details;
 quit -f;
 ```
 
-The essential coverage switch is `-coverage`. The existing `+acc` option keeps
-signal visibility but produces a deprecation warning in Questa 2025.2; it does
-not prevent the coverage report or count as a simulation error.
+This verified Part 01 command explicitly includes `-coverage`; preserve it when
+reproducing that exact run. Part 09 later demonstrated that EDA Playground's
+current Questa `qrun` flow can collect and print covergroup data without the
+switch, so `-coverage` must not be described as universal for every invocation.
+The existing `+acc` option keeps signal visibility but produces a deprecation
+warning in Questa 2025.2; it does not prevent reporting or count as a simulation
+error.
 
 ## Design
 

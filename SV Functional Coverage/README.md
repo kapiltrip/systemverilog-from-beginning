@@ -1,9 +1,10 @@
 # SystemVerilog Functional Coverage
 
-> Lab record: the EDA Playground Riviera-PRO license failure, the verified
-> Questa `run.do` repair, and the Vivado/XSim workaround.
+> Ordered coverage lessons, exact playground captures, the EDA Playground
+> Riviera-PRO incident, the verified Questa `run.do` repair, and local
+> Vivado/XSim evidence.
 
-[All learning tracks](../README.md) · [Code index](Codes/README.md) · [Revision plan](../WORKING_REVISION_PLAN.md) · [Live tracker](../REVISION_TRACKER.md)
+[All learning tracks](../README.md) · [Code index](Codes/README.md) · [Capture audit](docs/internal/EDA_PLAYGROUND_AUDIT.md) · [Revision plan](../WORKING_REVISION_PLAN.md) · [Live tracker](../REVISION_TRACKER.md)
 
 ## Incident summary
 
@@ -34,6 +35,41 @@ The browser task stopped at the pre-save review. Therefore, `aaMC` identifies
 the playground used during troubleshooting, but the task transcript does not
 prove that the added `run.do` and `#500;` edit were saved back to its public
 version.
+
+## August 23 archive — Parts 02 through 09
+
+Seven stable public playgrounds were first archived as Parts 02–08. The later
+FSM repair in named page `FU8E` was then completed, commented, saved, rerun, and
+archived as Part 09. Intermediate `Kd8_` remains an unarchived working draft.
+The newest blank-name page `Ztfn` (code ID `7380906`) is still the live/current
+playground and was deliberately left untouched.
+
+| Part | Link / code ID | Captured topic | Verified result |
+|---:|---|---|---|
+| 02 | [`pvaX`](https://edaplayground.com/x/pvaX) / `7379868` | Instance/type goals and coverpoint weights | 84.375%: `a` 4/4, `b` 3/4 |
+| 03 | [`jq_V`](https://edaplayground.com/x/jq_V) / `7380397` | Conditional sampling with `iff` | 100%: 4/4 bins from seven accepted samples |
+| 04 | [`XzxS`](https://edaplayground.com/x/XzxS) / `7380475` | Automatic bins and `auto_bin_max` | Displayed 3.51562%: `a` 9/128, uninitialized `b` 0/64 |
+| 05 | [`T8wy`](https://edaplayground.com/x/T8wy) / `7380484` | Explicit bins and fixed-size bin arrays | 7.03125%: `a` 9/64, uninitialized `b` 0/64 |
+| 06 | [`HU_T`](https://edaplayground.com/x/HU_T) / `7380503` | Default bins for unused values | 0%: instance constructed, but no sampling event/call |
+| 07 | [`J_mr`](https://edaplayground.com/x/J_mr) / `7380513` | Multiplexer signal coverpoints | 100%: all 14 bins; only 19 known `y` samples expose stale-output sampling |
+| 08 | [`ggV4`](https://edaplayground.com/x/ggV4) / `7380537` | Enumerated-state coverpoint | 25%: `auto_s0` covered, three enum bins missing |
+| 09 | [`FU8E`](https://edaplayground.com/x/FU8E) / `7380862` | FSM state coverage and report timing | Questa: 100%, named `state` coverpoint, `auto[s0]` 8 hits, `auto[s1]` 12 hits |
+
+Parts 02–08 have blank saved Name fields. Part 09 is named **FSM Coverage
+Report - Fixed Timing and Finish**. Placeholder-only design panes are omitted;
+Parts 07 and 09 have substantive RTL and therefore store `design.sv` beside the
+testbench and custom `run.do`. Source spelling and comments are preserved with
+normalized line endings; deeper explanations remain in each matching README.
+
+All eight pages use Siemens Questa 2025.2, compile option `-timescale 1ns/1ns`,
+Run Options `-voptargs=+acc=npr`, and an enabled custom `run.do`. Parts 02–08
+were independently compiled, simulated, and reported with Vivado/XSim 2024.1.
+Part 09 was verified directly in the saved Questa qrun configuration, which
+printed complete covergroup data despite having no explicit `-coverage` switch.
+The [ordered code index](Codes/README.md) links every lesson and records the
+per-flow evidence. The
+[capture audit](docs/internal/EDA_PLAYGROUND_AUDIT.md) records the browser
+boundary, source fingerprints, and verification evidence.
 
 ## Intended Riviera-PRO setup
 
@@ -87,7 +123,7 @@ with `#`, not `//`.
 
 ## Verified Questa setup and exact `run.do`
 
-The current EDA Playground [`Y9rT`](https://edaplayground.com/x/Y9rT) uses
+The verified EDA Playground [`Y9rT`](https://edaplayground.com/x/Y9rT) uses
 **Siemens Questa 2025.2** with **Use run.do Tcl file** enabled. Its Run Options
 are:
 
@@ -260,7 +296,7 @@ the same bin hits every time.
 | Syntax error before simulation | Source problem | Repair the exact reported source line and recompile |
 | No valid Aldec/Riviera license | Remote service capacity/license problem | Retry later or run locally in a supported simulator |
 | `fcover.acdb` missing | Database was not saved under the expected name | Use `acdb save -file fcover.acdb` and verify the run reached simulation |
-| Questa cannot open an XCRG report path | A Vivado-only report-reader was used with Questa | Enable `-coverage` and use `coverage report -cvg -details` in `run.do` |
+| Questa cannot open an XCRG report path | A Vivado-only report-reader was used with Questa | Use `coverage report -cvg -details` in `run.do`; retain the exact verified Run Options for that lesson |
 | XSim generated-C failure with an absolute path | Local Vivado path-generation problem | Use relative `-cov_db_dir ./coverage` |
 | Report appears twice | Existing XCRG report was appended/reused | Generate into a fresh report directory |
 | PASS but coverage below 100% | DUT check passed, but some bins were not sampled | Inspect the missing bins before changing stimulus or the model |
@@ -276,7 +312,44 @@ SV Functional Coverage/
 │   │   ├── run.do
 │   │   ├── print-coverage-report.tcl
 │   │   └── README.md
+│   ├── 02-instance-type-goals-and-weights/
+│   │   ├── testbench.sv
+│   │   ├── run.do
+│   │   └── README.md
+│   ├── 03-conditional-sampling-with-iff/
+│   │   ├── testbench.sv
+│   │   ├── run.do
+│   │   └── README.md
+│   ├── 04-automatic-bins-and-auto-bin-max/
+│   │   ├── testbench.sv
+│   │   ├── run.do
+│   │   └── README.md
+│   ├── 05-explicit-bins-and-fixed-bin-arrays/
+│   │   ├── testbench.sv
+│   │   ├── run.do
+│   │   └── README.md
+│   ├── 06-default-bins-for-unused-values/
+│   │   ├── testbench.sv
+│   │   ├── run.do
+│   │   └── README.md
+│   ├── 07-multiplexer-signal-coverpoints/
+│   │   ├── design.sv
+│   │   ├── testbench.sv
+│   │   ├── run.do
+│   │   └── README.md
+│   ├── 08-enumerated-state-coverpoint/
+│   │   ├── testbench.sv
+│   │   ├── run.do
+│   │   └── README.md
+│   ├── 09-fsm-state-coverage-and-report-timing/
+│   │   ├── design.sv
+│   │   ├── testbench.sv
+│   │   ├── run.do
+│   │   └── README.md
 │   └── README.md
+├── docs/
+│   └── internal/
+│       └── EDA_PLAYGROUND_AUDIT.md
 └── README.md
 ```
 

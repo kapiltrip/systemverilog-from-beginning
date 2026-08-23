@@ -16,6 +16,7 @@ systemverilog-from-beginning/
 │   └── README.md
 ├── SV Functional Coverage/
 │   ├── Codes/
+│   ├── docs/
 │   └── README.md
 ├── WORKING_REVISION_PLAN.md
 ├── REVISION_TRACKER.md
@@ -25,7 +26,7 @@ systemverilog-from-beginning/
 
 - [SV Basics](SV%20Basics/README.md)
 - [SV Assertions](SV%20Assertions/README.md)
-- [SV Functional Coverage — Questa `run.do`, Riviera-PRO issue, and Vivado workaround](SV%20Functional%20Coverage/README.md)
+- [SV Functional Coverage — ordered playground lessons and simulator verification](SV%20Functional%20Coverage/README.md)
 - [SystemVerilog Realizations](REALIZATION.md)
 - [4-week revision and functional-coverage sprint](WORKING_REVISION_PLAN.md)
 - [Live revision tracker](REVISION_TRACKER.md)
@@ -39,6 +40,12 @@ that printed 100% functional coverage (8/8 bins, 0 errors) directly in the Log.
 The source was also verified locally in Vivado/XSim 2024.1 at 101 ns with 100%
 functional coverage. See the complete [Questa repair, Riviera-PRO incident,
 and Vivado workaround](SV%20Functional%20Coverage/README.md).
+
+The ordered coverage track now continues through Part 09 with goals/weights,
+conditional `iff` sampling, automatic-bin limits, explicit bin arrays, default
+bins, mux signal coverage, enum-state bins, and a repaired FSM state-coverage
+flow. Parts 02–08 pair the public source with local XSim/XCRG evidence; Part 09
+adds a verified Questa run with a named state coverpoint and both FSM bins hit.
 
 ## Next study session
 
