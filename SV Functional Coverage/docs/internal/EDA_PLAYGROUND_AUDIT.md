@@ -12,19 +12,21 @@ The audit covers source identity, order, settings, and evidence.
 The preserved Chrome order is:
 
 ```text
-Y9rT → pvaX → jq_V → XzxS → T8wy → HU_T → J_mr → ggV4 → Kd8_ → FU8E → Ztfn → blank new page
+Y9rT → pvaX → jq_V → XzxS → T8wy → HU_T → J_mr → ggV4 → Kd8_ → FU8E → Ztfn → KN3M (active)
 ```
 
 `Y9rT` was already represented by Part 01. The next seven stable pages are
 Parts 02–08. `Kd8_` (code ID `7380543`) is an intermediate FSM working draft and
 remains outside the archive. The repaired, named `FU8E` page is Part 09, and the
-completed `Ztfn` page is Part 10. The newest/current page is now an unsaved blank
-playground with no code ID and is deliberately excluded.
+completed `Ztfn` page is Part 10. The newest/current page is now active
+playground [`KN3M`](https://edaplayground.com/x/KN3M) and is deliberately
+excluded.
 
 The final open-tab boundary was rechecked in Chrome before archiving Part 09.
 `FU8E` was saved and independently reloaded to prove that its comments persisted.
 `Ztfn` was later rerun and saved on request; its source and 32.25% report were
-captured before closing it. The new blank tab was not edited or saved.
+captured before closing it. `KN3M` was not modified, run, saved, closed, or
+archived by this capture work.
 
 ## One-to-one capture map
 

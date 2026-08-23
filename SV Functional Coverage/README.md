@@ -42,8 +42,9 @@ Seven stable public playgrounds were first archived as Parts 02–08. The later
 FSM repair in named page `FU8E` was then completed, commented, saved, rerun, and
 archived as Part 09. The later blank-name `Ztfn` bin-filtering lesson was saved,
 rerun, and archived as Part 10. Intermediate `Kd8_` remains an unarchived working
-draft. The newest browser page is now a fresh unsaved blank playground with no
-stable code ID and remains outside the archive.
+draft. The newest browser page is now active playground
+[`KN3M`](https://edaplayground.com/x/KN3M); it remains open and outside the
+archive.
 
 | Part | Link / code ID | Captured topic | Verified result |
 |---:|---|---|---|

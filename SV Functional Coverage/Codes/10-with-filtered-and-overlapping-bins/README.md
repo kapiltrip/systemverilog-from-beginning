@@ -12,8 +12,9 @@
 | Custom `run.do` | Enabled; `run -all`, detailed covergroup report, then `quit -f` |
 | Verified browser result | 32.25% aggregate: `a` 10/22 bins, `b` 4/21 bins, 0 compile/simulation errors |
 
-After Part 10 was captured, a new blank EDA Playground home tab remained open
-for the next lesson. It has no saved code ID and is outside this archive.
+After Part 10 was captured, the newer active playground
+[`KN3M`](https://edaplayground.com/x/KN3M) remained open for the next lesson. It
+is still in progress and is outside this archive.
 
 The repository source below preserves the saved substantive editor content.
 Trailing spaces and redundant blank lines at the end of the browser buffer are

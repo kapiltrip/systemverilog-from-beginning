@@ -13,8 +13,8 @@
 | Verified browser result | 100%: named `state` coverpoint, 2/2 enum bins, 0 compile/simulation errors |
 
 The next completed playground, [`Ztfn`](https://edaplayground.com/x/Ztfn), is
-archived as Part 10. A new blank EDA Playground tab remains available for the
-next lesson.
+archived as Part 10. The newer active playground
+[`KN3M`](https://edaplayground.com/x/KN3M) remains open for the next lesson.
 
 ## Exact saved testbench
 
