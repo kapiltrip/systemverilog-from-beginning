@@ -13,8 +13,9 @@
 | Verified browser result | 32.25% aggregate: `a` 10/22 bins, `b` 4/21 bins, 0 compile/simulation errors |
 
 After Part 10 was captured, `KN3M`, `cNZW`, and `grxa` became Parts 11–13.
-Newest playground [`rzC3`](https://edaplayground.com/x/rzC3) remains outside
-the archive.
+[`rzC3`](https://edaplayground.com/x/rzC3) is Part 14: its exact public source
+is preserved beside a deterministic, locally verified variant; its inherited
+200 ns Tcl window was repaired to `run -all` and verified directly in Questa.
 
 The repository source below preserves the saved substantive editor content.
 Trailing spaces and redundant blank lines at the end of the browser buffer are

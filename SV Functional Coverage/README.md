@@ -36,7 +36,7 @@ the playground used during troubleshooting, but the task transcript does not
 prove that the added `run.do` and `#500;` edit were saved back to its public
 version.
 
-## August 23 archive — Parts 02 through 13
+## August 23 archive — Parts 02 through 14
 
 Seven stable public playgrounds were first archived as Parts 02–08. The later
 FSM repair in named page `FU8E` was then completed, commented, saved, rerun, and
@@ -44,8 +44,11 @@ archived as Part 09. The later blank-name `Ztfn` bin-filtering lesson was saved,
 rerun, and archived as Part 10. The next completed opcode, ignore-bin, and
 illegal-bin/report-timing lessons are Parts 11–13. Intermediate `Kd8_` remains
 an unarchived working draft. `CBg2` is only a separate copy of the already
-archived FSM repair. Newest playground
-[`rzC3`](https://edaplayground.com/x/rzC3) remains outside the archive.
+archived FSM repair. Part 14 preserves the public
+[`rzC3`](https://edaplayground.com/x/rzC3) wildcard-bin/encoder source and adds
+a deterministic self-checking variant. Its inherited 200 ns Tcl window stopped
+after 10 of 15 samples; the public page is now saved with `run -all` and was
+rerun through all fifteen samples in Questa 2025.2.
 
 | Part | Link / code ID | Captured topic | Verified result |
 |---:|---|---|---|
@@ -61,21 +64,28 @@ archived FSM repair. Newest playground
 | 11 | [`KN3M`](https://edaplayground.com/x/KN3M) / `7381043` | Legal, illegal, and out-of-domain opcode bins | Exact saved source/settings; random outcome intentionally not treated as deterministic closure |
 | 12 | [`cNZW`](https://edaplayground.com/x/cNZW) / `7381556` | Ignore bins and domain closure | Questa: 77/77 scored bins, 100%, 0 compile/simulation errors |
 | 13 | [`grxa`](https://edaplayground.com/x/grxa) / `7381590` | Illegal-bin precedence and report timing | Questa: 5/5 scored bins, 100%; three intentional illegal-bin hits |
+| 14 | [`rzC3`](https://edaplayground.com/x/rzC3) / `7381709` | Wildcard bins, `casez`, and expression-side X masking under `casex` | Questa: 15 samples, 0 errors, `x` 3/4, `y` 4/13, covergroup 52.88%; deterministic variant 100% |
 
-Parts 02–08 and 10–13 have blank saved Name fields. Part 09 is named **FSM
-Coverage Report - Fixed Timing and Finish**. Placeholder-only design panes are omitted;
-Parts 07 and 09 have substantive RTL and therefore store `design.sv` beside the
-testbench and custom `run.do`. Source spelling and comments are preserved;
+Parts 02–08 and 10–14 have blank saved Name fields. Part 09 is named **FSM
+Coverage Report - Fixed Timing and Finish**. Placeholder-only design panes are
+omitted; Parts 07 and 09 have substantive saved RTL and therefore store
+`design.sv` beside the testbench and custom `run.do`. Part 14 stores all three
+exact public panes under their normal names plus `verified-*` deterministic
+sources. Source spelling and comments are preserved in each exact capture;
 browser trailing whitespace is normalized. Deeper Q&A remains in each matching
 README.
 
-All twelve pages use Siemens Questa 2025.2, compile option `-timescale 1ns/1ns`,
+All thirteen source pages use Siemens Questa 2025.2, compile option `-timescale 1ns/1ns`,
 Run Options `-voptargs=+acc=npr`, and an enabled custom `run.do`. Parts 02–08
 were independently compiled, simulated, and reported with Vivado/XSim 2024.1.
-Parts 09, 10, 12, and 13 were verified directly in saved Questa qrun
+Parts 09, 10, 12, 13, and 14 were verified directly in saved Questa qrun
 configurations, which printed complete covergroup data despite having no
 explicit `-coverage` switch. Part 11 is retained as exact saved-source evidence
-because its ten random draws and illegal hits are seed-dependent.
+because its ten random draws and illegal hits are seed-dependent. Part 14's
+direct Questa run covered 7/17 declared bins and exposed that only `zz` is
+reachable among its nine exact X/Z output bins. Vivado/XSim 2024.1 runs the RTL
+but rejects those exact four-state bins; the deterministic `verified-*` variant
+uses portable known-value goals and makes closure independent of random seed.
 The [ordered code index](Codes/README.md) links every lesson and records the
 per-flow evidence. The
 [capture audit](docs/internal/EDA_PLAYGROUND_AUDIT.md) records the browser
