@@ -1,12 +1,14 @@
 # Functional Coverage EDA Playground Audit
 
-This record documents the August 23, 2026 capture of the known functional-
-coverage playground sequence through `rzC3`. Parts 02–08 were captured through
+This record documents the August 23–24, 2026 capture of the known functional-
+coverage playground sequence through `fTK4`. Parts 02–08 were captured through
 read-only inspection. Parts 09–13 record later saved lessons and repairs. Part
 09 includes the FSM repair and comments; Part 10 preserves filtered and
 overlapping bins; Parts 11–13 cover legal/illegal bins, ignore-bin closure, and
 report timing. Part 14 captures the saved wildcard-bin/encoder source, its live
-Questa timing repair, and a deterministic local verification variant. The
+Questa timing repair, and a deterministic local verification variant. Part 15
+captures the repaired counter wildcard-bin lesson and its live finite-window
+Questa report. The
 audit covers source identity, order, settings, and evidence.
 
 ## Final archive boundary
@@ -14,14 +16,15 @@ audit covers source identity, order, settings, and evidence.
 The preserved Chrome order is:
 
 ```text
-Y9rT → pvaX → jq_V → XzxS → T8wy → HU_T → J_mr → ggV4 → Kd8_ → FU8E → Ztfn → KN3M → cNZW → grxa → rzC3
+Y9rT → pvaX → jq_V → XzxS → T8wy → HU_T → J_mr → ggV4 → Kd8_ → FU8E → Ztfn → KN3M → cNZW → grxa → rzC3 → fTK4
 ```
 
 `Y9rT` was already represented by Part 01. The next seven stable pages are
 Parts 02–08. `Kd8_` (code ID `7380543`) is an intermediate FSM working draft and
 remains outside the archive. The repaired, named `FU8E` page is Part 09, and the
 completed `Ztfn` page is Part 10. `KN3M`, `cNZW`, and `grxa` are Parts 11–13.
-[`rzC3`](https://edaplayground.com/x/rzC3) (code ID `7381709`) is Part 14.
+[`rzC3`](https://edaplayground.com/x/rzC3) (code ID `7381709`) is Part 14, and
+[`fTK4`](https://edaplayground.com/x/fTK4) (code ID `7382217`) is Part 15.
 
 The final open-tab boundary was rechecked in Chrome before archiving Part 09.
 `FU8E` was saved and independently reloaded to prove that its comments persisted.
@@ -34,7 +37,10 @@ prepared, so it was fetched again before the final parity check. Its current
 saved SystemVerilog is repaired. Its inherited 200 ns `run.do` was then changed
 to `run -all`, saved to the public page, and rerun through all 15 samples in
 Questa 2025.2. The final report printed successfully with zero compile or
-simulation errors.
+simulation errors. The `fTK4` page was then repaired in its existing
+background tab: its competing `y` net driver was removed, reset was established
+before counting, custom `run.do` was enabled, and a finite 450 ns window
+replaced the never-ending default `run -all` flow.
 
 ## One-to-one capture map
 
@@ -53,16 +59,17 @@ simulation errors.
 | 12 | [`cNZW`](https://edaplayground.com/x/cNZW) / `7381556` | `12-ignore-bins-and-domain-closure` | `testbench.sv`, `run.do` |
 | 13 | [`grxa`](https://edaplayground.com/x/grxa) / `7381590` | `13-illegal-bin-precedence-and-report-timing` | `testbench.sv`, `run.do` |
 | 14 | [`rzC3`](https://edaplayground.com/x/rzC3) / `7381709` | `14-wildcard-bins-casez-and-casex` | exact `design.sv`, `testbench.sv`, `run.do`; deterministic `verified-*` additions |
+| 15 | [`fTK4`](https://edaplayground.com/x/fTK4) / `7382217` | `15-counter-wildcard-bins-and-finite-reporting` | repaired public `design.sv`, `testbench.sv`, `run.do` |
 
-Parts 02–08 and 10–14 have blank saved Name fields; Part 09 is named **FSM
-Coverage Report - Fixed Timing and Finish**. All thirteen pages select SystemVerilog and Siemens
+Parts 02–08 and 10–15 have blank saved Name fields; Part 09 is named **FSM
+Coverage Report - Fixed Timing and Finish**. All fourteen pages select SystemVerilog and Siemens
 Questa 2025.2, with compile options `-timescale 1ns/1ns`, run options
 `-voptargs=+acc=npr`, and **Use run.do Tcl file** enabled. The design pane is a
-placeholder except in Parts 07, 09, and 14, where substantive RTL is retained.
+placeholder except in Parts 07, 09, 14, and 15, where substantive RTL is retained.
 
 The saved run options omit `-coverage`. Parts 02–08 were not claimed as
 unchanged browser-verified Questa flows; they have independent XSim evidence.
-Parts 09, 10, 12, 13, and 14 directly prove that this EDA Playground qrun
+Parts 09, 10, 12, 13, 14, and 15 directly prove that this EDA Playground qrun
 configuration nevertheless collected and printed full covergroup/bin data.
 Part 11 is retained as exact saved-source/settings evidence without claiming a
 deterministic result from ten random samples. Part 14 also demonstrates that
@@ -92,6 +99,7 @@ README discussion.
 | 12 | `851272069153787f4b414acc4c2ef184b1d8c41d0eea27adcfb1f6ab3b83b730` | Placeholder omitted |
 | 13 | `9ae526050570268fe10035474e50f0a4f7b9ced15970920b383d94e007a63f9a` | Placeholder omitted |
 | 14 | `b0b0ed15e0a5282c982ba23fbe60489fafe99e3260711880864a376849cd8d1c` | `075106306ac66de2f4f1bd1edee61825dbc88e11a7b0b4ba12775437535405ba` |
+| 15 | `54d89a1d1241e71b7568f54740c27b447abe0e2ed393f2957a054ac752ef083d` | `d8b1fe0f80a00ebdf992b8e2edafd0069394006be05b1f853ab119d88ff123c8` |
 
 Parts 02–08 and 10–12 share the same normalized `run.do` fingerprint:
 `af8b3e52c5da6fb92028f10c97351ef06e9f47f749393848becca1d4971e05e5`.
@@ -107,8 +115,11 @@ Part 14's deterministic additions have fingerprints
 `82cfa986ce7308f09033aff988b61884af5f5a145157ec721499fec5797dea6b`
 (`verified-design.sv`), and
 `e4d9ecbe554a6ac7928147ab427674e984c319f2e2f72f4182decf2421ba90d8`
-(`verified-run.do`). Every retained source file also has one complete matching
-inline source block in its part README.
+(`verified-run.do`).
+Part 15's finite-window `run.do` fingerprint is
+`ff635d868e40d9d28d2b2a338595b9784974158c65a16f72633f3887ea753bde`.
+Every retained source file also has one complete matching inline source block
+in its part README.
 
 ## Independent local verification
 
@@ -132,7 +143,7 @@ and 08 emitted only a lifetime warning for a block-local covergroup variable;
 the other captured lessons emitted no source warning that changes the reported
 coverage result.
 
-## Direct Questa verification for Parts 09–14
+## Direct Questa verification for Parts 09–15
 
 The saved `FU8E` page was rerun after its explanatory comments were added. The
 Questa 2025.2 transcript reported zero compile and simulation errors, a named
@@ -169,6 +180,12 @@ seed covered `x` at 3/4 bins (75.00%) and `y` at 4/13 bins (30.76%), producing
 the equal-coverpoint-weight metric 52.88%. Seven of seventeen raw bins were
 covered. The missing `x.two`/`y.valid_at0p[2]` pair was a random miss. Of nine
 declared exact X/Z output bins, only `zz` was reachable and hit.
+
+The repaired `fTK4` page ran with `-do run.do` and returned normally after its
+finite 450 ns window. Questa reported all 4 coverpoint bins covered and 100%
+total coverage: `count_off` 2 hits, `countLow` 16, `countMid` 9, and
+`countHigh` 16. `qrun`, `vlog`, and `vsim` each ended with zero errors; the
+existing `+acc` optimization warning was the only total warning.
 
 ## Part 14 local XSim verification
 
@@ -224,6 +241,9 @@ not a generic coverage summary:
   sample timing fault and its saved `run -all` repair, separates exact X/Z bins
   from wildcard coverage and wildcard case matching, verifies expression-side
   X behavior, and answers all 17 deep `case`/`casez`/`casex` questions.
+- Part 15 diagnoses the exit-137/no-report failure, the declaration-assignment
+  driver conflict and X propagation, reconstructs the 2/16/9/16 pre-NBA hit
+  counts, and explains why coverage closure is not a counter correctness proof.
 
 The per-part revision checks and authoritative references are retained beside
 the relevant code so the discussion stays usable as study material.

@@ -18,10 +18,11 @@
 | 12 | [Ignore Bins and Domain Closure](12-ignore-bins-and-domain-closure/README.md) | Width alignment, ignored-value unions, denominator math, and deterministic closure | Questa: 77/77 scored bins, 100%; 0 compile/simulation errors | [cNZW](https://edaplayground.com/x/cNZW) |
 | 13 | [Illegal-Bin Precedence and Report Timing](13-illegal-bin-precedence-and-report-timing/README.md) | Overlapping legal/illegal bins, finite Tcl reporting, and pass-versus-coverage semantics | Questa: 5/5 scored bins, 100%; three intentional illegal-bin hits | [grxa](https://edaplayground.com/x/grxa) |
 | 14 | [Wildcard Bins, `casez`, and the `casex` Trap](14-wildcard-bins-casez-and-casex/README.md) | Wildcard-bin grouping, exact versus wildcard case matching, expression-side X masking, and deterministic encoder checks | Questa: all 15 samples, 0 errors, 7/17 bins, 52.88%; deterministic variant 100% | [rzC3](https://edaplayground.com/x/rzC3) |
+| 15 | [Counter Wildcard Bins and Finite Reporting](15-counter-wildcard-bins-and-finite-reporting/README.md) | Net-driver conflicts, reset-before-counting, pre-NBA sampling, wildcard range bins, and finite Tcl reporting | Questa: 4/4 bins, 100%; hits 2/16/9/16; 0 compile/simulation errors | [fTK4](https://edaplayground.com/x/fTK4) |
 
 ## Archive boundary
 
-The known sequence now runs from `Y9rT` through `rzC3`. `Y9rT` was already
+The known sequence now runs from `Y9rT` through `fTK4`. `Y9rT` was already
 represented by Part 01, Parts 02–08 archive the next seven stable pages, and
 Part 09 stores the repaired FSM from `FU8E`. Intermediate `Kd8_` remains an
 unarchived working draft; Parts 10–13 store the later completed lessons through
@@ -29,6 +30,9 @@ unarchived working draft; Parts 10–13 store the later completed lessons throug
 archived FSM lesson, not a new ordered part. Part 14 captures the public `rzC3`
 source plus a deterministic, locally verified variant. Its inherited 200 ns
 Tcl window was repaired to `run -all`, saved, and directly verified in Questa.
+Part 15 repairs `fTK4` by removing a competing net driver, establishing a
+known reset value before counting, enabling its custom Tcl script, and using a
+finite 450 ns reporting window.
 The full record is in the
 [internal audit](../docs/internal/EDA_PLAYGROUND_AUDIT.md).
 
@@ -75,6 +79,11 @@ and self-check the matching semantics. The README includes every source in
 full, records the direct Questa result and XSim's exact-X/Z-bin limitation, and
 answers the 17 `case`/`casez`/`casex` questions beside the wildcard-bin example.
 
+Part 15 stores the repaired public `design.sv`, `testbench.sv`, and `run.do`.
+Its README records the original exit-137/no-report fault, explains the
+continuous-driver and X-propagation problems, reconstructs every pre-NBA sample
+and bin hit, and separates 100% coverage closure from functional checking.
+
 ## Simulator-setting evidence
 
 All archived pages select Questa 2025.2 and enable `run.do`. Part 01 used the
@@ -84,9 +93,9 @@ following explicit Run Options in its verified flow:
 -coverage -voptargs=+acc=npr
 ~~~
 
-Parts 02–14 save only `-voptargs=+acc=npr`. Parts 02–08 and Part 14's
+Parts 02–15 save only `-voptargs=+acc=npr`. Parts 02–08 and Part 14's
 deterministic layer were verified locally with Vivado/XSim. Parts 09, 10, 12,
-13, and 14 directly prove that the current EDA Playground `qrun` flow can
+13, 14, and 15 directly prove that the current EDA Playground `qrun` flow can
 collect and print SystemVerilog covergroup data without an explicit `-coverage`
 switch. Part 11 retains source/settings evidence without claiming deterministic
 random-bin closure. Part 14's direct Questa run executed all fifteen random
