@@ -2,31 +2,34 @@
 
 This record documents the August 23, 2026 capture of the completed functional-
 coverage playgrounds that preceded the newest Chrome playground. Parts 02–08
-were captured through read-only inspection. Parts 09–10 record later,
-user-requested saved and verified Questa reruns. Part 09 includes the FSM repair
-and comments; Part 10 preserves the completed bin-filtering lesson and its Q&A.
-The audit covers source identity, order, settings, and evidence.
+were captured through read-only inspection. Parts 09–13 record later saved
+lessons and repairs. Part 09 includes the FSM repair and comments; Part 10
+preserves filtered and overlapping bins; Parts 11–13 cover legal/illegal bins,
+ignore-bin closure, and report timing. The audit covers source identity, order,
+settings, and evidence.
 
 ## Final archive boundary
 
 The preserved Chrome order is:
 
 ```text
-Y9rT → pvaX → jq_V → XzxS → T8wy → HU_T → J_mr → ggV4 → Kd8_ → FU8E → Ztfn → KN3M (active)
+Y9rT → pvaX → jq_V → XzxS → T8wy → HU_T → J_mr → ggV4 → Kd8_ → FU8E → Ztfn → KN3M → cNZW → grxa → rzC3 (newest/excluded)
 ```
 
 `Y9rT` was already represented by Part 01. The next seven stable pages are
 Parts 02–08. `Kd8_` (code ID `7380543`) is an intermediate FSM working draft and
 remains outside the archive. The repaired, named `FU8E` page is Part 09, and the
-completed `Ztfn` page is Part 10. The newest/current page is now active
-playground [`KN3M`](https://edaplayground.com/x/KN3M) and is deliberately
-excluded.
+completed `Ztfn` page is Part 10. `KN3M`, `cNZW`, and `grxa` are Parts 11–13.
+Newest playground [`rzC3`](https://edaplayground.com/x/rzC3) (code ID
+`7381709`) is deliberately excluded.
 
 The final open-tab boundary was rechecked in Chrome before archiving Part 09.
 `FU8E` was saved and independently reloaded to prove that its comments persisted.
 `Ztfn` was later rerun and saved on request; its source and 32.25% report were
-captured before closing it. `KN3M` was not modified, run, saved, closed, or
-archived by this capture work.
+captured before closing it. `cNZW` was repaired to align its width, ignore list,
+and deterministic stimulus. `grxa` received a finite report window. `CBg2` is a
+separate saved copy of the FSM repair and is excluded because Part 09 already
+represents that lesson. The newest `rzC3` source was left out of the archive.
 
 ## One-to-one capture map
 
@@ -41,18 +44,23 @@ archived by this capture work.
 | 08 | [`ggV4`](https://edaplayground.com/x/ggV4) / `7380537` | `08-enumerated-state-coverpoint` | `testbench.sv`, `run.do` |
 | 09 | [`FU8E`](https://edaplayground.com/x/FU8E) / `7380862` | `09-fsm-state-coverage-and-report-timing` | `design.sv`, `testbench.sv`, `run.do` |
 | 10 | [`Ztfn`](https://edaplayground.com/x/Ztfn) / `7380906` | `10-with-filtered-and-overlapping-bins` | `testbench.sv`, `run.do` |
+| 11 | [`KN3M`](https://edaplayground.com/x/KN3M) / `7381043` | `11-legal-illegal-and-out-of-domain-opcode-bins` | `testbench.sv`, `run.do` |
+| 12 | [`cNZW`](https://edaplayground.com/x/cNZW) / `7381556` | `12-ignore-bins-and-domain-closure` | `testbench.sv`, `run.do` |
+| 13 | [`grxa`](https://edaplayground.com/x/grxa) / `7381590` | `13-illegal-bin-precedence-and-report-timing` | `testbench.sv`, `run.do` |
 
-Parts 02–08 and 10 have blank saved Name fields; Part 09 is named **FSM Coverage
-Report - Fixed Timing and Finish**. All nine pages select SystemVerilog and Siemens
+Parts 02–08 and 10–13 have blank saved Name fields; Part 09 is named **FSM
+Coverage Report - Fixed Timing and Finish**. All twelve pages select SystemVerilog and Siemens
 Questa 2025.2, with compile options `-timescale 1ns/1ns`, run options
 `-voptargs=+acc=npr`, and **Use run.do Tcl file** enabled. The design pane is a
 placeholder except in Parts 07 and 09, where substantive RTL is retained.
 
 The saved run options omit `-coverage`. Parts 02–08 were not claimed as
 unchanged browser-verified Questa flows; they have independent XSim evidence.
-Parts 09–10 directly prove that this EDA Playground qrun configuration
-nevertheless collected and printed full covergroup/bin data. The older blanket
-requirement has therefore been replaced by per-flow evidence.
+Parts 09, 10, 12, and 13 directly prove that this EDA Playground qrun
+configuration nevertheless collected and printed full covergroup/bin data.
+Part 11 is retained as exact saved-source/settings evidence without claiming a
+deterministic result from ten random samples. The older blanket requirement has
+therefore been replaced by per-flow evidence.
 
 ## Source-parity fingerprints
 
@@ -72,11 +80,16 @@ appear only in the README discussion.
 | 08 | `7b445d4b4bc94748bf5ebd0b9a795399291dae4fe70b2d8f2b0824c4e5f3c1c7` | Placeholder omitted |
 | 09 | `acb7c7da6365bc8a4a77be64027e4ffe70fefdaeaa470fc17fe2fc855329714f` | `5ab142ac23ed148a6d2f69ef53d559c6d9630b520fb603f0b51437cfc1fae3a8` |
 | 10 | `2060201cfad6565e864a5093f60c7b439abb0131577025dd4f9ce6c754a47ca2` | Placeholder omitted |
+| 11 | `f7f094c278d3d6b38603ae5f0e65aaf7ee055a3aca6f59dc8540e59a20b5c5fb` | Placeholder omitted |
+| 12 | `851272069153787f4b414acc4c2ef184b1d8c41d0eea27adcfb1f6ab3b83b730` | Placeholder omitted |
+| 13 | `9ae526050570268fe10035474e50f0a4f7b9ced15970920b383d94e007a63f9a` | Placeholder omitted |
 
-Parts 02–08 and 10 share the same normalized `run.do` fingerprint:
+Parts 02–08 and 10–12 share the same normalized `run.do` fingerprint:
 `af8b3e52c5da6fb92028f10c97351ef06e9f47f749393848becca1d4971e05e5`.
 Part 09's finite-duration script fingerprint is
 `290e4eabadf97b9007c8a7035f980d83e04ed68c9782d69f6a99b3bd44056006`.
+Part 13's 200 ns report-window script fingerprint is
+`2007f62371921cc681bed7498b2b4c06b8d3a48ed9d76a7157ed3b304cb3b2b1`.
 Every retained source file also has one complete matching inline source block
 in its part README.
 
@@ -102,7 +115,7 @@ and 08 emitted only a lifetime warning for a block-local covergroup variable;
 the other captured lessons emitted no source warning that changes the reported
 coverage result.
 
-## Direct Questa verification for Parts 09–10
+## Direct Questa verification for Parts 09–13
 
 The saved `FU8E` page was rerun after its explanatory comments were added. The
 Questa 2025.2 transcript reported zero compile and simulation errors, a named
@@ -114,6 +127,21 @@ The saved `Ztfn` page was rerun with zero compile/simulation errors. Its report
 showed `a` at 10/22 bins (45.45%), `b` at 4/21 bins (19.04%), and an equal-weight
 covergroup metric of 32.25%. The raw 14/43 bin ratio was 32.55%. The same
 `vopt-10587` access/optimization warning was the only total warning.
+
+`KN3M` was captured from its exact public saved source and settings. Its ten
+random opcode samples and possible illegal hits are deliberately not presented
+as deterministic closure evidence.
+
+The repaired `cNZW` page was saved, reloaded, and rerun. Questa reported 77/77
+scored bins, 100% coverage, and zero compile/simulation errors. The original
+13.33% result came from a six-bit signal, out-of-domain declarations, and only
+ten random samples.
+
+The repaired `grxa` page was saved, reloaded, and rerun. Its 200 ns Tcl window
+allowed the report to execute after all 15 samples and before the testbench's
+400 ns `$finish`. Questa reported 5/5 scored bins and 100% coverage, plus three
+intentional illegal-bin errors. The coverage goal is closed, but the run is not
+a positive-test pass because forbidden values occurred.
 
 ## Discussion-integrity check
 
@@ -140,6 +168,14 @@ not a generic coverage summary:
 - Part 10 answers every source question about `with`, `item`, bin arrays,
   wildcard and illegal bins, overlap, `$urandom` truncation, unreachable bins,
   and weighted covergroup aggregation.
+- Part 11 explains per-value opcode goals, seed-dependent closure, impossible
+  8/9 ignore values for a three-bit signal, and why a bin name is not a
+  procedural array that `$display` can print.
+- Part 12 derives the 23-value ignored union and 77-bin denominator, documents
+  the six-bit-to-eight-bit repair, and contrasts ignore bins with illegal bins.
+- Part 13 explains the time-0 no-data failure, why `$finish` can prevent a
+  post-`run -all` report, illegal-bin precedence at overlapping value 5, and
+  why 100% coverage can coexist with a failed run.
 
 The per-part revision checks and authoritative references are retained beside
 the relevant code so the discussion stays usable as study material.

@@ -36,15 +36,16 @@ the playground used during troubleshooting, but the task transcript does not
 prove that the added `run.do` and `#500;` edit were saved back to its public
 version.
 
-## August 23 archive — Parts 02 through 10
+## August 23 archive — Parts 02 through 13
 
 Seven stable public playgrounds were first archived as Parts 02–08. The later
 FSM repair in named page `FU8E` was then completed, commented, saved, rerun, and
 archived as Part 09. The later blank-name `Ztfn` bin-filtering lesson was saved,
-rerun, and archived as Part 10. Intermediate `Kd8_` remains an unarchived working
-draft. The newest browser page is now active playground
-[`KN3M`](https://edaplayground.com/x/KN3M); it remains open and outside the
-archive.
+rerun, and archived as Part 10. The next completed opcode, ignore-bin, and
+illegal-bin/report-timing lessons are Parts 11–13. Intermediate `Kd8_` remains
+an unarchived working draft. `CBg2` is only a separate copy of the already
+archived FSM repair. Newest playground
+[`rzC3`](https://edaplayground.com/x/rzC3) remains outside the archive.
 
 | Part | Link / code ID | Captured topic | Verified result |
 |---:|---|---|---|
@@ -57,20 +58,24 @@ archive.
 | 08 | [`ggV4`](https://edaplayground.com/x/ggV4) / `7380537` | Enumerated-state coverpoint | 25%: `auto_s0` covered, three enum bins missing |
 | 09 | [`FU8E`](https://edaplayground.com/x/FU8E) / `7380862` | FSM state coverage and report timing | Questa: 100%, named `state` coverpoint, `auto[s0]` 8 hits, `auto[s1]` 12 hits |
 | 10 | [`Ztfn`](https://edaplayground.com/x/Ztfn) / `7380906` | `with`-filtered and overlapping bins | Questa: `a` 10/22, `b` 4/21; weighted total 32.25% |
+| 11 | [`KN3M`](https://edaplayground.com/x/KN3M) / `7381043` | Legal, illegal, and out-of-domain opcode bins | Exact saved source/settings; random outcome intentionally not treated as deterministic closure |
+| 12 | [`cNZW`](https://edaplayground.com/x/cNZW) / `7381556` | Ignore bins and domain closure | Questa: 77/77 scored bins, 100%, 0 compile/simulation errors |
+| 13 | [`grxa`](https://edaplayground.com/x/grxa) / `7381590` | Illegal-bin precedence and report timing | Questa: 5/5 scored bins, 100%; three intentional illegal-bin hits |
 
-Parts 02–08 and 10 have blank saved Name fields. Part 09 is named **FSM Coverage
-Report - Fixed Timing and Finish**. Placeholder-only design panes are omitted;
+Parts 02–08 and 10–13 have blank saved Name fields. Part 09 is named **FSM
+Coverage Report - Fixed Timing and Finish**. Placeholder-only design panes are omitted;
 Parts 07 and 09 have substantive RTL and therefore store `design.sv` beside the
 testbench and custom `run.do`. Source spelling and comments are preserved;
-Part 10 additionally normalizes browser trailing whitespace and redundant
-terminal blank lines. Deeper Q&A remains in each matching README.
+browser trailing whitespace is normalized. Deeper Q&A remains in each matching
+README.
 
-All nine pages use Siemens Questa 2025.2, compile option `-timescale 1ns/1ns`,
+All twelve pages use Siemens Questa 2025.2, compile option `-timescale 1ns/1ns`,
 Run Options `-voptargs=+acc=npr`, and an enabled custom `run.do`. Parts 02–08
 were independently compiled, simulated, and reported with Vivado/XSim 2024.1.
-Parts 09–10 were verified directly in their saved Questa qrun configurations,
-which printed complete covergroup data despite having no explicit `-coverage`
-switch.
+Parts 09, 10, 12, and 13 were verified directly in saved Questa qrun
+configurations, which printed complete covergroup data despite having no
+explicit `-coverage` switch. Part 11 is retained as exact saved-source evidence
+because its ten random draws and illegal hits are seed-dependent.
 The [ordered code index](Codes/README.md) links every lesson and records the
 per-flow evidence. The
 [capture audit](docs/internal/EDA_PLAYGROUND_AUDIT.md) records the browser
@@ -352,6 +357,18 @@ SV Functional Coverage/
 │   │   ├── run.do
 │   │   └── README.md
 │   ├── 10-with-filtered-and-overlapping-bins/
+│   │   ├── testbench.sv
+│   │   ├── run.do
+│   │   └── README.md
+│   ├── 11-legal-illegal-and-out-of-domain-opcode-bins/
+│   │   ├── testbench.sv
+│   │   ├── run.do
+│   │   └── README.md
+│   ├── 12-ignore-bins-and-domain-closure/
+│   │   ├── testbench.sv
+│   │   ├── run.do
+│   │   └── README.md
+│   ├── 13-illegal-bin-precedence-and-report-timing/
 │   │   ├── testbench.sv
 │   │   ├── run.do
 │   │   └── README.md
