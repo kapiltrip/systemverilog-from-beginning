@@ -21,8 +21,9 @@ The completed sequence now runs from `Y9rT` through `Ztfn`. `Y9rT` was already
 represented by Part 01, Parts 02–08 archive the next seven stable pages, and
 Part 09 stores the repaired FSM from `FU8E`. Intermediate `Kd8_` remains an
 unarchived working draft; Part 10 stores the later completed `Ztfn` lesson. The
-newest/current browser page is now an unsaved blank playground with no stable
-code ID, so it remains outside the archive. The full record is in the
+newest/current browser page is now active playground
+[`KN3M`](https://edaplayground.com/x/KN3M), so it remains open and outside the
+archive. The full record is in the
 [internal audit](../docs/internal/EDA_PLAYGROUND_AUDIT.md).
 
 ## Per-part file contract

@@ -14,7 +14,7 @@
 
 The design pane for `HU_T` contains only EDA Playground's placeholder. Later
 completed playgrounds continue as Parts 07–10. Intermediate `Kd8_` remains an
-unarchived FSM draft; a new unsaved blank playground is now the current page.
+unarchived FSM draft; active playground `KN3M` is now the current page.
 
 ## Exact browser testbench
 
