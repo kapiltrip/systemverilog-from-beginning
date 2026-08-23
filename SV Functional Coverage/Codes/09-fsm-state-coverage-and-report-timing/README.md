@@ -13,8 +13,9 @@
 | Verified browser result | 100%: named `state` coverpoint, 2/2 enum bins, 0 compile/simulation errors |
 
 The next completed playground, [`Ztfn`](https://edaplayground.com/x/Ztfn), is
-archived as Part 10; the ordered archive later continues through Part 13.
-Newest playground [`rzC3`](https://edaplayground.com/x/rzC3) remains excluded.
+archived as Part 10; the ordered learning sequence later continues through Part
+14. [`rzC3`](https://edaplayground.com/x/rzC3) is represented by an exact saved
+source capture and a deterministic local variant in Part 14.
 
 ## Exact saved testbench
 

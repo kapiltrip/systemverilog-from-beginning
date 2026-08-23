@@ -1,6 +1,6 @@
 # Part 13 — Illegal-Bin Precedence and Report Timing
 
-[← Part 12](../12-ignore-bins-and-domain-closure/README.md) · [Functional Coverage index](../README.md)
+[← Part 12](../12-ignore-bins-and-domain-closure/README.md) · [Functional Coverage index](../README.md) · [Part 14 →](../14-wildcard-bins-casez-and-casex/README.md)
 
 | Playground field | Value |
 |---|---|

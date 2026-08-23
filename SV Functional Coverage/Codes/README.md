@@ -17,17 +17,19 @@
 | 11 | [Legal, Illegal, and Out-of-Domain Opcode Bins](11-legal-illegal-and-out-of-domain-opcode-bins/README.md) | Per-value legal bins, illegal diagnostics, impossible ignore values, and why bins are not procedural arrays | Exact saved source/settings; random closure and illegal hits are seed-dependent | [KN3M](https://edaplayground.com/x/KN3M) |
 | 12 | [Ignore Bins and Domain Closure](12-ignore-bins-and-domain-closure/README.md) | Width alignment, ignored-value unions, denominator math, and deterministic closure | Questa: 77/77 scored bins, 100%; 0 compile/simulation errors | [cNZW](https://edaplayground.com/x/cNZW) |
 | 13 | [Illegal-Bin Precedence and Report Timing](13-illegal-bin-precedence-and-report-timing/README.md) | Overlapping legal/illegal bins, finite Tcl reporting, and pass-versus-coverage semantics | Questa: 5/5 scored bins, 100%; three intentional illegal-bin hits | [grxa](https://edaplayground.com/x/grxa) |
+| 14 | [Wildcard Bins, `casez`, and the `casex` Trap](14-wildcard-bins-casez-and-casex/README.md) | Wildcard-bin grouping, exact versus wildcard case matching, expression-side X masking, and deterministic encoder checks | Questa: all 15 samples, 0 errors, 7/17 bins, 52.88%; deterministic variant 100% | [rzC3](https://edaplayground.com/x/rzC3) |
 
 ## Archive boundary
 
-The completed sequence now runs from `Y9rT` through `grxa`. `Y9rT` was already
+The known sequence now runs from `Y9rT` through `rzC3`. `Y9rT` was already
 represented by Part 01, Parts 02–08 archive the next seven stable pages, and
 Part 09 stores the repaired FSM from `FU8E`. Intermediate `Kd8_` remains an
 unarchived working draft; Parts 10–13 store the later completed lessons through
 `grxa`. The separate `CBg2` page is only a preserved repair copy of the already
-archived FSM lesson, not a new ordered part. Newest playground
-[`rzC3`](https://edaplayground.com/x/rzC3) remains outside the archive. The full
-record is in the
+archived FSM lesson, not a new ordered part. Part 14 captures the public `rzC3`
+source plus a deterministic, locally verified variant. Its inherited 200 ns
+Tcl window was repaired to `run -all`, saved, and directly verified in Questa.
+The full record is in the
 [internal audit](../docs/internal/EDA_PLAYGROUND_AUDIT.md).
 
 ## Per-part file contract
@@ -66,6 +68,13 @@ occurs after its 15 samples but before HDL-side `$finish`. Placeholder design
 panes are omitted. Corrections and recommended rewrites remain in discussion,
 while the saved source spelling is retained.
 
+Part 14 is intentionally dual-layered. `design.sv`, `testbench.sv`, and
+`run.do` preserve the exact current public panes, including the saved
+`run -all` timing repair. The `verified-*` files provide deterministic stimulus
+and self-check the matching semantics. The README includes every source in
+full, records the direct Questa result and XSim's exact-X/Z-bin limitation, and
+answers the 17 `case`/`casez`/`casex` questions beside the wildcard-bin example.
+
 ## Simulator-setting evidence
 
 All archived pages select Questa 2025.2 and enable `run.do`. Part 01 used the
@@ -75,10 +84,13 @@ following explicit Run Options in its verified flow:
 -coverage -voptargs=+acc=npr
 ~~~
 
-Parts 02–13 save only `-voptargs=+acc=npr`. Parts 02–08 were verified locally
-with Vivado/XSim rather than being claimed as unchanged Questa runs. Parts 09,
-10, 12, and 13 directly prove that the current EDA Playground `qrun` flow can
+Parts 02–14 save only `-voptargs=+acc=npr`. Parts 02–08 and Part 14's
+deterministic layer were verified locally with Vivado/XSim. Parts 09, 10, 12,
+13, and 14 directly prove that the current EDA Playground `qrun` flow can
 collect and print SystemVerilog covergroup data without an explicit `-coverage`
 switch. Part 11 retains source/settings evidence without claiming deterministic
-random-bin closure. The exact setting is recorded per lesson instead of being
-treated as a universal requirement across every Questa invocation.
+random-bin closure. Part 14's direct Questa run executed all fifteen random
+samples and reported 52.88%; its `verified-*` result is deterministic and 100%.
+XSim rejects the public source's exact X/Z output bins, so it is not used as
+coverage-model parity there. The exact setting is recorded per lesson instead
+of being treated as a universal requirement across every Questa invocation.
