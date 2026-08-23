@@ -14,16 +14,20 @@
 | 08 | [Enumerated-State Coverpoint](08-enumerated-state-coverpoint/README.md) | One automatic bin per enum literal and checked conversion with `$cast` | XSim: `auto_s0` 1 hit; 1/4 bins, 25%; one lifetime warning | [ggV4](https://edaplayground.com/x/ggV4) |
 | 09 | [FSM State Coverage and Report Timing](09-fsm-state-coverage-and-report-timing/README.md) | Named enum-state coverage, parser-error cascades, finite Tcl runs, and pre-NBA sampling | Questa: `state` 2/2 bins, 100%; `s0` 8 hits, `s1` 12 hits | [FU8E](https://edaplayground.com/x/FU8E) |
 | 10 | [`with`-Filtered and Overlapping Bins](10-with-filtered-and-overlapping-bins/README.md) | Iterator filtering, unsized bin arrays, overlap, width truncation, and weighted aggregation | Questa: `a` 10/22, `b` 4/21; weighted total 32.25% | [Ztfn](https://edaplayground.com/x/Ztfn) |
+| 11 | [Legal, Illegal, and Out-of-Domain Opcode Bins](11-legal-illegal-and-out-of-domain-opcode-bins/README.md) | Per-value legal bins, illegal diagnostics, impossible ignore values, and why bins are not procedural arrays | Exact saved source/settings; random closure and illegal hits are seed-dependent | [KN3M](https://edaplayground.com/x/KN3M) |
+| 12 | [Ignore Bins and Domain Closure](12-ignore-bins-and-domain-closure/README.md) | Width alignment, ignored-value unions, denominator math, and deterministic closure | Questa: 77/77 scored bins, 100%; 0 compile/simulation errors | [cNZW](https://edaplayground.com/x/cNZW) |
+| 13 | [Illegal-Bin Precedence and Report Timing](13-illegal-bin-precedence-and-report-timing/README.md) | Overlapping legal/illegal bins, finite Tcl reporting, and pass-versus-coverage semantics | Questa: 5/5 scored bins, 100%; three intentional illegal-bin hits | [grxa](https://edaplayground.com/x/grxa) |
 
 ## Archive boundary
 
-The completed sequence now runs from `Y9rT` through `Ztfn`. `Y9rT` was already
+The completed sequence now runs from `Y9rT` through `grxa`. `Y9rT` was already
 represented by Part 01, Parts 02–08 archive the next seven stable pages, and
 Part 09 stores the repaired FSM from `FU8E`. Intermediate `Kd8_` remains an
-unarchived working draft; Part 10 stores the later completed `Ztfn` lesson. The
-newest/current browser page is now active playground
-[`KN3M`](https://edaplayground.com/x/KN3M), so it remains open and outside the
-archive. The full record is in the
+unarchived working draft; Parts 10–13 store the later completed lessons through
+`grxa`. The separate `CBg2` page is only a preserved repair copy of the already
+archived FSM lesson, not a new ordered part. Newest playground
+[`rzC3`](https://edaplayground.com/x/rzC3) remains outside the archive. The full
+record is in the
 [internal audit](../docs/internal/EDA_PLAYGROUND_AUDIT.md).
 
 ## Per-part file contract
@@ -56,6 +60,12 @@ terminal blank lines are normalized, while every declaration and code comment
 is retained. Its README answers every code question and correction beside the
 complete rendered source.
 
+Parts 11–13 follow the same source-plus-Q&A contract. Parts 11 and 12 use the
+common finite-event-queue `run.do`; Part 13 uses a 200 ns window so reporting
+occurs after its 15 samples but before HDL-side `$finish`. Placeholder design
+panes are omitted. Corrections and recommended rewrites remain in discussion,
+while the saved source spelling is retained.
+
 ## Simulator-setting evidence
 
 All archived pages select Questa 2025.2 and enable `run.do`. Part 01 used the
@@ -65,9 +75,10 @@ following explicit Run Options in its verified flow:
 -coverage -voptargs=+acc=npr
 ~~~
 
-Parts 02–10 save only `-voptargs=+acc=npr`. Parts 02–08 were verified locally
-with Vivado/XSim rather than being claimed as unchanged Questa runs. Parts 09
-and 10 directly prove that the current EDA Playground `qrun` flow can collect
-and print SystemVerilog covergroup data without an explicit `-coverage` switch.
-The exact setting is therefore recorded per lesson instead of treating one
-switch as a universal requirement across every Questa invocation.
+Parts 02–13 save only `-voptargs=+acc=npr`. Parts 02–08 were verified locally
+with Vivado/XSim rather than being claimed as unchanged Questa runs. Parts 09,
+10, 12, and 13 directly prove that the current EDA Playground `qrun` flow can
+collect and print SystemVerilog covergroup data without an explicit `-coverage`
+switch. Part 11 retains source/settings evidence without claiming deterministic
+random-bin closure. The exact setting is recorded per lesson instead of being
+treated as a universal requirement across every Questa invocation.

@@ -13,8 +13,8 @@
 | Local verification | Vivado/XSim 2024.1: compile/elaboration/run pass at time 0; 0/10 scored bins covered |
 
 The design pane for `HU_T` contains only EDA Playground's placeholder. Later
-completed playgrounds continue as Parts 07–10. Intermediate `Kd8_` remains an
-unarchived FSM draft; active playground `KN3M` is now the current page.
+completed playgrounds continue as Parts 07–13. Intermediate `Kd8_` remains an
+unarchived FSM draft; newest playground `rzC3` remains outside the archive.
 
 ## Exact browser testbench
 
