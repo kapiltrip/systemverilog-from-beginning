@@ -41,11 +41,12 @@ The source was also verified locally in Vivado/XSim 2024.1 at 101 ns with 100%
 functional coverage. See the complete [Questa repair, Riviera-PRO incident,
 and Vivado workaround](SV%20Functional%20Coverage/README.md).
 
-The ordered coverage track now continues through Part 09 with goals/weights,
+The ordered coverage track now continues through Part 10 with goals/weights,
 conditional `iff` sampling, automatic-bin limits, explicit bin arrays, default
 bins, mux signal coverage, enum-state bins, and a repaired FSM state-coverage
-flow. Parts 02–08 pair the public source with local XSim/XCRG evidence; Part 09
-adds a verified Questa run with a named state coverpoint and both FSM bins hit.
+flow, followed by `with`-filtered and overlapping bins. Parts 02–08 pair the
+public source with local XSim/XCRG evidence; Parts 09–10 add verified Questa
+runs, complete source-specific Q&A, and detailed bin-count reconstruction.
 
 ## Next study session
 

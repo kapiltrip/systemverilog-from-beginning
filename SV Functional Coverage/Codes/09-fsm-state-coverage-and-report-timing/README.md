@@ -1,6 +1,6 @@
 # Part 09 — FSM State Coverage and Report Timing
 
-[← Part 08](../08-enumerated-state-coverpoint/README.md) · [Functional Coverage index](../README.md)
+[← Part 08](../08-enumerated-state-coverpoint/README.md) · [Functional Coverage index](../README.md) · [Part 10 →](../10-with-filtered-and-overlapping-bins/README.md)
 
 | Playground field | Value |
 |---|---|
@@ -12,9 +12,9 @@
 | Custom `run.do` | Enabled; finite 200 ns run, detailed covergroup report, then `quit -f` |
 | Verified browser result | 100%: named `state` coverpoint, 2/2 enum bins, 0 compile/simulation errors |
 
-The newest playground after this lesson is blank-name page
-[`Ztfn`](https://edaplayground.com/x/Ztfn) (code ID `7380906`). It remains the
-live/current playground and is deliberately not archived as a completed part.
+The next completed playground, [`Ztfn`](https://edaplayground.com/x/Ztfn), is
+archived as Part 10. A new blank EDA Playground tab remains available for the
+next lesson.
 
 ## Exact saved testbench
 

@@ -36,13 +36,14 @@ the playground used during troubleshooting, but the task transcript does not
 prove that the added `run.do` and `#500;` edit were saved back to its public
 version.
 
-## August 23 archive — Parts 02 through 09
+## August 23 archive — Parts 02 through 10
 
 Seven stable public playgrounds were first archived as Parts 02–08. The later
 FSM repair in named page `FU8E` was then completed, commented, saved, rerun, and
-archived as Part 09. Intermediate `Kd8_` remains an unarchived working draft.
-The newest blank-name page `Ztfn` (code ID `7380906`) is still the live/current
-playground and was deliberately left untouched.
+archived as Part 09. The later blank-name `Ztfn` bin-filtering lesson was saved,
+rerun, and archived as Part 10. Intermediate `Kd8_` remains an unarchived working
+draft. The newest browser page is now a fresh unsaved blank playground with no
+stable code ID and remains outside the archive.
 
 | Part | Link / code ID | Captured topic | Verified result |
 |---:|---|---|---|
@@ -54,18 +55,21 @@ playground and was deliberately left untouched.
 | 07 | [`J_mr`](https://edaplayground.com/x/J_mr) / `7380513` | Multiplexer signal coverpoints | 100%: all 14 bins; only 19 known `y` samples expose stale-output sampling |
 | 08 | [`ggV4`](https://edaplayground.com/x/ggV4) / `7380537` | Enumerated-state coverpoint | 25%: `auto_s0` covered, three enum bins missing |
 | 09 | [`FU8E`](https://edaplayground.com/x/FU8E) / `7380862` | FSM state coverage and report timing | Questa: 100%, named `state` coverpoint, `auto[s0]` 8 hits, `auto[s1]` 12 hits |
+| 10 | [`Ztfn`](https://edaplayground.com/x/Ztfn) / `7380906` | `with`-filtered and overlapping bins | Questa: `a` 10/22, `b` 4/21; weighted total 32.25% |
 
-Parts 02–08 have blank saved Name fields. Part 09 is named **FSM Coverage
+Parts 02–08 and 10 have blank saved Name fields. Part 09 is named **FSM Coverage
 Report - Fixed Timing and Finish**. Placeholder-only design panes are omitted;
 Parts 07 and 09 have substantive RTL and therefore store `design.sv` beside the
-testbench and custom `run.do`. Source spelling and comments are preserved with
-normalized line endings; deeper explanations remain in each matching README.
+testbench and custom `run.do`. Source spelling and comments are preserved;
+Part 10 additionally normalizes browser trailing whitespace and redundant
+terminal blank lines. Deeper Q&A remains in each matching README.
 
-All eight pages use Siemens Questa 2025.2, compile option `-timescale 1ns/1ns`,
+All nine pages use Siemens Questa 2025.2, compile option `-timescale 1ns/1ns`,
 Run Options `-voptargs=+acc=npr`, and an enabled custom `run.do`. Parts 02–08
 were independently compiled, simulated, and reported with Vivado/XSim 2024.1.
-Part 09 was verified directly in the saved Questa qrun configuration, which
-printed complete covergroup data despite having no explicit `-coverage` switch.
+Parts 09–10 were verified directly in their saved Questa qrun configurations,
+which printed complete covergroup data despite having no explicit `-coverage`
+switch.
 The [ordered code index](Codes/README.md) links every lesson and records the
 per-flow evidence. The
 [capture audit](docs/internal/EDA_PLAYGROUND_AUDIT.md) records the browser
@@ -343,6 +347,10 @@ SV Functional Coverage/
 │   │   └── README.md
 │   ├── 09-fsm-state-coverage-and-report-timing/
 │   │   ├── design.sv
+│   │   ├── testbench.sv
+│   │   ├── run.do
+│   │   └── README.md
+│   ├── 10-with-filtered-and-overlapping-bins/
 │   │   ├── testbench.sv
 │   │   ├── run.do
 │   │   └── README.md
