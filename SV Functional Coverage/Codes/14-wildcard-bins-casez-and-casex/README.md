@@ -1,6 +1,6 @@
 # Part 14 — Wildcard Bins, `casez`, and the `casex` Trap
 
-[← Part 13](../13-illegal-bin-precedence-and-report-timing/README.md) · [Functional Coverage index](../README.md)
+[← Part 13](../13-illegal-bin-precedence-and-report-timing/README.md) · [Functional Coverage index](../README.md) · [Part 15 →](../15-counter-wildcard-bins-and-finite-reporting/README.md)
 
 | Field | Value |
 |---|---|
