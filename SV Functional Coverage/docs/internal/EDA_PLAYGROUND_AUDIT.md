@@ -2,26 +2,29 @@
 
 This record documents the August 23, 2026 capture of the completed functional-
 coverage playgrounds that preceded the newest Chrome playground. Parts 02–08
-were captured through read-only inspection. Part 09 records the later,
-user-requested repair, comments, save, and verified Questa rerun of the FSM
-playground. The audit covers source identity, order, settings, and evidence.
+were captured through read-only inspection. Parts 09–10 record later,
+user-requested saved and verified Questa reruns. Part 09 includes the FSM repair
+and comments; Part 10 preserves the completed bin-filtering lesson and its Q&A.
+The audit covers source identity, order, settings, and evidence.
 
 ## Final archive boundary
 
 The preserved Chrome order is:
 
 ```text
-Y9rT → pvaX → jq_V → XzxS → T8wy → HU_T → J_mr → ggV4 → Kd8_ → FU8E → Ztfn
+Y9rT → pvaX → jq_V → XzxS → T8wy → HU_T → J_mr → ggV4 → Kd8_ → FU8E → Ztfn → blank new page
 ```
 
 `Y9rT` was already represented by Part 01. The next seven stable pages are
 Parts 02–08. `Kd8_` (code ID `7380543`) is an intermediate FSM working draft and
-remains outside the archive. The repaired, named `FU8E` page is Part 09. `Ztfn`
-(code ID `7380906`) is the newest/current page and is deliberately excluded.
+remains outside the archive. The repaired, named `FU8E` page is Part 09, and the
+completed `Ztfn` page is Part 10. The newest/current page is now an unsaved blank
+playground with no code ID and is deliberately excluded.
 
 The final open-tab boundary was rechecked in Chrome before archiving Part 09.
-`FU8E` was saved and independently reloaded to prove that its comments persisted;
-`Ztfn` was only read for its public ID and was not edited, run, saved, or closed.
+`FU8E` was saved and independently reloaded to prove that its comments persisted.
+`Ztfn` was later rerun and saved on request; its source and 32.25% report were
+captured before closing it. The new blank tab was not edited or saved.
 
 ## One-to-one capture map
 
@@ -35,18 +38,19 @@ The final open-tab boundary was rechecked in Chrome before archiving Part 09.
 | 07 | [`J_mr`](https://edaplayground.com/x/J_mr) / `7380513` | `07-multiplexer-signal-coverpoints` | `design.sv`, `testbench.sv`, `run.do` |
 | 08 | [`ggV4`](https://edaplayground.com/x/ggV4) / `7380537` | `08-enumerated-state-coverpoint` | `testbench.sv`, `run.do` |
 | 09 | [`FU8E`](https://edaplayground.com/x/FU8E) / `7380862` | `09-fsm-state-coverage-and-report-timing` | `design.sv`, `testbench.sv`, `run.do` |
+| 10 | [`Ztfn`](https://edaplayground.com/x/Ztfn) / `7380906` | `10-with-filtered-and-overlapping-bins` | `testbench.sv`, `run.do` |
 
-Parts 02–08 have blank saved Name fields; Part 09 is named **FSM Coverage Report
-- Fixed Timing and Finish**. All eight pages select SystemVerilog and Siemens
+Parts 02–08 and 10 have blank saved Name fields; Part 09 is named **FSM Coverage
+Report - Fixed Timing and Finish**. All nine pages select SystemVerilog and Siemens
 Questa 2025.2, with compile options `-timescale 1ns/1ns`, run options
 `-voptargs=+acc=npr`, and **Use run.do Tcl file** enabled. The design pane is a
 placeholder except in Parts 07 and 09, where substantive RTL is retained.
 
 The saved run options omit `-coverage`. Parts 02–08 were not claimed as
 unchanged browser-verified Questa flows; they have independent XSim evidence.
-Part 09 directly proves that this EDA Playground qrun configuration nevertheless
-collected and printed full covergroup/bin data. The older blanket requirement
-has therefore been replaced by per-flow evidence.
+Parts 09–10 directly prove that this EDA Playground qrun configuration
+nevertheless collected and printed full covergroup/bin data. The older blanket
+requirement has therefore been replaced by per-flow evidence.
 
 ## Source-parity fingerprints
 
@@ -65,8 +69,9 @@ appear only in the README discussion.
 | 07 | `8049a5ea03921113b692087f680e11ddfc6c81dece2b903a1e2ae1699de08ce5` | `0e34cb462a186f86e8338425e09e207b9e1eaa8e9790b48873195e9f9dd329b5` |
 | 08 | `7b445d4b4bc94748bf5ebd0b9a795399291dae4fe70b2d8f2b0824c4e5f3c1c7` | Placeholder omitted |
 | 09 | `acb7c7da6365bc8a4a77be64027e4ffe70fefdaeaa470fc17fe2fc855329714f` | `5ab142ac23ed148a6d2f69ef53d559c6d9630b520fb603f0b51437cfc1fae3a8` |
+| 10 | `2060201cfad6565e864a5093f60c7b439abb0131577025dd4f9ce6c754a47ca2` | Placeholder omitted |
 
-Parts 02–08 share the same normalized `run.do` fingerprint:
+Parts 02–08 and 10 share the same normalized `run.do` fingerprint:
 `af8b3e52c5da6fb92028f10c97351ef06e9f47f749393848becca1d4971e05e5`.
 Part 09's finite-duration script fingerprint is
 `290e4eabadf97b9007c8a7035f980d83e04ed68c9782d69f6a99b3bd44056006`.
@@ -95,13 +100,18 @@ and 08 emitted only a lifetime warning for a block-local covergroup variable;
 the other captured lessons emitted no source warning that changes the reported
 coverage result.
 
-## Direct Questa verification for Part 09
+## Direct Questa verification for Parts 09–10
 
 The saved `FU8E` page was rerun after its explanatory comments were added. The
 Questa 2025.2 transcript reported zero compile and simulation errors, a named
 `state` coverpoint, 2/2 covered bins, `auto[s0]` with 8 hits, `auto[s1]` with 12
 hits, and 100% total covergroup coverage. The one `vopt-10587` warning concerns
 the existing `+acc` optimization setting and does not alter the result.
+
+The saved `Ztfn` page was rerun with zero compile/simulation errors. Its report
+showed `a` at 10/22 bins (45.45%), `b` at 4/21 bins (19.04%), and an equal-weight
+covergroup metric of 32.25%. The raw 14/43 bin ratio was 32.55%. The same
+`vopt-10587` access/optimization warning was the only total warning.
 
 ## Discussion-integrity check
 
@@ -125,6 +135,9 @@ not a generic coverage summary:
 - Part 09 explains the split-label parser failure, its cascading `ci` error,
   finite-run/report ordering, the 8/12 pre-NBA sample counts, and the limits of
   100% state occupancy coverage.
+- Part 10 answers every source question about `with`, `item`, bin arrays,
+  wildcard and illegal bins, overlap, `$urandom` truncation, unreachable bins,
+  and weighted covergroup aggregation.
 
 The per-part revision checks and authoritative references are retained beside
 the relevant code so the discussion stays usable as study material.

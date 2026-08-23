@@ -13,15 +13,16 @@
 | 07 | [Multiplexer Signal Coverpoints](07-multiplexer-signal-coverpoints/README.md) | Per-signal bins, combinational settling, and the limits of 100% coverage | XSim: 14/14 bins, 100%; `y` has only 19 known samples because it is sampled stale | [J_mr](https://edaplayground.com/x/J_mr) |
 | 08 | [Enumerated-State Coverpoint](08-enumerated-state-coverpoint/README.md) | One automatic bin per enum literal and checked conversion with `$cast` | XSim: `auto_s0` 1 hit; 1/4 bins, 25%; one lifetime warning | [ggV4](https://edaplayground.com/x/ggV4) |
 | 09 | [FSM State Coverage and Report Timing](09-fsm-state-coverage-and-report-timing/README.md) | Named enum-state coverage, parser-error cascades, finite Tcl runs, and pre-NBA sampling | Questa: `state` 2/2 bins, 100%; `s0` 8 hits, `s1` 12 hits | [FU8E](https://edaplayground.com/x/FU8E) |
+| 10 | [`with`-Filtered and Overlapping Bins](10-with-filtered-and-overlapping-bins/README.md) | Iterator filtering, unsized bin arrays, overlap, width truncation, and weighted aggregation | Questa: `a` 10/22, `b` 4/21; weighted total 32.25% | [Ztfn](https://edaplayground.com/x/Ztfn) |
 
 ## Archive boundary
 
-The completed sequence now runs from `Y9rT` through `FU8E`. `Y9rT` was already
+The completed sequence now runs from `Y9rT` through `Ztfn`. `Y9rT` was already
 represented by Part 01, Parts 02–08 archive the next seven stable pages, and
 Part 09 stores the repaired FSM from `FU8E`. Intermediate `Kd8_` remains an
-unarchived working draft. The newest/current blank-name playground is `Ztfn`
-(code ID `7380906`); it is deliberately left untouched and is not listed as a
-completed part. The full record is in the
+unarchived working draft; Part 10 stores the later completed `Ztfn` lesson. The
+newest/current browser page is now an unsaved blank playground with no stable
+code ID, so it remains outside the archive. The full record is in the
 [internal audit](../docs/internal/EDA_PLAYGROUND_AUDIT.md).
 
 ## Per-part file contract
@@ -48,6 +49,12 @@ and finite-duration `run.do`. Its README preserves the repaired browser source,
 the original syntax/cascade diagnosis, the 8/12 bin-count reconstruction, and
 the verified Questa transcript result.
 
+Part 10 contains the substantive saved testbench and the common `run.do`; its
+placeholder design pane is omitted. Browser trailing spaces and redundant
+terminal blank lines are normalized, while every declaration and code comment
+is retained. Its README answers every code question and correction beside the
+complete rendered source.
+
 ## Simulator-setting evidence
 
 All archived pages select Questa 2025.2 and enable `run.do`. Part 01 used the
@@ -57,9 +64,9 @@ following explicit Run Options in its verified flow:
 -coverage -voptargs=+acc=npr
 ~~~
 
-Parts 02–09 save only `-voptargs=+acc=npr`. Parts 02–08 were verified locally
-with Vivado/XSim rather than being claimed as unchanged Questa runs. Part 09 is
-new direct evidence that the current EDA Playground `qrun` flow can collect and
-print SystemVerilog covergroup data without an explicit `-coverage` switch. The
-exact setting is therefore recorded per lesson instead of treating one switch
-as a universal requirement across every Questa invocation.
+Parts 02–10 save only `-voptargs=+acc=npr`. Parts 02–08 were verified locally
+with Vivado/XSim rather than being claimed as unchanged Questa runs. Parts 09
+and 10 directly prove that the current EDA Playground `qrun` flow can collect
+and print SystemVerilog covergroup data without an explicit `-coverage` switch.
+The exact setting is therefore recorded per lesson instead of treating one
+switch as a universal requirement across every Questa invocation.
