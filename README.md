@@ -17,6 +17,8 @@ systemverilog-from-beginning/
 ├── SV Functional Coverage/
 │   ├── Codes/
 │   ├── docs/
+│   ├── plates/
+│   ├── PLATES.md
 │   └── README.md
 ├── WORKING_REVISION_PLAN.md
 ├── REVISION_TRACKER.md
@@ -27,6 +29,7 @@ systemverilog-from-beginning/
 - [SV Basics](SV%20Basics/README.md)
 - [SV Assertions](SV%20Assertions/README.md)
 - [SV Functional Coverage — ordered playground lessons and simulator verification](SV%20Functional%20Coverage/README.md)
+- [Functional Coverage Sections 6–10 — 36 video boilerplates](SV%20Functional%20Coverage/PLATES.md)
 - [SystemVerilog Realizations](REALIZATION.md)
 - [4-week revision and functional-coverage sprint](WORKING_REVISION_PLAN.md)
 - [Live revision tracker](REVISION_TRACKER.md)

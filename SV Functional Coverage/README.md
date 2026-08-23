@@ -4,7 +4,7 @@
 > Riviera-PRO incident, the verified Questa `run.do` repair, and local
 > Vivado/XSim evidence.
 
-[All learning tracks](../README.md) · [Code index](Codes/README.md) · [Capture audit](docs/internal/EDA_PLAYGROUND_AUDIT.md) · [Revision plan](../WORKING_REVISION_PLAN.md) · [Live tracker](../REVISION_TRACKER.md)
+[All learning tracks](../README.md) · [Sections 6–10 video plates](PLATES.md) · [Code index](Codes/README.md) · [Capture audit](docs/internal/EDA_PLAYGROUND_AUDIT.md) · [Revision plan](../WORKING_REVISION_PLAN.md) · [Live tracker](../REVISION_TRACKER.md)
 
 ## Incident summary
 
