@@ -1,6 +1,6 @@
 # Part 15 — Counter Wildcard Bins and Finite Reporting
 
-[← Part 14](../14-wildcard-bins-casez-and-casex/README.md) · [Functional Coverage index](../README.md)
+[← Part 14](../14-wildcard-bins-casez-and-casex/README.md) · [Functional Coverage index](../README.md) · [Part 16 →](../16-reusable-covergroup-fundamentals/README.md)
 
 | Field | Value |
 |---|---|

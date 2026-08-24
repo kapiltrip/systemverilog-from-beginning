@@ -29,7 +29,7 @@ systemverilog-from-beginning/
 - [SV Basics](SV%20Basics/README.md)
 - [SV Assertions](SV%20Assertions/README.md)
 - [SV Functional Coverage — ordered playground lessons and simulator verification](SV%20Functional%20Coverage/README.md)
-- [Functional Coverage Sections 6–10 — 36 video boilerplates](SV%20Functional%20Coverage/PLATES.md)
+- [Functional Coverage Sections 7–10 — 30 video boilerplates](SV%20Functional%20Coverage/PLATES.md)
 - [SystemVerilog Realizations](REALIZATION.md)
 - [4-week revision and functional-coverage sprint](WORKING_REVISION_PLAN.md)
 - [Live revision tracker](REVISION_TRACKER.md)
@@ -44,18 +44,21 @@ The source was also verified locally in Vivado/XSim 2024.1 at 101 ns with 100%
 functional coverage. See the complete [Questa repair, Riviera-PRO incident,
 and Vivado workaround](SV%20Functional%20Coverage/README.md).
 
-The ordered coverage track now continues through Part 15 with goals/weights,
+The ordered coverage track now continues through Part 21 with goals/weights,
 conditional `iff` sampling, automatic-bin limits, explicit bin arrays, default
 bins, mux signal coverage, enum-state bins, and a repaired FSM state-coverage
 flow, followed by filtered/overlapping bins, legal and illegal opcode bins,
 ignored-domain closure, report timing around `$finish`, and a corrected
 wildcard-bin/priority-encoder lesson with deep `case`/`casez`/`casex` Q&A,
 followed by a repaired counter wildcard-bin lesson with reliable finite
-reporting.
+reporting. Parts 16–21 archive the completed reusable-covergroup section:
+construction-time copies, live `ref` formals, value configuration, generic
+argument rules, and verified ALU and memory-range use cases.
 Parts 02–08 pair the public source with local XSim/XCRG evidence; later parts
 add direct Questa evidence, complete source-specific Q&A, detailed bin-count
 reconstruction, Part 14's repaired all-sample report plus deterministic 100%
-wildcard-coverage variant, and Part 15's verified 4/4-bin counter report.
+wildcard-coverage variant, Part 15's verified 4/4-bin counter report, and the
+fresh direct Section 6 results plus Part 20's self-checking ALU correction.
 
 ## Next study session
 

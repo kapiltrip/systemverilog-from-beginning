@@ -19,10 +19,16 @@
 | 13 | [Illegal-Bin Precedence and Report Timing](13-illegal-bin-precedence-and-report-timing/README.md) | Overlapping legal/illegal bins, finite Tcl reporting, and pass-versus-coverage semantics | Questa: 5/5 scored bins, 100%; three intentional illegal-bin hits | [grxa](https://edaplayground.com/x/grxa) |
 | 14 | [Wildcard Bins, `casez`, and the `casex` Trap](14-wildcard-bins-casez-and-casex/README.md) | Wildcard-bin grouping, exact versus wildcard case matching, expression-side X masking, and deterministic encoder checks | Questa: all 15 samples, 0 errors, 7/17 bins, 52.88%; deterministic variant 100% | [rzC3](https://edaplayground.com/x/rzC3) |
 | 15 | [Counter Wildcard Bins and Finite Reporting](15-counter-wildcard-bins-and-finite-reporting/README.md) | Net-driver conflicts, reset-before-counting, pre-NBA sampling, wildcard range bins, and finite Tcl reporting | Questa: 4/4 bins, 100%; hits 2/16/9/16; 0 compile/simulation errors | [fTK4](https://edaplayground.com/x/fTK4) |
+| 16 | [Reusable Covergroup Fundamentals](16-reusable-covergroup-fundamentals/README.md) | Construction-time input copies versus live sampled variables | Questa: legal run and 30 sample calls, but frozen X inputs leave both instances 0/16, total 0% | [VnNY](https://edaplayground.com/x/VnNY) |
+| 17 | [Reusable Covergroup: Pass by Reference](17-reusable-covergroup-pass-by-reference/README.md) | One type tracks two live variables through strict `ref` bindings | Questa: `A` 14/16, `B` 16/16; type total 93.75%; 0 errors | [bCAQ](https://edaplayground.com/x/bCAQ) |
+| 18 | [Reusable Covergroup: Pass Configuration by Value](18-reusable-covergroup-pass-by-value/README.md) | Live `ref` data plus copied names and range boundaries | Questa: both instances 3/3 range bins, 6/6 total, 100%; 0 errors | [mzj8](https://edaplayground.com/x/mzj8) |
+| 19 | [Rules for Generic Covergroup Arguments](19-generic-covergroup-rules/README.md) | Why signals use `ref`, constants use `input`, and `bins f[]` makes per-value goals | Questa: 3/6 bins, 50%; 0 errors; one implicit-static source warning | [E8nM](https://edaplayground.com/x/E8nM) |
+| 20 | [Reusable Covergroup ALU Use Case](20-reusable-covergroup-alu-use-case/README.md) | Reusing operand/opcode models while separating coverage closure from functional checking | Exact source: 14/14 bins, 100%, but duplicate case labels break the ALU; corrected XSim variant passes and reaches 100% | [KXaD](https://edaplayground.com/x/KXaD) |
+| 21 | [Reusable Covergroup Memory-Range Use Case](21-reusable-covergroup-memory-range-use-case/README.md) | Three per-instance address windows and raw-bin versus instance-average metrics | Questa: low 100%, mid 37.50%, high 75%; type metric 70.83%; 0 errors | [biwn](https://edaplayground.com/x/biwn) |
 
 ## Archive boundary
 
-The known sequence now runs from `Y9rT` through `fTK4`. `Y9rT` was already
+The pre-Section-6 sequence runs from `Y9rT` through `fTK4`. `Y9rT` was already
 represented by Part 01, Parts 02–08 archive the next seven stable pages, and
 Part 09 stores the repaired FSM from `FU8E`. Intermediate `Kd8_` remains an
 unarchived working draft; Parts 10–13 store the later completed lessons through
@@ -33,6 +39,10 @@ Tcl window was repaired to `run -all`, saved, and directly verified in Questa.
 Part 15 repairs `fTK4` by removing a competing net driver, establishing a
 known reset value before counting, enabling its custom Tcl script, and using a
 finite 450 ns reporting window.
+Parts 16–21 then archive the six completed Section 6 reusable-covergroup pages
+in course order: `VnNY`, `bCAQ`, `mzj8`, `E8nM`, `KXaD`, and `biwn`. Part 20
+preserves the exact coverage-closed but functionally faulty ALU and adds a
+separate deterministic correction.
 The full record is in the
 [internal audit](../docs/internal/EDA_PLAYGROUND_AUDIT.md).
 
@@ -84,6 +94,14 @@ Its README records the original exit-137/no-report fault, explains the
 continuous-driver and X-propagation problems, reconstructs every pre-NBA sample
 and bin hit, and separates 100% coverage closure from functional checking.
 
+Parts 16–19 and 21 store the exact saved testbench and common `run.do`; their
+placeholder design panes are omitted. Part 20 stores the exact substantive
+testbench, design, and `run.do`, plus `verified-*` design, testbench, and Tcl
+files. Every Section 6 README answers its source comments/questions, records a
+fresh direct Questa run, and distinguishes coverage evidence from functional
+correctness. Browser spelling is retained in meaning and code comments while
+horizontal/trailing whitespace is normalized for study readability.
+
 ## Simulator-setting evidence
 
 All archived pages select Questa 2025.2 and enable `run.do`. Part 01 used the
@@ -93,7 +111,7 @@ following explicit Run Options in its verified flow:
 -coverage -voptargs=+acc=npr
 ~~~
 
-Parts 02–15 save only `-voptargs=+acc=npr`. Parts 02–08 and Part 14's
+Parts 02–21 save only `-voptargs=+acc=npr`. Parts 02–08 and Part 14's
 deterministic layer were verified locally with Vivado/XSim. Parts 09, 10, 12,
 13, 14, and 15 directly prove that the current EDA Playground `qrun` flow can
 collect and print SystemVerilog covergroup data without an explicit `-coverage`
@@ -103,3 +121,6 @@ samples and reported 52.88%; its `verified-*` result is deterministic and 100%.
 XSim rejects the public source's exact X/Z output bins, so it is not used as
 coverage-model parity there. The exact setting is recorded per lesson instead
 of being treated as a universal requirement across every Questa invocation.
+Parts 16–21 were freshly rerun in their saved Questa configurations on August
+24, 2026. Part 20's separate corrected layer was also compiled, self-checked,
+and reported at 100% with Vivado/XSim 2024.1.
