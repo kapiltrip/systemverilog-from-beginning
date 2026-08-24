@@ -8,8 +8,8 @@
 | Source playground | [`biwn`](https://edaplayground.com/x/biwn) |
 | EDA code ID / saved Name | `7382346` / **FC S06 V089 - Memory Range Use Case** |
 | Simulator and options | Questa 2025.2; `-timescale 1ns/1ns`; `-voptargs=+acc=npr`; custom `run.do` enabled |
-| Fresh direct result | Low 100%, mid 37.50%, high 75%; type metric 70.83%; 0 errors |
-| Source warnings | Three block-local covergroup variables are implicitly static |
+| Fresh direct result | Low 100%, mid 37.50%, high 75%; type metric 70.83%; 0 source errors or warnings |
+| Source warnings | None; the handles are declared at module scope and constructed in `initial` |
 
 ## One type, three independently configured address windows
 
@@ -46,10 +46,16 @@ module tb;
 
     }
   endgroup
+
+  // Declare the reusable covergroup handles at module scope.
+  checkAddress cLow;
+  checkAddress cMid;
+  checkAddress cHigh;
+
   initial begin
-    checkAddress cLow = new(address, 0, 3, "checking lower range address ");
-    checkAddress cMid = new(address, 4, 11, "checking mid range address ");
-    checkAddress cHigh = new(address, 12, 15, "checking higher range address ");
+    cLow = new(address, 0, 3, "checking lower range address ");
+    cMid = new(address, 4, 11, "checking mid range address ");
+    cHigh = new(address, 12, 15, "checking higher range address ");
     for(i = 0; i < 20; i++)begin
       address = $urandom();
       cLow.sample();
@@ -147,11 +153,9 @@ design's valid-data event and scheduling.
 
 ## Warning audit and clean declaration pattern
 
-Questa compiled with zero errors and warned that `cLow`, `cMid`, and `cHigh`
-are implicitly static because each is a block-local declaration with an
-initializer. The covergroups work; the warning concerns lifetime clarity.
-Declare the handles at module scope and construct them procedurally to remove
-it:
+The live V089 repair moves `cLow`, `cMid`, and `cHigh` from initialized
+block-local declarations to explicit module-scope handles. Construction stays
+procedural in `initial`:
 
 ~~~systemverilog
 checkAddress cLow, cMid, cHigh;
@@ -164,8 +168,10 @@ initial begin
 end
 ~~~
 
-The remaining `vopt` warning comes from the saved `+acc` visibility option and
-does not affect coverage.
+The fresh run reports zero `vlog` source warnings and zero `vsim` warnings. The
+remaining summary warning is Questa's generic `vopt` notice for the saved
+`+acc` visibility option; it is not caused by the Section 6 source and does not
+affect coverage.
 
 ## Deterministic closure option
 
@@ -191,7 +197,8 @@ functionality.
 2. Why does each known sample hit exactly one of the three instances?
 3. Why are there 4, 8, and 4 bins rather than three total bins?
 4. Why does the report show both 62.50% and 70.83%?
-5. How can the block-local lifetime warnings be removed?
+5. Why are the covergroup handles declared at module scope but constructed in
+   `initial`?
 6. What memory behavior remains unchecked even after 100% address coverage?
 
 ## References
