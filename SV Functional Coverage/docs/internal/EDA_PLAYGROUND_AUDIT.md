@@ -8,7 +8,10 @@ overlapping bins; Parts 11–13 cover legal/illegal bins, ignore-bin closure, an
 report timing. Part 14 captures the saved wildcard-bin/encoder source, its live
 Questa timing repair, and a deterministic local verification variant. Part 15
 captures the repaired counter wildcard-bin lesson and its live finite-window
-Questa report. The
+Questa report. Parts 16–21 capture the six completed Section 6 reusable-
+covergroup pages, including every source comment/question and a fresh direct
+Questa run. Part 20 also retains a separate corrected, self-checking ALU layer.
+The
 audit covers source identity, order, settings, and evidence.
 
 ## Final archive boundary
@@ -25,6 +28,11 @@ remains outside the archive. The repaired, named `FU8E` page is Part 09, and the
 completed `Ztfn` page is Part 10. `KN3M`, `cNZW`, and `grxa` are Parts 11–13.
 [`rzC3`](https://edaplayground.com/x/rzC3) (code ID `7381709`) is Part 14, and
 [`fTK4`](https://edaplayground.com/x/fTK4) (code ID `7382217`) is Part 15.
+The completed Section 6 sequence follows as Parts 16–21:
+
+```text
+VnNY → bCAQ → mzj8 → E8nM → KXaD → biwn
+```
 
 The final open-tab boundary was rechecked in Chrome before archiving Part 09.
 `FU8E` was saved and independently reloaded to prove that its comments persisted.
@@ -60,12 +68,25 @@ replaced the never-ending default `run -all` flow.
 | 13 | [`grxa`](https://edaplayground.com/x/grxa) / `7381590` | `13-illegal-bin-precedence-and-report-timing` | `testbench.sv`, `run.do` |
 | 14 | [`rzC3`](https://edaplayground.com/x/rzC3) / `7381709` | `14-wildcard-bins-casez-and-casex` | exact `design.sv`, `testbench.sv`, `run.do`; deterministic `verified-*` additions |
 | 15 | [`fTK4`](https://edaplayground.com/x/fTK4) / `7382217` | `15-counter-wildcard-bins-and-finite-reporting` | repaired public `design.sv`, `testbench.sv`, `run.do` |
+| 16 | [`VnNY`](https://edaplayground.com/x/VnNY) / `7382335` | `16-reusable-covergroup-fundamentals` | `testbench.sv`, `run.do` |
+| 17 | [`bCAQ`](https://edaplayground.com/x/bCAQ) / `7382336` | `17-reusable-covergroup-pass-by-reference` | `testbench.sv`, `run.do` |
+| 18 | [`mzj8`](https://edaplayground.com/x/mzj8) / `7382338` | `18-reusable-covergroup-pass-by-value` | `testbench.sv`, `run.do` |
+| 19 | [`E8nM`](https://edaplayground.com/x/E8nM) / `7382342` | `19-generic-covergroup-rules` | `testbench.sv`, `run.do` |
+| 20 | [`KXaD`](https://edaplayground.com/x/KXaD) / `7382343` | `20-reusable-covergroup-alu-use-case` | exact `design.sv`, `testbench.sv`, `run.do`; corrected `verified-*` additions |
+| 21 | [`biwn`](https://edaplayground.com/x/biwn) / `7382346` | `21-reusable-covergroup-memory-range-use-case` | `testbench.sv`, `run.do` |
 
 Parts 02–08 and 10–15 have blank saved Name fields; Part 09 is named **FSM
 Coverage Report - Fixed Timing and Finish**. All fourteen pages select SystemVerilog and Siemens
 Questa 2025.2, with compile options `-timescale 1ns/1ns`, run options
 `-voptargs=+acc=npr`, and **Use run.do Tcl file** enabled. The design pane is a
 placeholder except in Parts 07, 09, 14, and 15, where substantive RTL is retained.
+
+Parts 16–21 have the saved names **FC S06 V080 - Fundamentals - Boilerplate**,
+**FC S06 V081 - Pass by Reference - Boilerplate**, **FC S06 V083 - Pass by
+Value - Boilerplate**, **FC S06 V085 - Generic Covergroup Rules**, **FC S06
+V087 - ALU Use Case**, and **FC S06 V089 - Memory Range Use Case**. They use the
+same SystemVerilog, Questa, compile-option, run-option, and enabled-`run.do`
+configuration. Only Part 20 has a substantive design pane.
 
 The saved run options omit `-coverage`. Parts 02–08 were not claimed as
 unchanged browser-verified Questa flows; they have independent XSim evidence.
@@ -121,6 +142,27 @@ Part 15's finite-window `run.do` fingerprint is
 Every retained source file also has one complete matching inline source block
 in its part README.
 
+### Section 6 whitespace-insensitive parity fingerprints
+
+The Section 6 study files normalize horizontal formatting as well as line
+endings. To prove that no code token, identifier, literal, operator, or comment
+text changed, the hashes below remove all whitespace before SHA-256. Each local
+hash matches the corresponding live saved editor under that same transform.
+This transform is used only for these parity checks; the tracked files retain
+normal readable whitespace, including meaningful source strings.
+
+| Part | Testbench SHA-256 | Design SHA-256 |
+|---:|---|---|
+| 16 | `7a6b133f617802393f6b5ff12b1d08c5cdd6aba66d74628fd759079af73caf46` | Placeholder omitted |
+| 17 | `03df9ec00e5bd7f4066f4cddefe563ec342c257218cb61dd1ddb055456a1d9a1` | Placeholder omitted |
+| 18 | `28778f35a4fc39489026d974ad3b86f4b052e74ec6a53cb17f463c7be16ee339` | Placeholder omitted |
+| 19 | `b225ceb2f8f013cfcc580830d4b7d5ef6b7b1434c6edf7490a1886e8bd24fc92` | Placeholder omitted |
+| 20 | `15496b203b99986ea0bc746a658c1448f6b2e99715800c0ce93c7242c7e6d888` | `41f23c2d890dc19b40074e37737f9a4ac12239d82cbb52b616ce1e5aa42b1867` |
+| 21 | `423fd29c9b70facd215434d45481843c61095a03d9183109ca1961ea10f977e3` | Placeholder omitted |
+
+All six common Section 6 `run.do` files have the whitespace-insensitive hash
+`65de6824eb8c4baf3c4a6e4a236852a4b3efae55a53c971ffabde972ecdf41bc`.
+
 ## Independent local verification
 
 The unchanged captured SystemVerilog was compiled, elaborated, simulated, and
@@ -143,7 +185,7 @@ and 08 emitted only a lifetime warning for a block-local covergroup variable;
 the other captured lessons emitted no source warning that changes the reported
 coverage result.
 
-## Direct Questa verification for Parts 09–15
+## Direct Questa verification for Parts 09–21
 
 The saved `FU8E` page was rerun after its explanatory comments were added. The
 Questa 2025.2 transcript reported zero compile and simulation errors, a named
@@ -186,6 +228,31 @@ finite 450 ns window. Questa reported all 4 coverpoint bins covered and 100%
 total coverage: `count_off` 2 hits, `countLow` 16, `countMid` 9, and
 `countHigh` 16. `qrun`, `vlog`, and `vsim` each ended with zero errors; the
 existing `+acc` optimization warning was the only total warning.
+
+All six Section 6 pages were freshly run in Chrome on August 24, 2026 with
+their saved `-do run.do` configurations:
+
+- Part 16 compiled with zero source warnings and reported 0/16 bins for each
+  instance. This verifies the construction-time input-copy lesson: both copied
+  formals remain X even though `sample()` is called.
+- Part 17 reported `variable A` at 14/16, `variable B` at 16/16, and type total
+  93.75%, with zero source errors or warnings.
+- Part 18 reported all three range bins covered in both instances (6/6 total,
+  100%), with zero source errors or warnings.
+- Part 19 reported bins 0, 2, and 3 covered (3/6, 50%). Its only source warning
+  is the block-local initialized covergroup handle's implicit-static lifetime.
+- Part 20 reported all six operand-range bins and all eight per-value opcode
+  bins covered (14/14, 100%) with zero source errors. Inspection nevertheless
+  proves the ALU is wrong because all eight RTL items use `3'b000`. The separate
+  corrected layer passed all eight deterministic scoreboard checks in XSim and
+  produced 100% XCRG coverage for all four instances.
+- Part 21 reported low/mid/high instance scores of 100%, 37.50%, and 75%. The
+  equal-instance type metric is 70.83%, while the raw hit ratio is 10/16 =
+  62.50%. Its three source warnings are the block-local initialized covergroup
+  handles' implicit-static lifetimes.
+
+Every direct run had zero compilation or simulation errors. The saved `+acc`
+option adds the usual `vopt-10587` optimization warning to each page.
 
 ## Part 14 local XSim verification
 
@@ -244,6 +311,19 @@ not a generic coverage summary:
 - Part 15 diagnoses the exit-137/no-report failure, the declaration-assignment
   driver conflict and X propagation, reconstructs the 2/16/9/16 pre-NBA hit
   counts, and explains why coverage closure is not a counter correctness proof.
+- Part 16 explains why directionless formals copy X at construction and remain
+  at 0% despite repeated sample calls.
+- Part 17 proves that `ref` tracks two live variables and explains the
+  seed-dependent 14/16 versus 16/16 instance results.
+- Part 18 separates live data from copied range configuration and audits all
+  three non-overlapping named bins.
+- Part 19 directly answers both source comments about `ref`, `input`, literal
+  5, unsized bin arrays, and the implicit-static warning.
+- Part 20 answers every ALU source comment, identifies duplicate case labels,
+  explains `'0`, expression width and `#10`, and provides a verified repair.
+- Part 21 derives both displayed percentages, audits all three windows, answers
+  every memory-range comment, and separates address coverage from memory
+  correctness.
 
 The per-part revision checks and authoritative references are retained beside
 the relevant code so the discussion stays usable as study material.

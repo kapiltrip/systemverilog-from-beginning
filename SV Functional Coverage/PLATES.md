@@ -1,8 +1,9 @@
-# Functional Coverage Video Plates — Sections 6–10
+# Functional Coverage Video Plates — Sections 7–10
 
-One runnable starter is provided for every teaching video from Sections 6
+One runnable starter is provided for every teaching video from Sections 7
 through 10. Agenda entries, separate **Code** entries, and assignments are
-intentionally excluded, leaving **36 video plates**.
+intentionally excluded, leaving **30 video plates**. Completed Section 6 is now
+archived as Parts 16–21 in the [ordered code track](Codes/README.md).
 
 Each plate already contains the repetitive setup (`timescale`, declarations,
 covergroup construction, `$dumpfile`, `$dumpvars`, finite stimulus, and a
@@ -15,17 +16,6 @@ Namaste FPGA currently keeps all lessons on one course-page URL rather than
 giving each expanded video a separate browser URL. Therefore, every video
 title below opens the course page; its video number and exact title identify
 the matching entry. The EDA link opens that video's independent boilerplate.
-
-## Section 6 — Reusable Covergroup
-
-| Video | Local starter | EDA Playground |
-|---|---|---|
-| [V080 — Fundamentals](https://namaste-fpga.com/student/learn/35) | [Open plate](plates/section-06-reusable-covergroup/080-fundamentals) | [Open EDA](https://edaplayground.com/x/VnNY) |
-| [V081 — Pass by reference](https://namaste-fpga.com/student/learn/35) | [Open plate](plates/section-06-reusable-covergroup/081-pass-by-reference) | [Open EDA](https://edaplayground.com/x/bCAQ) |
-| [V083 — Pass by Value](https://namaste-fpga.com/student/learn/35) | [Open plate](plates/section-06-reusable-covergroup/083-pass-by-value) | [Open EDA](https://edaplayground.com/x/mzj8) |
-| [V085 — Things to remember while working with Generic Covergroup](https://namaste-fpga.com/student/learn/35) | [Open plate](plates/section-06-reusable-covergroup/085-generic-covergroup-rules) | [Open EDA](https://edaplayground.com/x/E8nM) |
-| [V087 — Used Cases I](https://namaste-fpga.com/student/learn/35) | [Open plate](plates/section-06-reusable-covergroup/087-alu-use-case) | [Open EDA](https://edaplayground.com/x/KXaD) |
-| [V089 — Used Cases II](https://namaste-fpga.com/student/learn/35) | [Open plate](plates/section-06-reusable-covergroup/089-memory-range-use-case) | [Open EDA](https://edaplayground.com/x/biwn) |
 
 ## Section 7 — Sample Methods
 

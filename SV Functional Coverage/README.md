@@ -4,7 +4,7 @@
 > Riviera-PRO incident, the verified Questa `run.do` repair, and local
 > Vivado/XSim evidence.
 
-[All learning tracks](../README.md) · [Sections 6–10 video plates](PLATES.md) · [Code index](Codes/README.md) · [Capture audit](docs/internal/EDA_PLAYGROUND_AUDIT.md) · [Revision plan](../WORKING_REVISION_PLAN.md) · [Live tracker](../REVISION_TRACKER.md)
+[All learning tracks](../README.md) · [Sections 7–10 video plates](PLATES.md) · [Code index](Codes/README.md) · [Capture audit](docs/internal/EDA_PLAYGROUND_AUDIT.md) · [Revision plan](../WORKING_REVISION_PLAN.md) · [Live tracker](../REVISION_TRACKER.md)
 
 ## Incident summary
 
@@ -36,7 +36,7 @@ the playground used during troubleshooting, but the task transcript does not
 prove that the added `run.do` and `#500;` edit were saved back to its public
 version.
 
-## August 23–24 archive — Parts 02 through 15
+## August 23–24 archive — Parts 02 through 21
 
 Seven stable public playgrounds were first archived as Parts 02–08. The later
 FSM repair in named page `FU8E` was then completed, commented, saved, rerun, and
@@ -51,6 +51,10 @@ after 10 of 15 samples; the public page is now saved with `run -all` and was
 rerun through all fifteen samples in Questa 2025.2. Part 15 repairs the
 `fTK4` counter lesson's competing net driver, unknown startup, disabled custom
 Tcl, and never-ending `run -all` flow; its finite report now reaches 100%.
+Parts 16–21 archive completed Section 6 in course order. All six saved pages
+were freshly rerun in Chrome. Part 20 deliberately keeps the user's exact ALU
+source, documents why its 100% input/opcode coverage hides broken duplicate
+case labels, and adds a separate self-checking correction that passes locally.
 
 | Part | Link / code ID | Captured topic | Verified result |
 |---:|---|---|---|
@@ -68,6 +72,12 @@ Tcl, and never-ending `run -all` flow; its finite report now reaches 100%.
 | 13 | [`grxa`](https://edaplayground.com/x/grxa) / `7381590` | Illegal-bin precedence and report timing | Questa: 5/5 scored bins, 100%; three intentional illegal-bin hits |
 | 14 | [`rzC3`](https://edaplayground.com/x/rzC3) / `7381709` | Wildcard bins, `casez`, and expression-side X masking under `casex` | Questa: 15 samples, 0 errors, `x` 3/4, `y` 4/13, covergroup 52.88%; deterministic variant 100% |
 | 15 | [`fTK4`](https://edaplayground.com/x/fTK4) / `7382217` | Counter wildcard bins, known startup, and finite reporting | Questa: 4/4 bins, 100%; hits 2/16/9/16; 0 compile/simulation errors |
+| 16 | [`VnNY`](https://edaplayground.com/x/VnNY) / `7382335` | Reusable-covergroup fundamentals and the input-copy trap | Questa: both instances 0/16, total 0%; 0 errors |
+| 17 | [`bCAQ`](https://edaplayground.com/x/bCAQ) / `7382336` | Live covergroup formals passed by reference | Questa: `A` 14/16, `B` 16/16; total 93.75%; 0 errors |
+| 18 | [`mzj8`](https://edaplayground.com/x/mzj8) / `7382338` | Range configuration passed by value | Questa: 6/6 range bins, 100%; 0 errors |
+| 19 | [`E8nM`](https://edaplayground.com/x/E8nM) / `7382342` | Generic-covergroup `ref`/`input` rules | Questa: 3/6 bins, 50%; 0 errors; one source lifetime warning |
+| 20 | [`KXaD`](https://edaplayground.com/x/KXaD) / `7382343` | Reusable operand/opcode coverage for an ALU | Exact source 14/14 bins, 100%, but RTL case audit fails; corrected XSim variant passes at 100% |
+| 21 | [`biwn`](https://edaplayground.com/x/biwn) / `7382346` | Three reusable memory address windows | Questa: low 100%, mid 37.50%, high 75%; type metric 70.83%; 0 errors |
 
 Parts 02–08 and 10–15 have blank saved Name fields. Part 09 is named **FSM
 Coverage Report - Fixed Timing and Finish**. Placeholder-only design panes are
@@ -79,10 +89,15 @@ finite `run.do`. Source spelling and comments are preserved in each exact captur
 browser trailing whitespace is normalized. Deeper Q&A remains in each matching
 README.
 
-All fourteen source pages use Siemens Questa 2025.2, compile option `-timescale 1ns/1ns`,
+Parts 16–21 have explicit saved names matching their Section 6 videos. Parts
+16–19 and 21 omit the placeholder-only design pane; Part 20 retains its
+substantive ALU RTL and a separate `verified-*` layer. Each README answers every
+natural-language source comment and records the exact direct-run evidence.
+
+All twenty source pages from Parts 02–21 use Siemens Questa 2025.2, compile option `-timescale 1ns/1ns`,
 Run Options `-voptargs=+acc=npr`, and an enabled custom `run.do`. Parts 02–08
 were independently compiled, simulated, and reported with Vivado/XSim 2024.1.
-Parts 09, 10, 12, 13, 14, and 15 were verified directly in saved Questa qrun
+Parts 09, 10, 12–21 were verified directly in saved Questa qrun
 configurations, which printed complete covergroup data despite having no
 explicit `-coverage` switch. Part 11 is retained as exact saved-source evidence
 because its ten random draws and illegal hits are seed-dependent. Part 14's
@@ -93,6 +108,8 @@ uses portable known-value goals and makes closure independent of random seed.
 Part 15's finite 450 ns direct run covered all four wildcard range bins and
 proved the report fault was repaired without adding an explicit `-coverage`
 switch.
+Parts 16–21 were freshly rerun on August 24. Part 20's corrected deterministic
+layer additionally passed all eight ALU checks and reached 100% in XSim/XCRG.
 The [ordered code index](Codes/README.md) links every lesson and records the
 per-flow evidence. The
 [capture audit](docs/internal/EDA_PLAYGROUND_AUDIT.md) records the browser
@@ -386,6 +403,47 @@ SV Functional Coverage/
 │   │   ├── run.do
 │   │   └── README.md
 │   ├── 13-illegal-bin-precedence-and-report-timing/
+│   │   ├── testbench.sv
+│   │   ├── run.do
+│   │   └── README.md
+│   ├── 14-wildcard-bins-casez-and-casex/
+│   │   ├── design.sv
+│   │   ├── testbench.sv
+│   │   ├── run.do
+│   │   ├── verified-design.sv
+│   │   ├── verified-testbench.sv
+│   │   ├── verified-run.do
+│   │   └── README.md
+│   ├── 15-counter-wildcard-bins-and-finite-reporting/
+│   │   ├── design.sv
+│   │   ├── testbench.sv
+│   │   ├── run.do
+│   │   └── README.md
+│   ├── 16-reusable-covergroup-fundamentals/
+│   │   ├── testbench.sv
+│   │   ├── run.do
+│   │   └── README.md
+│   ├── 17-reusable-covergroup-pass-by-reference/
+│   │   ├── testbench.sv
+│   │   ├── run.do
+│   │   └── README.md
+│   ├── 18-reusable-covergroup-pass-by-value/
+│   │   ├── testbench.sv
+│   │   ├── run.do
+│   │   └── README.md
+│   ├── 19-generic-covergroup-rules/
+│   │   ├── testbench.sv
+│   │   ├── run.do
+│   │   └── README.md
+│   ├── 20-reusable-covergroup-alu-use-case/
+│   │   ├── design.sv
+│   │   ├── testbench.sv
+│   │   ├── run.do
+│   │   ├── verified-design.sv
+│   │   ├── verified-testbench.sv
+│   │   ├── verified-run.do
+│   │   └── README.md
+│   ├── 21-reusable-covergroup-memory-range-use-case/
 │   │   ├── testbench.sv
 │   │   ├── run.do
 │   │   └── README.md
