@@ -4,7 +4,7 @@
 > Riviera-PRO incident, the verified Questa `run.do` repair, and local
 > Vivado/XSim evidence.
 
-[All learning tracks](../README.md) · [Sections 9–10 video plates](PLATES.md) · [Code index](Codes/README.md) · [Capture audit](docs/internal/EDA_PLAYGROUND_AUDIT.md) · [Revision plan](../WORKING_REVISION_PLAN.md) · [Live tracker](../REVISION_TRACKER.md)
+[All learning tracks](../README.md) · [Section 10 video plates](PLATES.md) · [Code index](Codes/README.md) · [Capture audit](docs/internal/EDA_PLAYGROUND_AUDIT.md) · [Revision plan](../WORKING_REVISION_PLAN.md) · [Live tracker](../REVISION_TRACKER.md)
 
 ## Incident summary
 
@@ -62,6 +62,10 @@ Parts 27–29 archive the three authored Section 8 cross-coverage lessons.
 V108, V110, and V114 remained unchanged generated starters, while V116 added
 only a range question; the latter is preserved and fully answered in Part 29
 instead of creating four redundant parts.
+Parts 30–33 archive the retained Section 9 transition-bin lessons: simple FSM
+transitions, consecutive repetition, and nonconsecutive/goto repetition. V128
+is intentionally omitted because its live testbench is still identical to the
+generated summary starter and contains no authored comment to migrate.
 
 | Part | Link / code ID | Captured topic | Verified result |
 |---:|---|---|---|
@@ -93,6 +97,10 @@ instead of creating four redundant parts.
 | 27 | [`uU5k`](https://edaplayground.com/x/uU5k) / `7382359` | Cross-coverage fundamentals | Questa: 60/68 raw bins; 95.23%; three-way crosses 20/24 each |
 | 28 | [`gsC6`](https://edaplayground.com/x/gsC6) / `7382360` | Operation-specific write/read cross models | Questa: write 100%, read 97.91%; combined 98.95% |
 | 29 | [`S_vr`](https://edaplayground.com/x/S_vr) / `7382364` | `binsof`/`intersect` cross filtering | Questa: 25/28 raw bins; 95.83%; filtered crosses 4/4 and 9/12 |
+| 30 | [`v_s9`](https://edaplayground.com/x/v_s9) / `7382369` | Legal FSM toggles and low-input holds | Questa: `c1` 100%, `c2` 80%, total 90% |
+| 31 | [`gsCG`](https://edaplayground.com/x/gsCG) / `7382370` | Reset-gated legal hold transitions | Questa: `cp_d` 100%, `cp_state` 50%, total 75% |
+| 32 | [`M9vN`](https://edaplayground.com/x/M9vN) / `7382373` | Consecutive `[*4]` repetition and overlapping windows | Questa: one bin at 100% with 41 hits |
+| 33 | [`SYhE`](https://edaplayground.com/x/SYhE) / `7382374` | Nonconsecutive and goto repetition | Questa: active goto bin at 100% with 1 hit |
 
 Parts 02–08 and 10–15 have blank saved Name fields. Part 09 is named **FSM
 Coverage Report - Fixed Timing and Finish**. Placeholder-only design panes are
@@ -121,10 +129,17 @@ the exact substantive testbench and common `run.do`, reconstructs the cross
 denominators and reported metrics, and answers the source comments. The V116
 `intersect {[5:7]}` question is consolidated into Part 29.
 
-All twenty-eight source pages from Parts 02–29 use Siemens Questa 2025.2, compile option `-timescale 1ns/1ns`,
+Parts 30–33 have explicit saved names matching V121, V122, V124, and V126.
+Parts 30 and 31 retain their substantive FSM RTL; Parts 32 and 33 omit the
+placeholder design pane. Each README preserves the exact source, reconstructs
+the live trace and report, and corrects the source comments where needed. In
+particular, Part 33 records one live hit rather than its copied 41-hit comment
+and identifies the two out-of-bounds dynamic-array reads.
+
+All thirty-two source pages from Parts 02–33 use Siemens Questa 2025.2, compile option `-timescale 1ns/1ns`,
 Run Options `-voptargs=+acc=npr`, and an enabled custom `run.do`. Parts 02–08
 were independently compiled, simulated, and reported with Vivado/XSim 2024.1.
-Parts 09, 10, 12–29 were verified directly in saved Questa qrun
+Parts 09, 10, 12–33 were verified directly in saved Questa qrun
 configurations, which printed complete covergroup data despite having no
 explicit `-coverage` switch. Part 11 is retained as exact saved-source evidence
 because its ten random draws and illegal hits are seed-dependent. Part 14's
@@ -143,6 +158,9 @@ coverage reports.
 Parts 27–29 were then freshly rerun from the saved Section 8 pages; all three
 completed with zero compile/simulation errors. The only warning on each was
 the saved `+acc` optimization notice.
+Parts 30–33 were freshly rerun from the saved Section 9 pages; all four
+completed with zero compile/simulation errors and the same `+acc` notice.
+V128 was loaded only to verify exact starter parity and was omitted as requested.
 The [ordered code index](Codes/README.md) links every lesson and records the
 per-flow evidence. The
 [capture audit](docs/internal/EDA_PLAYGROUND_AUDIT.md) records the browser

@@ -33,6 +33,10 @@
 | 27 | [Cross-Coverage Fundamentals](27-cross-coverage-fundamentals/README.md) | Cartesian-product goals and why independent closure can hide missing combinations | Questa: 60/68 raw bins; displayed 95.23%; both three-way crosses 20/24 | [uU5k](https://edaplayground.com/x/uU5k) |
 | 28 | [Operation-Specific Cross Covergroups](28-operation-specific-cross-covergroups/README.md) | Separate write/read models, range bins versus bin arrays, and metric weighting | Questa: write 100%, read 97.91%; combined 98.95%; 0 errors | [gsC6](https://edaplayground.com/x/gsC6) |
 | 29 | [Cross Filtering with `binsof` and `intersect`](29-binsof-intersect-cross-filtering/README.md) | Removing irrelevant tuples and combining overlapping ignore selections | Questa: 25/28 raw bins; displayed 95.83%; filtered crosses 4/4 and 9/12 | [S_vr](https://edaplayground.com/x/S_vr) |
+| 30 | [Simple FSM Transition Coverage, Part 1](30-simple-transition-coverage-p1/README.md) | Legal toggles versus holds, `iff`, filtered crosses, and same-edge sampling | Questa: `c1` 100%, `c2` 80%, total 90%; 0 errors | [v_s9](https://edaplayground.com/x/v_s9) |
+| 31 | [Simple FSM Transition Coverage, Part 2](31-simple-transition-coverage-p2/README.md) | Reset-gated hold transitions and coverage-metric weighting | Questa: `cp_d` 100%, `cp_state` 50%, total 75%; 0 errors | [gsCG](https://edaplayground.com/x/gsCG) |
+| 32 | [Consecutive Repetition Transition Bins](32-consecutive-repetition-transition/README.md) | Overlapping `[*]` windows, endpoint intent, and finite sampling | Questa: one bin at 100% with exactly 41 hits; 0 errors | [M9vN](https://edaplayground.com/x/M9vN) |
+| 33 | [Nonconsecutive and Goto Transition Repetition](33-nonconsecutive-and-goto-transition/README.md) | `[=]` versus `[->]`, endpoint timing, stale comments, and array-bound repair | Questa: active goto bin at 100% with exactly 1 hit; 0 errors | [SYhE](https://edaplayground.com/x/SYhE) |
 
 ## Archive boundary
 
@@ -63,6 +67,10 @@ equivalent to their generated starters after whitespace normalization, so they
 are not padded into ordered parts. V116 differed from its starter only by the
 question about `intersect {[5:7]}`; Part 29 preserves and answers that question,
 including the union math for overlapping ignore selections.
+Parts 30–33 archive the four retained Section 9 transition-bin pages in course
+order: `v_s9`, `gsCG`, `M9vN`, and `SYhE`. V128 (`XxV6`) is omitted because its
+testbench remains exactly equal to the generated summary starter after removing
+whitespace; it contains no authored code or comment that needs migration.
 The full record is in the
 [internal audit](../docs/internal/EDA_PLAYGROUND_AUDIT.md).
 
@@ -139,6 +147,14 @@ all source comments about write/read filtering and `binsof ... intersect`.
 The V116 range/overlap question is consolidated into Part 29 rather than kept
 as a comment-only variation of a generated starter.
 
+Parts 30–33 store the four retained Section 9 testbenches and common `run.do`.
+Parts 30 and 31 also retain their substantive two-state FSM design panes; Parts
+32 and 33 omit the shared placeholder design. Their READMEs reconstruct the
+exact transition traces and metrics, explain consecutive, nonconsecutive, and
+goto repetition, preserve and correct every authored comment, identify V126's
+two invalid array reads, and distinguish coverage closure from functional
+checking. The untouched V128 summary is intentionally not an ordered part.
+
 ## Simulator-setting evidence
 
 All archived pages select Questa 2025.2 and enable `run.do`. Part 01 used the
@@ -148,7 +164,7 @@ following explicit Run Options in its verified flow:
 -coverage -voptargs=+acc=npr
 ~~~
 
-Parts 02–29 save only `-voptargs=+acc=npr`. Parts 02–08 and Part 14's
+Parts 02–33 save only `-voptargs=+acc=npr`. Parts 02–08 and Part 14's
 deterministic layer were verified locally with Vivado/XSim. Parts 09, 10, 12,
 13, 14, and 15 directly prove that the current EDA Playground `qrun` flow can
 collect and print SystemVerilog covergroup data without an explicit `-coverage`
@@ -167,3 +183,7 @@ only remaining warning on each is the shared `+acc` optimization notice.
 Parts 27–29 were then freshly rerun from their saved Section 8 pages on August
 25. All three completed with zero compile/simulation errors and the same single
 `+acc` optimization notice.
+Parts 30–33 were freshly rerun from their saved Section 9 pages on August 25.
+All four completed with zero compile/simulation errors and the same single
+`+acc` optimization notice. V126's live result is one hit, correcting its
+copied 41-hit comment; its 15-iteration loop also over-reads a 13-element array.

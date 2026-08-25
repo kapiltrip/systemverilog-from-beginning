@@ -1,6 +1,6 @@
 # Part 29 — Cross Filtering with `binsof` and `intersect`
 
-[← Part 28](../28-operation-specific-cross-covergroups/README.md) · [Functional Coverage index](../README.md) · [Remaining Sections 9–10 plates](../../PLATES.md)
+[← Part 28](../28-operation-specific-cross-covergroups/README.md) · [Functional Coverage index](../README.md) · [Part 30 →](../30-simple-transition-coverage-p1/README.md)
 
 | Field | Value |
 |---|---|
