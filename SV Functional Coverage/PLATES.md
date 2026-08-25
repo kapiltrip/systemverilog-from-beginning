@@ -1,9 +1,12 @@
-# Functional Coverage Video Plates — Sections 7–10
+# Functional Coverage Video Plates — Sections 8–10
 
-One runnable starter is provided for every teaching video from Sections 7
+One runnable starter is provided for every teaching video from Sections 8
 through 10. Agenda entries, separate **Code** entries, and assignments are
-intentionally excluded, leaving **30 video plates**. Completed Section 6 is now
-archived as Parts 16–21 in the [ordered code track](Codes/README.md).
+intentionally excluded, leaving **23 video plates**. Completed Sections 6 and
+7 are now archived as Parts 16–26 in the
+[ordered code track](Codes/README.md). V092 and V102 were intentionally omitted
+because they were brief overview/summary lessons without substantive completed
+code; the useful V092 sampling-event note was retained in Part 22.
 
 Each plate already contains the repetitive setup (`timescale`, declarations,
 covergroup construction, `$dumpfile`, `$dumpvars`, finite stimulus, and a
@@ -16,18 +19,6 @@ Namaste FPGA currently keeps all lessons on one course-page URL rather than
 giving each expanded video a separate browser URL. Therefore, every video
 title below opens the course page; its video number and exact title identify
 the matching entry. The EDA link opens that video's independent boilerplate.
-
-## Section 7 — Sample Methods
-
-| Video | Local starter | EDA Playground |
-|---|---|---|
-| [V092 — Fundamentals](https://namaste-fpga.com/student/learn/35) | [Open plate](plates/section-07-sample-methods/092-fundamentals) | [Open EDA](https://edaplayground.com/x/h8ie) |
-| [V093 — Method 1: Sampling Event with covergroup](https://namaste-fpga.com/student/learn/35) | [Open plate](plates/section-07-sample-methods/093-event-sampling) | [Open EDA](https://edaplayground.com/x/twJN) |
-| [V095 — Method 2: Using Pre-build sample() method](https://namaste-fpga.com/student/learn/35) | [Open plate](plates/section-07-sample-methods/095-prebuilt-sample) | [Open EDA](https://edaplayground.com/x/EfZj) |
-| [V097 — User define Sample Method inside task block](https://namaste-fpga.com/student/learn/35) | [Open plate](plates/section-07-sample-methods/097-user-sample-in-task) | [Open EDA](https://edaplayground.com/x/L5Mb) |
-| [V098 — User define Sample Method inside function block](https://namaste-fpga.com/student/learn/35) | [Open plate](plates/section-07-sample-methods/098-user-sample-in-function) | [Open EDA](https://edaplayground.com/x/cGiB) |
-| [V100 — User defined Sample method inside Property block](https://namaste-fpga.com/student/learn/35) | [Open plate](plates/section-07-sample-methods/100-user-sample-in-property) | [Open EDA](https://edaplayground.com/x/hfW3) |
-| [V102 — Summary](https://namaste-fpga.com/student/learn/35) | [Open plate](plates/section-07-sample-methods/102-summary) | [Open EDA](https://edaplayground.com/x/p5Hu) |
 
 ## Section 8 — Cross Coverage
 

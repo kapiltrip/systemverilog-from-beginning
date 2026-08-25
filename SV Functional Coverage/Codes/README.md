@@ -25,6 +25,11 @@
 | 19 | [Rules for Generic Covergroup Arguments](19-generic-covergroup-rules/README.md) | Why signals use `ref`, constants use `input`, and `bins f[]` makes per-value goals | Questa: 3/6 bins, 50%; 0 errors; one implicit-static source warning | [E8nM](https://edaplayground.com/x/E8nM) |
 | 20 | [Reusable Covergroup ALU Use Case](20-reusable-covergroup-alu-use-case/README.md) | Reusing operand/opcode models while separating coverage closure from functional checking | Exact source: 14/14 bins, 100%, but duplicate case labels break the ALU; corrected XSim variant passes and reaches 100% | [KXaD](https://edaplayground.com/x/KXaD) |
 | 21 | [Reusable Covergroup Memory-Range Use Case](21-reusable-covergroup-memory-range-use-case/README.md) | Three per-instance address windows and raw-bin versus instance-average metrics | Questa: low 100%, mid 37.50%, high 75%; type metric 70.83%; 0 errors | [biwn](https://edaplayground.com/x/biwn) |
+| 22 | [Automatic Covergroup Event Sampling](22-covergroup-event-sampling/README.md) | A declared `posedge` event samples automatically; opposite-edge driving avoids races | Questa: 12 samples, 4/4 bins, 100%; 0 source errors or warnings | [twJN](https://edaplayground.com/x/twJN) |
+| 23 | [Manual Prebuilt `sample()`](23-manual-prebuilt-sample-method/README.md) | The caller chooses the transaction boundary for the normal no-argument method | Questa: 8 calls, 3/4 bins, 75%; 0 source errors or warnings | [EfZj](https://edaplayground.com/x/EfZj) |
+| 24 | [User-Defined `sample()` in a Task](24-user-defined-sample-in-task/README.md) | A task passes its processed value into an argument-taking sample method | Questa: 50 calls, 14/16 bins, 87.50%; finite-clock repair; 0 source errors or warnings | [L5Mb](https://edaplayground.com/x/L5Mb) |
+| 25 | [User-Defined `sample()` in a Function](25-user-defined-sample-in-function/README.md) | Decode raw controls to an enum and sample the semantic result | Questa: `write/read/NOP/error` hits 0/1/7/2, 75%; `void` repair removes source warnings | [cGiB](https://edaplayground.com/x/cGiB) |
+| 26 | [User-Defined `sample()` in a Property](26-user-defined-sample-in-property/README.md) | Property-local snapshots, sequence match items, and assertion-versus-coverage evidence | Questa: all 3 address regions covered, 100%; assertion passes at 25/45/65 ns | [hfW3](https://edaplayground.com/x/hfW3) |
 
 ## Archive boundary
 
@@ -43,6 +48,12 @@ Parts 16–21 then archive the six completed Section 6 reusable-covergroup pages
 in course order: `VnNY`, `bCAQ`, `mzj8`, `E8nM`, `KXaD`, and `biwn`. Part 20
 preserves the exact coverage-closed but functionally faulty ALU and adds a
 separate deterministic correction.
+Parts 22–26 archive the five substantive Section 7 sampling-method pages in
+course order: `twJN`, `EfZj`, `L5Mb`, `cGiB`, and `hfW3`. V092 was a minimal
+overview without a coverpoint, so its useful `// sampling event` note was moved
+to Part 22. V102 was a generated recap with no personal comment or new lesson
+code, so both overview pages are intentionally omitted rather than padded into
+separate parts.
 The full record is in the
 [internal audit](../docs/internal/EDA_PLAYGROUND_AUDIT.md).
 
@@ -102,6 +113,15 @@ fresh direct Questa run, and distinguishes coverage evidence from functional
 correctness. Browser spelling is retained in meaning and code comments while
 horizontal/trailing whitespace is normalized for study readability.
 
+Parts 22–26 store the five retained Section 7 testbenches and common `run.do`;
+all placeholder-only design panes are omitted. Their READMEs distinguish
+automatic event sampling, manual prebuilt sampling, and user-defined argument
+sampling in a task, function, and property. The live V097 clock was made finite
+so `run -all` can reach the report, V098's side-effect helper was correctly
+declared `void`, and V100's generated header now identifies the sample call as
+a property sequence match item. Every natural-language source comment is
+answered beside the complete source.
+
 ## Simulator-setting evidence
 
 All archived pages select Questa 2025.2 and enable `run.do`. Part 01 used the
@@ -111,7 +131,7 @@ following explicit Run Options in its verified flow:
 -coverage -voptargs=+acc=npr
 ~~~
 
-Parts 02–21 save only `-voptargs=+acc=npr`. Parts 02–08 and Part 14's
+Parts 02–26 save only `-voptargs=+acc=npr`. Parts 02–08 and Part 14's
 deterministic layer were verified locally with Vivado/XSim. Parts 09, 10, 12,
 13, 14, and 15 directly prove that the current EDA Playground `qrun` flow can
 collect and print SystemVerilog covergroup data without an explicit `-coverage`
@@ -123,4 +143,7 @@ coverage-model parity there. The exact setting is recorded per lesson instead
 of being treated as a universal requirement across every Questa invocation.
 Parts 16–21 were freshly rerun in their saved Questa configurations on August
 24, 2026. Part 20's separate corrected layer was also compiled, self-checked,
-and reported at 100% with Vivado/XSim 2024.1.
+and reported at 100% with Vivado/XSim 2024.1. Parts 22–26 were freshly rerun in
+Chrome on August 25, 2026 (IST). Every retained Section 7 page completed with
+zero compile/simulation errors and printed its detailed coverage report; the
+only remaining warning on each is the shared `+acc` optimization notice.
