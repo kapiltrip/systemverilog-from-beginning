@@ -1,7 +1,7 @@
 # Functional Coverage EDA Playground Audit
 
 This record documents the August 23–25, 2026 capture of the known functional-
-coverage playground sequence through the retained Section 7 pages. Parts 02–08 were captured through
+coverage playground sequence through the retained Section 8 pages. Parts 02–08 were captured through
 read-only inspection. Parts 09–13 record later saved lessons and repairs. Part
 09 includes the FSM repair and comments; Part 10 preserves filtered and
 overlapping bins; Parts 11–13 cover legal/illegal bins, ignore-bin closure, and
@@ -14,6 +14,10 @@ Questa run. Part 20 also retains a separate corrected, self-checking ALU layer.
 Parts 22–26 capture the five substantive Section 7 sampling-method pages. The
 minimal V092 overview and generated V102 recap are intentionally excluded;
 V092's useful sampling-event comment was moved into V093 before capture.
+Parts 27–29 capture the three authored Section 8 cross-coverage pages. V108,
+V110, and V114 are unchanged generated starters; V116 differs only by a range
+question, which is consolidated into Part 29 rather than retained as a separate
+comment-only variation.
 The
 audit covers source identity, order, settings, and evidence.
 
@@ -43,10 +47,22 @@ The retained Section 7 sequence follows as Parts 22–26:
 twJN → EfZj → L5Mb → cGiB → hfW3
 ```
 
+The retained Section 8 sequence follows as Parts 27–29:
+
+```text
+uU5k → gsC6 → S_vr
+```
+
 `h8ie` (V092) and `p5Hu` (V102) are not ordered parts. V092 had no
 coverpoint and only the note `// sampling event`; that note now appears on the
 V093 covergroup declaration. V102 contained only generated recap scaffolding
 and no personal source comment that required migration.
+
+`9pZG` (V108), `Lc8z` (V110), `cpVZ` (V114), and `pc5H` (V116) are not
+ordered parts. Whitespace-insensitive comparison proves V108, V110, and V114
+match their local generated plates exactly. V116's only authored delta is
+`// values of d b/w 5 : 7 ?`; Part 29 quotes and answers that question with
+range-selection and overlapping-ignore-set denominator math.
 
 The final open-tab boundary was rechecked in Chrome before archiving Part 09.
 `FU8E` was saved and independently reloaded to prove that its comments persisted.
@@ -93,6 +109,9 @@ replaced the never-ending default `run -all` flow.
 | 24 | [`L5Mb`](https://edaplayground.com/x/L5Mb) / `7382353` | `24-user-defined-sample-in-task` | `testbench.sv`, `run.do` |
 | 25 | [`cGiB`](https://edaplayground.com/x/cGiB) / `7382356` | `25-user-defined-sample-in-function` | `testbench.sv`, `run.do` |
 | 26 | [`hfW3`](https://edaplayground.com/x/hfW3) / `7382357` | `26-user-defined-sample-in-property` | `testbench.sv`, `run.do` |
+| 27 | [`uU5k`](https://edaplayground.com/x/uU5k) / `7382359` | `27-cross-coverage-fundamentals` | `testbench.sv`, `run.do` |
+| 28 | [`gsC6`](https://edaplayground.com/x/gsC6) / `7382360` | `28-operation-specific-cross-covergroups` | `testbench.sv`, `run.do` |
+| 29 | [`S_vr`](https://edaplayground.com/x/S_vr) / `7382364` | `29-binsof-intersect-cross-filtering` | `testbench.sv`, `run.do` |
 
 Parts 02–08 and 10–15 have blank saved Name fields; Part 09 is named **FSM
 Coverage Report - Fixed Timing and Finish**. All fourteen pages select SystemVerilog and Siemens
@@ -114,6 +133,13 @@ Property**. They use the same SystemVerilog, Questa, compile-option,
 run-option, and enabled-`run.do` configuration. All five design panes contain
 only the common testbench-only placeholder and are omitted.
 
+Parts 27–29 have the saved names **FC S08 V106 - Cross Coverage
+Fundamentals**, **FC S08 V107 - Cross Demonstration P1**, and **FC S08 V112 -
+binsof intersect**. They use the same SystemVerilog, Questa, compile option
+`-timescale 1ns/1ns`, run option `-voptargs=+acc=npr`, and enabled custom
+`run.do`. All three design panes contain only the common testbench-only
+placeholder and are omitted.
+
 The saved run options omit `-coverage`. Parts 02–08 were not claimed as
 unchanged browser-verified Questa flows; they have independent XSim evidence.
 Parts 09, 10, 12, 13, 14, and 15 directly prove that this EDA Playground qrun
@@ -122,7 +148,7 @@ Part 11 is retained as exact saved-source/settings evidence without claiming a
 deterministic result from ten random samples. Part 14 also demonstrates that
 Questa accepts exact X/Z singleton coverage bins that XSim 2024.1 rejects. The
 older blanket requirement has therefore been replaced by per-flow evidence.
-Parts 16–26 add direct saved-page evidence under that same configuration.
+Parts 16–29 add direct saved-page evidence under that same configuration.
 
 ## Source-parity fingerprints
 
@@ -209,6 +235,22 @@ preserved.
 All five common Section 7 `run.do` files have the whitespace-insensitive hash
 `65de6824eb8c4baf3c4a6e4a236852a4b3efae55a53c971ffabde972ecdf41bc`.
 
+### Section 8 whitespace-insensitive parity fingerprints
+
+The retained Section 8 study files use the same whitespace-insensitive
+comparison. These hashes match the freshly loaded public editors exactly after
+removing whitespace, proving that code tokens, identifiers, literals,
+operators, and comment text are preserved.
+
+| Part | Testbench SHA-256 | Design SHA-256 |
+|---:|---|---|
+| 27 | `d5a26ba7e4a047046a756e2a52567b817031f5c24010f29e327f2c9ff2868b62` | Placeholder omitted |
+| 28 | `6c8266f303b283e67fa191030faaa820649aa7cfcd9d1917c92ac82f256b5499` | Placeholder omitted |
+| 29 | `ce5bac60f35bf1c0cc40d56402852da844215d7bf016dca0e2b9989a6308f53f` | Placeholder omitted |
+
+All three common Section 8 `run.do` files have the whitespace-insensitive hash
+`65de6824eb8c4baf3c4a6e4a236852a4b3efae55a53c971ffabde972ecdf41bc`.
+
 ## Independent local verification
 
 The unchanged captured SystemVerilog was compiled, elaborated, simulated, and
@@ -231,7 +273,7 @@ and 08 emitted only a lifetime warning for a block-local covergroup variable;
 the other captured lessons emitted no source warning that changes the reported
 coverage result.
 
-## Direct Questa verification for Parts 09–26
+## Direct Questa verification for Parts 09–29
 
 The saved `FU8E` page was rerun after its explanatory comments were added. The
 Questa 2025.2 transcript reported zero compile and simulation errors, a named
@@ -322,6 +364,24 @@ Every retained Section 7 page had zero source errors and zero source warnings
 after the saved repairs. The only total warning on each page was the shared
 `vopt-10587` notice caused by `+acc`.
 
+The three retained Section 8 pages were freshly run from their saved public
+copies in Chrome on August 25, 2026 (IST):
+
+- Part 27 reported every independent coverpoint at 100%, `wr × addr` at 8/8,
+  and each three-way cross at 20/24. The whole-covergroup metric was 95.23%
+  with 60/68 raw bins.
+- Part 28 reported the write covergroup at 100% (8/8 raw bins), the read
+  covergroup at 97.91% (19/20 raw bins, cross 11/12), and the equal-type total
+  at 98.95%. The apparent small write cross is explained by its one aggregate
+  address bin rather than four per-value bins.
+- Part 29 reported its filtered two-way cross at 4/4 and filtered three-way
+  cross at 9/12, giving 25/28 raw bins and a 95.83% covergroup metric. Each
+  `wr == 0` ignore selection recorded 28 occurrences without producing an
+  illegal-bin error.
+
+All three had zero compile and simulation errors. The only total warning on
+each page was the shared `vopt-10587` notice caused by `+acc`.
+
 ## Part 14 local XSim verification
 
 The exact current `rzC3` testbench and design compiled, elaborated, and ran to
@@ -407,6 +467,15 @@ not a generic coverage summary:
 - Part 26 answers the `sample()` and `wr` questions, reconstructs the 5–65 ns
   scheduling timeline, explains property-local variables and repetition, and
   separates write-attempt coverage from successful readback assertions.
+- Part 27 derives the 8-bin and 24-bin Cartesian products, explains why
+  independent 100% coverage can coexist with cross holes, and separates
+  observed combinations from functional verification.
+- Part 28 explains how one operation bin filters each model, catches the
+  one-bin versus four-bin address difference, and reconciles weighted metrics
+  with raw-bin ratios.
+- Part 29 explains `binsof`/`intersect`, derives both filtered denominators,
+  clarifies ignore-bin occurrences, identifies the missing read-data cross,
+  and answers V116's range/overlap question without creating a redundant part.
 
 The per-part revision checks and authoritative references are retained beside
 the relevant code so the discussion stays usable as study material.
