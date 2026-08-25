@@ -1,12 +1,12 @@
-# Functional Coverage Video Plates — Sections 8–10
+# Functional Coverage Video Plates — Sections 9–10
 
-One runnable starter is provided for every teaching video from Sections 8
+One runnable starter is provided for every teaching video from Sections 9
 through 10. Agenda entries, separate **Code** entries, and assignments are
-intentionally excluded, leaving **23 video plates**. Completed Sections 6 and
-7 are now archived as Parts 16–26 in the
-[ordered code track](Codes/README.md). V092 and V102 were intentionally omitted
-because they were brief overview/summary lessons without substantive completed
-code; the useful V092 sampling-event note was retained in Part 22.
+intentionally excluded, leaving **16 video plates**. Completed Sections 6–8
+are now archived as Parts 16–29 in the
+[ordered code track](Codes/README.md). Section 8 retains only its three authored
+programs; unchanged generated starters were omitted, and V116's sole range
+question was consolidated into Part 29.
 
 Each plate already contains the repetitive setup (`timescale`, declarations,
 covergroup construction, `$dumpfile`, `$dumpvars`, finite stimulus, and a
@@ -19,18 +19,6 @@ Namaste FPGA currently keeps all lessons on one course-page URL rather than
 giving each expanded video a separate browser URL. Therefore, every video
 title below opens the course page; its video number and exact title identify
 the matching entry. The EDA link opens that video's independent boilerplate.
-
-## Section 8 — Cross Coverage
-
-| Video | Local starter | EDA Playground |
-|---|---|---|
-| [V106 — Understanding Cross Coverage](https://namaste-fpga.com/student/learn/35) | [Open plate](plates/section-08-cross-coverage/106-fundamentals) | [Open EDA](https://edaplayground.com/x/uU5k) |
-| [V107 — Demonstration P1](https://namaste-fpga.com/student/learn/35) | [Open plate](plates/section-08-cross-coverage/107-demonstration-p1) | [Open EDA](https://edaplayground.com/x/gsC6) |
-| [V108 — Demonstration P2](https://namaste-fpga.com/student/learn/35) | [Open plate](plates/section-08-cross-coverage/108-demonstration-p2) | [Open EDA](https://edaplayground.com/x/9pZG) |
-| [V110 — Filtering Combination Method 1: Creating Independent Covergroup](https://namaste-fpga.com/student/learn/35) | [Open plate](plates/section-08-cross-coverage/110-independent-covergroups) | [Open EDA](https://edaplayground.com/x/Lc8z) |
-| [V112 — Filtering Combination Method 2: binsof(SIG) intersect {VAL}](https://namaste-fpga.com/student/learn/35) | [Open plate](plates/section-08-cross-coverage/112-binsof-intersect) | [Open EDA](https://edaplayground.com/x/S_vr) |
-| [V114 — Example 2](https://namaste-fpga.com/student/learn/35) | [Open plate](plates/section-08-cross-coverage/114-filtered-memory-crosses) | [Open EDA](https://edaplayground.com/x/cpVZ) |
-| [V116 — Example 3](https://namaste-fpga.com/student/learn/35) | [Open plate](plates/section-08-cross-coverage/116-range-and-overlap) | [Open EDA](https://edaplayground.com/x/pc5H) |
 
 ## Section 9 — Transition Bins
 

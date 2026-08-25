@@ -30,6 +30,9 @@
 | 24 | [User-Defined `sample()` in a Task](24-user-defined-sample-in-task/README.md) | A task passes its processed value into an argument-taking sample method | Questa: 50 calls, 14/16 bins, 87.50%; finite-clock repair; 0 source errors or warnings | [L5Mb](https://edaplayground.com/x/L5Mb) |
 | 25 | [User-Defined `sample()` in a Function](25-user-defined-sample-in-function/README.md) | Decode raw controls to an enum and sample the semantic result | Questa: `write/read/NOP/error` hits 0/1/7/2, 75%; `void` repair removes source warnings | [cGiB](https://edaplayground.com/x/cGiB) |
 | 26 | [User-Defined `sample()` in a Property](26-user-defined-sample-in-property/README.md) | Property-local snapshots, sequence match items, and assertion-versus-coverage evidence | Questa: all 3 address regions covered, 100%; assertion passes at 25/45/65 ns | [hfW3](https://edaplayground.com/x/hfW3) |
+| 27 | [Cross-Coverage Fundamentals](27-cross-coverage-fundamentals/README.md) | Cartesian-product goals and why independent closure can hide missing combinations | Questa: 60/68 raw bins; displayed 95.23%; both three-way crosses 20/24 | [uU5k](https://edaplayground.com/x/uU5k) |
+| 28 | [Operation-Specific Cross Covergroups](28-operation-specific-cross-covergroups/README.md) | Separate write/read models, range bins versus bin arrays, and metric weighting | Questa: write 100%, read 97.91%; combined 98.95%; 0 errors | [gsC6](https://edaplayground.com/x/gsC6) |
+| 29 | [Cross Filtering with `binsof` and `intersect`](29-binsof-intersect-cross-filtering/README.md) | Removing irrelevant tuples and combining overlapping ignore selections | Questa: 25/28 raw bins; displayed 95.83%; filtered crosses 4/4 and 9/12 | [S_vr](https://edaplayground.com/x/S_vr) |
 
 ## Archive boundary
 
@@ -54,6 +57,12 @@ overview without a coverpoint, so its useful `// sampling event` note was moved
 to Part 22. V102 was a generated recap with no personal comment or new lesson
 code, so both overview pages are intentionally omitted rather than padded into
 separate parts.
+Parts 27–29 archive the three authored Section 8 cross-coverage pages in course
+order: `uU5k`, `gsC6`, and `S_vr`. V108, V110, and V114 remained byte-for-byte
+equivalent to their generated starters after whitespace normalization, so they
+are not padded into ordered parts. V116 differed from its starter only by the
+question about `intersect {[5:7]}`; Part 29 preserves and answers that question,
+including the union math for overlapping ignore selections.
 The full record is in the
 [internal audit](../docs/internal/EDA_PLAYGROUND_AUDIT.md).
 
@@ -122,6 +131,14 @@ declared `void`, and V100's generated header now identifies the sample call as
 a property sequence match item. Every natural-language source comment is
 answered beside the complete source.
 
+Parts 27–29 store the three substantive Section 8 testbenches and the common
+`run.do`; all placeholder-only design panes are omitted. Their READMEs derive
+every Cartesian-product denominator, distinguish one range bin from an
+unsized bin array, explain weighted metrics versus raw-bin ratios, and answer
+all source comments about write/read filtering and `binsof ... intersect`.
+The V116 range/overlap question is consolidated into Part 29 rather than kept
+as a comment-only variation of a generated starter.
+
 ## Simulator-setting evidence
 
 All archived pages select Questa 2025.2 and enable `run.do`. Part 01 used the
@@ -131,7 +148,7 @@ following explicit Run Options in its verified flow:
 -coverage -voptargs=+acc=npr
 ~~~
 
-Parts 02–26 save only `-voptargs=+acc=npr`. Parts 02–08 and Part 14's
+Parts 02–29 save only `-voptargs=+acc=npr`. Parts 02–08 and Part 14's
 deterministic layer were verified locally with Vivado/XSim. Parts 09, 10, 12,
 13, 14, and 15 directly prove that the current EDA Playground `qrun` flow can
 collect and print SystemVerilog covergroup data without an explicit `-coverage`
@@ -147,3 +164,6 @@ and reported at 100% with Vivado/XSim 2024.1. Parts 22–26 were freshly rerun i
 Chrome on August 25, 2026 (IST). Every retained Section 7 page completed with
 zero compile/simulation errors and printed its detailed coverage report; the
 only remaining warning on each is the shared `+acc` optimization notice.
+Parts 27–29 were then freshly rerun from their saved Section 8 pages on August
+25. All three completed with zero compile/simulation errors and the same single
+`+acc` optimization notice.

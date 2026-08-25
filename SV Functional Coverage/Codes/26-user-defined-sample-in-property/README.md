@@ -1,6 +1,6 @@
 # Part 26 — User-Defined `sample()` Inside a Property
 
-[← Part 25](../25-user-defined-sample-in-function/README.md) · [Functional Coverage index](../README.md)
+[← Part 25](../25-user-defined-sample-in-function/README.md) · [Functional Coverage index](../README.md) · [Part 27 →](../27-cross-coverage-fundamentals/README.md)
 
 | Field | Value |
 |---|---|
