@@ -1,12 +1,11 @@
-# Functional Coverage Video Plates — Sections 9–10
+# Functional Coverage Video Plates — Section 10
 
-One runnable starter is provided for every teaching video from Sections 9
-through 10. Agenda entries, separate **Code** entries, and assignments are
-intentionally excluded, leaving **16 video plates**. Completed Sections 6–8
-are now archived as Parts 16–29 in the
-[ordered code track](Codes/README.md). Section 8 retains only its three authored
-programs; unchanged generated starters were omitted, and V116's sole range
-question was consolidated into Part 29.
+One runnable starter is provided for every teaching video in Section 10.
+Agenda entries, separate **Code** entries, and assignments are intentionally
+excluded, leaving **11 video plates**. Completed Sections 6–9 are now archived
+as Parts 16–33 in the [ordered code track](Codes/README.md). Section 9 retains
+V121, V122, V124, and V126; the untouched V128 summary was omitted rather than
+turned into an unnecessary ordered part.
 
 Each plate already contains the repetitive setup (`timescale`, declarations,
 covergroup construction, `$dumpfile`, `$dumpvars`, finite stimulus, and a
@@ -19,16 +18,6 @@ Namaste FPGA currently keeps all lessons on one course-page URL rather than
 giving each expanded video a separate browser URL. Therefore, every video
 title below opens the course page; its video number and exact title identify
 the matching entry. The EDA link opens that video's independent boilerplate.
-
-## Section 9 — Transition Bins
-
-| Video | Local starter | EDA Playground |
-|---|---|---|
-| [V121 — Simple Transition Coverage P1](https://namaste-fpga.com/student/learn/35) | [Open plate](plates/section-09-transition-bins/121-simple-transitions-p1) | [Open EDA](https://edaplayground.com/x/v_s9) |
-| [V122 — Simple Transition Coverage P2](https://namaste-fpga.com/student/learn/35) | [Open plate](plates/section-09-transition-bins/122-simple-transitions-p2) | [Open EDA](https://edaplayground.com/x/gsCG) |
-| [V124 — Consecutive Repetition Transition](https://namaste-fpga.com/student/learn/35) | [Open plate](plates/section-09-transition-bins/124-consecutive-repetition) | [Open EDA](https://edaplayground.com/x/M9vN) |
-| [V126 — Non-Consecutive Transition](https://namaste-fpga.com/student/learn/35) | [Open plate](plates/section-09-transition-bins/126-nonconsecutive-and-goto) | [Open EDA](https://edaplayground.com/x/SYhE) |
-| [V128 — Summary](https://namaste-fpga.com/student/learn/35) | [Open plate](plates/section-09-transition-bins/128-summary) | [Open EDA](https://edaplayground.com/x/XxV6) |
 
 ## Section 10 — Projects
 

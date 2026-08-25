@@ -1,7 +1,7 @@
 # Functional Coverage EDA Playground Audit
 
 This record documents the August 23–25, 2026 capture of the known functional-
-coverage playground sequence through the retained Section 8 pages. Parts 02–08 were captured through
+coverage playground sequence through the retained Section 9 pages. Parts 02–08 were captured through
 read-only inspection. Parts 09–13 record later saved lessons and repairs. Part
 09 includes the FSM repair and comments; Part 10 preserves filtered and
 overlapping bins; Parts 11–13 cover legal/illegal bins, ignore-bin closure, and
@@ -18,6 +18,9 @@ Parts 27–29 capture the three authored Section 8 cross-coverage pages. V108,
 V110, and V114 are unchanged generated starters; V116 differs only by a range
 question, which is consolidated into Part 29 rather than retained as a separate
 comment-only variation.
+Parts 30–33 capture V121, V122, V124, and V126 from Section 9. V128 is omitted:
+its live testbench has the same whitespace-insensitive fingerprint as the
+generated summary starter and contains no authored comment to migrate.
 The
 audit covers source identity, order, settings, and evidence.
 
@@ -53,6 +56,12 @@ The retained Section 8 sequence follows as Parts 27–29:
 uU5k → gsC6 → S_vr
 ```
 
+The retained Section 9 sequence follows as Parts 30–33:
+
+```text
+v_s9 → gsCG → M9vN → SYhE
+```
+
 `h8ie` (V092) and `p5Hu` (V102) are not ordered parts. V092 had no
 coverpoint and only the note `// sampling event`; that note now appears on the
 V093 covergroup declaration. V102 contained only generated recap scaffolding
@@ -63,6 +72,11 @@ ordered parts. Whitespace-insensitive comparison proves V108, V110, and V114
 match their local generated plates exactly. V116's only authored delta is
 `// values of d b/w 5 : 7 ?`; Part 29 quotes and answers that question with
 range-selection and overlapping-ignore-set denominator math.
+
+`XxV6` (V128, code ID `7382375`) is not an ordered part. Its live testbench and
+generated summary starter both have whitespace-insensitive SHA-256
+`cb868785de2640a1bad8e8e9edb52316322e8b347c99ea2281bc2e47d93ea734`.
+The shared run script and placeholder design contain no personal material.
 
 The final open-tab boundary was rechecked in Chrome before archiving Part 09.
 `FU8E` was saved and independently reloaded to prove that its comments persisted.
@@ -112,6 +126,10 @@ replaced the never-ending default `run -all` flow.
 | 27 | [`uU5k`](https://edaplayground.com/x/uU5k) / `7382359` | `27-cross-coverage-fundamentals` | `testbench.sv`, `run.do` |
 | 28 | [`gsC6`](https://edaplayground.com/x/gsC6) / `7382360` | `28-operation-specific-cross-covergroups` | `testbench.sv`, `run.do` |
 | 29 | [`S_vr`](https://edaplayground.com/x/S_vr) / `7382364` | `29-binsof-intersect-cross-filtering` | `testbench.sv`, `run.do` |
+| 30 | [`v_s9`](https://edaplayground.com/x/v_s9) / `7382369` | `30-simple-transition-coverage-p1` | `design.sv`, `testbench.sv`, `run.do` |
+| 31 | [`gsCG`](https://edaplayground.com/x/gsCG) / `7382370` | `31-simple-transition-coverage-p2` | `design.sv`, `testbench.sv`, `run.do` |
+| 32 | [`M9vN`](https://edaplayground.com/x/M9vN) / `7382373` | `32-consecutive-repetition-transition` | `testbench.sv`, `run.do` |
+| 33 | [`SYhE`](https://edaplayground.com/x/SYhE) / `7382374` | `33-nonconsecutive-and-goto-transition` | `testbench.sv`, `run.do` |
 
 Parts 02–08 and 10–15 have blank saved Name fields; Part 09 is named **FSM
 Coverage Report - Fixed Timing and Finish**. All fourteen pages select SystemVerilog and Siemens
@@ -140,6 +158,14 @@ binsof intersect**. They use the same SystemVerilog, Questa, compile option
 `run.do`. All three design panes contain only the common testbench-only
 placeholder and are omitted.
 
+Parts 30–33 have the saved names **FC S09 V121 - Simple Transitions P1**,
+**FC S09 V122 - Simple Transitions P2**, **FC S09 V124 - Consecutive
+Repetition**, and **FC S09 V126 - Nonconsecutive and Goto**. They use the same
+SystemVerilog, Questa, compile option `-timescale 1ns/1ns`, run option
+`-voptargs=+acc=npr`, and enabled custom `run.do`. Parts 30 and 31 retain their
+substantive two-state FSM design panes; Parts 32 and 33 omit the common
+testbench-only placeholder.
+
 The saved run options omit `-coverage`. Parts 02–08 were not claimed as
 unchanged browser-verified Questa flows; they have independent XSim evidence.
 Parts 09, 10, 12, 13, 14, and 15 directly prove that this EDA Playground qrun
@@ -148,7 +174,7 @@ Part 11 is retained as exact saved-source/settings evidence without claiming a
 deterministic result from ten random samples. Part 14 also demonstrates that
 Questa accepts exact X/Z singleton coverage bins that XSim 2024.1 rejects. The
 older blanket requirement has therefore been replaced by per-flow evidence.
-Parts 16–29 add direct saved-page evidence under that same configuration.
+Parts 16–33 add direct saved-page evidence under that same configuration.
 
 ## Source-parity fingerprints
 
@@ -251,6 +277,23 @@ operators, and comment text are preserved.
 All three common Section 8 `run.do` files have the whitespace-insensitive hash
 `65de6824eb8c4baf3c4a6e4a236852a4b3efae55a53c971ffabde972ecdf41bc`.
 
+### Section 9 whitespace-insensitive parity fingerprints
+
+The retained Section 9 study files use the same whitespace-insensitive
+comparison. The live editor and tracked file hashes match exactly, proving that
+all code tokens, identifiers, literals, operators, and comment text are
+preserved while horizontal formatting is normalized for readability.
+
+| Part | Testbench SHA-256 | Design SHA-256 |
+|---:|---|---|
+| 30 | `e6f501fc958caa29fa8e28467c19aacb07d43c507f9abe9a649fa72a5d6fd9c5` | `adf02952d0a0070d7c73cd64282881fd09811a93d14ebeb5ce0464e4b1cc0e44` |
+| 31 | `bdbd8e3b609b3bd8254b818b8aff318914e978dcf43cf2adb46e3b2310908623` | `c096eac18ef36a87a8dab4cb9f5b54107880271d2734ab9153d9a27892f4429d` |
+| 32 | `9336f90b05642da0db30a2cca9d026f7b3a22a9d2248d1fd1386ee27516905d2` | Placeholder omitted |
+| 33 | `41af4d6c7a8f59e93a8773a34f479c61ab5abff1b2b7a8340dc032c03b31e982` | Placeholder omitted |
+
+All four common Section 9 `run.do` files have the whitespace-insensitive hash
+`65de6824eb8c4baf3c4a6e4a236852a4b3efae55a53c971ffabde972ecdf41bc`.
+
 ## Independent local verification
 
 The unchanged captured SystemVerilog was compiled, elaborated, simulated, and
@@ -273,7 +316,7 @@ and 08 emitted only a lifetime warning for a block-local covergroup variable;
 the other captured lessons emitted no source warning that changes the reported
 coverage result.
 
-## Direct Questa verification for Parts 09–29
+## Direct Questa verification for Parts 09–33
 
 The saved `FU8E` page was rerun after its explanatory comments were added. The
 Questa 2025.2 transcript reported zero compile and simulation errors, a named
@@ -382,6 +425,27 @@ copies in Chrome on August 25, 2026 (IST):
 All three had zero compile and simulation errors. The only total warning on
 each page was the shared `vopt-10587` notice caused by `+acc`.
 
+The four retained Section 9 pages were freshly run from their saved public
+copies in Chrome on August 25, 2026 (IST):
+
+- Part 30 reported `c1` at 100%, `c2` at 80%, and equal-type total coverage at
+  90%. The high-input state-transition bins hit 2 and 1 times; the low-input
+  hold bins hit 19 and 0 times. Both illegal bins remained at zero.
+- Part 31 reported `cp_d.low` with 17 hits and `cp_state` with `hold_s0 = 14`,
+  `hold_s1 = 0`, and no illegal change. Equal coverpoint weighting produced
+  75%, while the raw scored-bin ratio was 2/3.
+- Part 32 reported its sole `(1[*4])` bin at 41 hits and 100%. Forty-four
+  consecutive sampled ones produce `44 - 4 + 1 = 41` overlapping windows; the
+  sixth array element, the intended zero endpoint, is never driven.
+- Part 33 reported its active `(0 => 1[->5] => 0)` bin at exactly one hit and
+  100%. The saved 41-hit and `1[*4]` comments were copied from Part 32 and do not
+  describe this run. Its 15-iteration loop also reads two indices beyond the
+  13-element dynamic array.
+
+All four had zero compile and simulation errors. The only total warning on each
+page was the shared `vopt-10587` notice caused by `+acc`; Questa did not emit an
+array-bound warning for Part 33.
+
 ## Part 14 local XSim verification
 
 The exact current `rzC3` testbench and design compiled, elaborated, and ran to
@@ -476,6 +540,18 @@ not a generic coverage summary:
 - Part 29 explains `binsof`/`intersect`, derives both filtered denominators,
   clarifies ignore-bin occurrences, identifies the missing read-data cross,
   and answers V116's range/overlap question without creating a redundant part.
+- Part 30 reconstructs the four accepted high-input state samples, explains
+  legal toggles versus holds, reconciles `c2`'s 80% metric with 7/9 raw bins,
+  and documents the same-edge stimulus race and misleading illegal-bin name.
+- Part 31 derives the 17 unguarded and 15 guarded samples, explains why only
+  `S0→S0` is hit, and distinguishes a legal high-input pulse from deliberately
+  exercising an illegal low-input state change.
+- Part 32 proves the source comment's 41 overlapping consecutive windows,
+  identifies the unused endpoint element, and gives a bounded, opposite-edge
+  `(0 => 1[*4] => 0)` formulation without altering the archived source.
+- Part 33 corrects every stale consecutive-repetition comment, explains the
+  endpoint difference between `[=]` and `[->]`, identifies the two invalid
+  array reads, and separates one-bin closure from a real operator comparison.
 
 The per-part revision checks and authoritative references are retained beside
 the relevant code so the discussion stays usable as study material.

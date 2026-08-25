@@ -203,7 +203,7 @@ payload integrity.
 
 | Week | Dates | Revision lane | Functional-coverage lane | End-of-week proof |
 |---:|---|---|---|---|
-| 1 | Aug 24–30 | All 44 SV Basics lessons in six clustered retrieval blocks; include the task/function TODO and completed Sections 6–8 Parts 16–29 in the weak queue | Intent, covergroups, sampling, coverpoints, and bin forms | Rebuild the layered-testbench flow and compile one small coverage example from a blank editor |
+| 1 | Aug 24–30 | All 44 SV Basics lessons in six clustered retrieval blocks; include the task/function TODO and completed Sections 6–9 Parts 16–33 in the weak queue | Intent, covergroups, sampling, coverpoints, and bin forms | Rebuild the layered-testbench flow and compile one small coverage example from a blank editor |
 | 2 | Aug 31–Sep 6 | Scheduler foundation, all 28 SVA lessons, both projects, and a FIFO property set | Conditional/transition coverage, crosses, filtering, and useful options | Explain scheduler sampling, write five FIFO properties, and justify a FIFO coverage specification |
 | 3 | Sep 7–13 | FIFO, frequency dividers/RTL, I2C, SPI, UART, AHB, APB, and AXI Sections 1–9 | Transaction-level coverage architecture; implement the FIFO collector/model | Draw every protocol family’s transfer and hit operation/occupancy coverage in the FIFO model |
 | 4 | Sep 14–20 | All 25 STA pages, five MOSFET/CMOS notebooks, Computer Architecture, and final mixed retrieval | Coverage results, hole classification, targeted stimulus, exclusions, and closure | Pass the mixed test and give a 10-minute FIFO verification teach-back |
@@ -237,8 +237,8 @@ three pages in that notebook. This is a revision pass, not note reconstruction.
 ### Sunday, August 23
 
 - [ ] Recite the five SV Basics phases and the SVA scheduler flow.
-- [ ] Put the existing task-versus-function TODO and completed Sections 6–8
-  Parts 16–29 into the weakness queue without editing over current uncommitted
+- [ ] Put the existing task-versus-function TODO and completed Sections 6–9
+  Parts 16–33 into the weakness queue without editing over current uncommitted
   notes.
 - [ ] Write five FIFO requirements and the observation event for each.
 - [ ] Select either the morning or afternoon primary block for Week 1.
