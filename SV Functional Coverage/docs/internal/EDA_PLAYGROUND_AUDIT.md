@@ -1,7 +1,7 @@
 # Functional Coverage EDA Playground Audit
 
-This record documents the August 23–24, 2026 capture of the known functional-
-coverage playground sequence through `fTK4`. Parts 02–08 were captured through
+This record documents the August 23–25, 2026 capture of the known functional-
+coverage playground sequence through the retained Section 7 pages. Parts 02–08 were captured through
 read-only inspection. Parts 09–13 record later saved lessons and repairs. Part
 09 includes the FSM repair and comments; Part 10 preserves filtered and
 overlapping bins; Parts 11–13 cover legal/illegal bins, ignore-bin closure, and
@@ -11,6 +11,9 @@ captures the repaired counter wildcard-bin lesson and its live finite-window
 Questa report. Parts 16–21 capture the six completed Section 6 reusable-
 covergroup pages, including every source comment/question and a fresh direct
 Questa run. Part 20 also retains a separate corrected, self-checking ALU layer.
+Parts 22–26 capture the five substantive Section 7 sampling-method pages. The
+minimal V092 overview and generated V102 recap are intentionally excluded;
+V092's useful sampling-event comment was moved into V093 before capture.
 The
 audit covers source identity, order, settings, and evidence.
 
@@ -33,6 +36,17 @@ The completed Section 6 sequence follows as Parts 16–21:
 ```text
 VnNY → bCAQ → mzj8 → E8nM → KXaD → biwn
 ```
+
+The retained Section 7 sequence follows as Parts 22–26:
+
+```text
+twJN → EfZj → L5Mb → cGiB → hfW3
+```
+
+`h8ie` (V092) and `p5Hu` (V102) are not ordered parts. V092 had no
+coverpoint and only the note `// sampling event`; that note now appears on the
+V093 covergroup declaration. V102 contained only generated recap scaffolding
+and no personal source comment that required migration.
 
 The final open-tab boundary was rechecked in Chrome before archiving Part 09.
 `FU8E` was saved and independently reloaded to prove that its comments persisted.
@@ -74,6 +88,11 @@ replaced the never-ending default `run -all` flow.
 | 19 | [`E8nM`](https://edaplayground.com/x/E8nM) / `7382342` | `19-generic-covergroup-rules` | `testbench.sv`, `run.do` |
 | 20 | [`KXaD`](https://edaplayground.com/x/KXaD) / `7382343` | `20-reusable-covergroup-alu-use-case` | exact `design.sv`, `testbench.sv`, `run.do`; corrected `verified-*` additions |
 | 21 | [`biwn`](https://edaplayground.com/x/biwn) / `7382346` | `21-reusable-covergroup-memory-range-use-case` | `testbench.sv`, `run.do` |
+| 22 | [`twJN`](https://edaplayground.com/x/twJN) / `7382349` | `22-covergroup-event-sampling` | `testbench.sv`, `run.do` |
+| 23 | [`EfZj`](https://edaplayground.com/x/EfZj) / `7382352` | `23-manual-prebuilt-sample-method` | `testbench.sv`, `run.do` |
+| 24 | [`L5Mb`](https://edaplayground.com/x/L5Mb) / `7382353` | `24-user-defined-sample-in-task` | `testbench.sv`, `run.do` |
+| 25 | [`cGiB`](https://edaplayground.com/x/cGiB) / `7382356` | `25-user-defined-sample-in-function` | `testbench.sv`, `run.do` |
+| 26 | [`hfW3`](https://edaplayground.com/x/hfW3) / `7382357` | `26-user-defined-sample-in-property` | `testbench.sv`, `run.do` |
 
 Parts 02–08 and 10–15 have blank saved Name fields; Part 09 is named **FSM
 Coverage Report - Fixed Timing and Finish**. All fourteen pages select SystemVerilog and Siemens
@@ -88,6 +107,13 @@ V087 - ALU Use Case**, and **FC S06 V089 - Memory Range Use Case**. They use the
 same SystemVerilog, Questa, compile-option, run-option, and enabled-`run.do`
 configuration. Only Part 20 has a substantive design pane.
 
+Parts 22–26 have the saved names **FC S07 V093 - Sampling Event**, **FC S07
+V095 - Prebuilt sample()**, **FC S07 V097 - User sample() in Task**, **FC S07
+V098 - User sample() in Function**, and **FC S07 V100 - User sample() in
+Property**. They use the same SystemVerilog, Questa, compile-option,
+run-option, and enabled-`run.do` configuration. All five design panes contain
+only the common testbench-only placeholder and are omitted.
+
 The saved run options omit `-coverage`. Parts 02–08 were not claimed as
 unchanged browser-verified Questa flows; they have independent XSim evidence.
 Parts 09, 10, 12, 13, 14, and 15 directly prove that this EDA Playground qrun
@@ -96,6 +122,7 @@ Part 11 is retained as exact saved-source/settings evidence without claiming a
 deterministic result from ten random samples. Part 14 also demonstrates that
 Questa accepts exact X/Z singleton coverage bins that XSim 2024.1 rejects. The
 older blanket requirement has therefore been replaced by per-flow evidence.
+Parts 16–26 add direct saved-page evidence under that same configuration.
 
 ## Source-parity fingerprints
 
@@ -158,9 +185,28 @@ normal readable whitespace, including meaningful source strings.
 | 18 | `28778f35a4fc39489026d974ad3b86f4b052e74ec6a53cb17f463c7be16ee339` | Placeholder omitted |
 | 19 | `b225ceb2f8f013cfcc580830d4b7d5ef6b7b1434c6edf7490a1886e8bd24fc92` | Placeholder omitted |
 | 20 | `15496b203b99986ea0bc746a658c1448f6b2e99715800c0ce93c7242c7e6d888` | `41f23c2d890dc19b40074e37737f9a4ac12239d82cbb52b616ce1e5aa42b1867` |
-| 21 | `423fd29c9b70facd215434d45481843c61095a03d9183109ca1961ea10f977e3` | Placeholder omitted |
+| 21 | `dead0e12bc2bf3c6aa7d0108d2ae04954de859d831bbd1bc3023f400d3a27c8f` | Placeholder omitted |
 
 All six common Section 6 `run.do` files have the whitespace-insensitive hash
+`65de6824eb8c4baf3c4a6e4a236852a4b3efae55a53c971ffabde972ecdf41bc`.
+
+### Section 7 whitespace-insensitive parity fingerprints
+
+The retained Section 7 files use the same whitespace-insensitive comparison
+because browser spacing was normalized for readable study files. Each local
+hash below exactly matches the freshly saved public editor after removing all
+whitespace; code tokens, literals, identifiers, and comment text are therefore
+preserved.
+
+| Part | Testbench SHA-256 | Design SHA-256 |
+|---:|---|---|
+| 22 | `5be79b2f87ba99aea06e2a1dec1d14b1aceae94a2085edef7c77b756c107b84d` | Placeholder omitted |
+| 23 | `e452773073476e6c863309d253f69e994b84af0d728528098e80285b8d2b983c` | Placeholder omitted |
+| 24 | `7198efe94e399e3b3e6227e8979e9236c36431db449c1aefc747b7e957bfe4b7` | Placeholder omitted |
+| 25 | `6cdf49362adedac888e2ffb6bba6621fe45701d3ddf8de25cfad18b1ec232d5a` | Placeholder omitted |
+| 26 | `a5b6e555b30684906fde253f82e6fe9194956cbddb293ce1aa5e5ddf82a42614` | Placeholder omitted |
+
+All five common Section 7 `run.do` files have the whitespace-insensitive hash
 `65de6824eb8c4baf3c4a6e4a236852a4b3efae55a53c971ffabde972ecdf41bc`.
 
 ## Independent local verification
@@ -185,7 +231,7 @@ and 08 emitted only a lifetime warning for a block-local covergroup variable;
 the other captured lessons emitted no source warning that changes the reported
 coverage result.
 
-## Direct Questa verification for Parts 09–21
+## Direct Questa verification for Parts 09–26
 
 The saved `FU8E` page was rerun after its explanatory comments were added. The
 Questa 2025.2 transcript reported zero compile and simulation errors, a named
@@ -248,11 +294,33 @@ their saved `-do run.do` configurations:
   produced 100% XCRG coverage for all four instances.
 - Part 21 reported low/mid/high instance scores of 100%, 37.50%, and 75%. The
   equal-instance type metric is 70.83%, while the raw hit ratio is 10/16 =
-  62.50%. Its three source warnings are the block-local initialized covergroup
-  handles' implicit-static lifetimes.
+  62.50%. Its repaired module-scope handles remove the earlier three
+  implicit-static source warnings.
 
 Every direct run had zero compilation or simulation errors. The saved `+acc`
 option adds the usual `vopt-10587` optimization warning to each page.
+
+All five retained Section 7 pages were freshly run in Chrome on August 25,
+2026 (IST) with their saved `-do run.do` configurations:
+
+- Part 22 automatically sampled at 12 positive edges and reported `a` bin hits
+  1/5/5/1, closing all four bins at 100%. The exact V092 comment
+  `// sampling event` was moved to this covergroup declaration before saving.
+- Part 23 made eight explicit no-argument `sample()` calls. Bin zero was missed;
+  hits 0/2/5/1 produced 3/4 bins and 75%.
+- Part 24 used 100 half-cycles to supply exactly 50 rising edges and let
+  `run -all` terminate. Values 1 and 5 were missed; 14/16 bins produced 87.50%.
+- Part 25 reported enum-state hits `write/read/NOP/error = 0/1/7/2`, or 75%.
+  Declaring the side-effect helper `function void` removed its missing-return
+  and implicit-void-cast warnings without changing the result.
+- Part 26 hit the lower, mid, and high address bins once each for 100% and
+  printed successful assertion action messages at 25, 45, and 65 ns. The
+  coverage call is a property sequence match item and occurs on a recognized
+  write attempt, before the later readback has proved successful.
+
+Every retained Section 7 page had zero source errors and zero source warnings
+after the saved repairs. The only total warning on each page was the shared
+`vopt-10587` notice caused by `+acc`.
 
 ## Part 14 local XSim verification
 
@@ -324,6 +392,21 @@ not a generic coverage summary:
 - Part 21 derives both displayed percentages, audits all three windows, answers
   every memory-range comment, and separates address coverage from memory
   correctness.
+- Part 22 explains declared-event sampling, derives all 12 positive-edge
+  samples, preserves V092's useful note, and shows why opposite-edge driving
+  avoids a scheduling race.
+- Part 23 distinguishes the prebuilt no-argument method from automatic event
+  sampling, audits assignment-before-sample ordering, and explains the random
+  75% result.
+- Part 24 explains argument-based sampling inside a task, proves why 100
+  half-cycles are required for 50 rising-edge calls, and records the original
+  infinite-clock/report fault.
+- Part 25 answers every enum/encoding comment, documents the `void` repair,
+  reconstructs the decoder truth table, and separates semantic enum coverage
+  from the commented numeric encoding path.
+- Part 26 answers the `sample()` and `wr` questions, reconstructs the 5–65 ns
+  scheduling timeline, explains property-local variables and repetition, and
+  separates write-attempt coverage from successful readback assertions.
 
 The per-part revision checks and authoritative references are retained beside
 the relevant code so the discussion stays usable as study material.

@@ -5,7 +5,7 @@ module tb;
   logic clk = 0;
   logic [1:0] a = 0;
 
-  covergroup clocked_cg @(posedge clk);
+  covergroup clocked_cg @(posedge clk); // sampling event
     option.per_instance = 1;
     cp_a: coverpoint a;
   endgroup
@@ -26,4 +26,5 @@ module tb;
     end
     // TODO: change the event and observe exactly when automatic sampling moves.
   end
+
 endmodule

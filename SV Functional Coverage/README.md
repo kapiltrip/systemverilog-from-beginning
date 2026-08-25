@@ -4,7 +4,7 @@
 > Riviera-PRO incident, the verified Questa `run.do` repair, and local
 > Vivado/XSim evidence.
 
-[All learning tracks](../README.md) · [Sections 7–10 video plates](PLATES.md) · [Code index](Codes/README.md) · [Capture audit](docs/internal/EDA_PLAYGROUND_AUDIT.md) · [Revision plan](../WORKING_REVISION_PLAN.md) · [Live tracker](../REVISION_TRACKER.md)
+[All learning tracks](../README.md) · [Sections 8–10 video plates](PLATES.md) · [Code index](Codes/README.md) · [Capture audit](docs/internal/EDA_PLAYGROUND_AUDIT.md) · [Revision plan](../WORKING_REVISION_PLAN.md) · [Live tracker](../REVISION_TRACKER.md)
 
 ## Incident summary
 
@@ -36,7 +36,7 @@ the playground used during troubleshooting, but the task transcript does not
 prove that the added `run.do` and `#500;` edit were saved back to its public
 version.
 
-## August 23–24 archive — Parts 02 through 21
+## August 23–25 archive — Parts 02 through 26
 
 Seven stable public playgrounds were first archived as Parts 02–08. The later
 FSM repair in named page `FU8E` was then completed, commented, saved, rerun, and
@@ -55,6 +55,9 @@ Parts 16–21 archive completed Section 6 in course order. All six saved pages
 were freshly rerun in Chrome. Part 20 deliberately keeps the user's exact ALU
 source, documents why its 100% input/opcode coverage hides broken duplicate
 case labels, and adds a separate self-checking correction that passes locally.
+Parts 22–26 archive the five substantive Section 7 sampling-method lessons.
+V092 and V102 are intentionally omitted because they add no substantive
+completed code; V092's useful sampling-event comment was moved into Part 22.
 
 | Part | Link / code ID | Captured topic | Verified result |
 |---:|---|---|---|
@@ -78,6 +81,11 @@ case labels, and adds a separate self-checking correction that passes locally.
 | 19 | [`E8nM`](https://edaplayground.com/x/E8nM) / `7382342` | Generic-covergroup `ref`/`input` rules | Questa: 3/6 bins, 50%; 0 errors; one source lifetime warning |
 | 20 | [`KXaD`](https://edaplayground.com/x/KXaD) / `7382343` | Reusable operand/opcode coverage for an ALU | Exact source 14/14 bins, 100%, but RTL case audit fails; corrected XSim variant passes at 100% |
 | 21 | [`biwn`](https://edaplayground.com/x/biwn) / `7382346` | Three reusable memory address windows | Questa: low 100%, mid 37.50%, high 75%; type metric 70.83%; 0 errors |
+| 22 | [`twJN`](https://edaplayground.com/x/twJN) / `7382349` | Automatic covergroup sampling event | Questa: 12 samples, 4/4 bins, 100%; 0 source errors or warnings |
+| 23 | [`EfZj`](https://edaplayground.com/x/EfZj) / `7382352` | Manual prebuilt `sample()` | Questa: 8 calls, 3/4 bins, 75%; 0 source errors or warnings |
+| 24 | [`L5Mb`](https://edaplayground.com/x/L5Mb) / `7382353` | User-defined sampling inside a task | Questa: 50 calls, 14/16 bins, 87.50%; finite-clock repair |
+| 25 | [`cGiB`](https://edaplayground.com/x/cGiB) / `7382356` | Enum-state sampling inside a function | Questa: `write/read/NOP/error` hits 0/1/7/2, 75%; repaired `void` helper |
+| 26 | [`hfW3`](https://edaplayground.com/x/hfW3) / `7382357` | Property-local sampling and readback assertion | Questa: three region bins, 100%; assertion successes at 25/45/65 ns |
 
 Parts 02–08 and 10–15 have blank saved Name fields. Part 09 is named **FSM
 Coverage Report - Fixed Timing and Finish**. Placeholder-only design panes are
@@ -94,10 +102,16 @@ Parts 16–21 have explicit saved names matching their Section 6 videos. Parts
 substantive ALU RTL and a separate `verified-*` layer. Each README answers every
 natural-language source comment and records the exact direct-run evidence.
 
-All twenty source pages from Parts 02–21 use Siemens Questa 2025.2, compile option `-timescale 1ns/1ns`,
+Parts 22–26 have explicit saved names matching retained Section 7 videos.
+Their design panes are placeholders and are omitted. Each lesson stores the
+saved testbench and `run.do`, renders both in its README, and answers the
+source comments about sampling events, user-defined method formals, enum
+coverage, and property semantics.
+
+All twenty-five source pages from Parts 02–26 use Siemens Questa 2025.2, compile option `-timescale 1ns/1ns`,
 Run Options `-voptargs=+acc=npr`, and an enabled custom `run.do`. Parts 02–08
 were independently compiled, simulated, and reported with Vivado/XSim 2024.1.
-Parts 09, 10, 12–21 were verified directly in saved Questa qrun
+Parts 09, 10, 12–26 were verified directly in saved Questa qrun
 configurations, which printed complete covergroup data despite having no
 explicit `-coverage` switch. Part 11 is retained as exact saved-source evidence
 because its ten random draws and illegal hits are seed-dependent. Part 14's
@@ -110,6 +124,9 @@ proved the report fault was repaired without adding an explicit `-coverage`
 switch.
 Parts 16–21 were freshly rerun on August 24. Part 20's corrected deterministic
 layer additionally passed all eight ALU checks and reached 100% in XSim/XCRG.
+Parts 22–26 were freshly rerun in Chrome on August 25 (IST); all five retained
+pages completed with zero compile/simulation errors and printed detailed
+coverage reports.
 The [ordered code index](Codes/README.md) links every lesson and records the
 per-flow evidence. The
 [capture audit](docs/internal/EDA_PLAYGROUND_AUDIT.md) records the browser
@@ -444,6 +461,26 @@ SV Functional Coverage/
 │   │   ├── verified-run.do
 │   │   └── README.md
 │   ├── 21-reusable-covergroup-memory-range-use-case/
+│   │   ├── testbench.sv
+│   │   ├── run.do
+│   │   └── README.md
+│   ├── 22-covergroup-event-sampling/
+│   │   ├── testbench.sv
+│   │   ├── run.do
+│   │   └── README.md
+│   ├── 23-manual-prebuilt-sample-method/
+│   │   ├── testbench.sv
+│   │   ├── run.do
+│   │   └── README.md
+│   ├── 24-user-defined-sample-in-task/
+│   │   ├── testbench.sv
+│   │   ├── run.do
+│   │   └── README.md
+│   ├── 25-user-defined-sample-in-function/
+│   │   ├── testbench.sv
+│   │   ├── run.do
+│   │   └── README.md
+│   ├── 26-user-defined-sample-in-property/
 │   │   ├── testbench.sv
 │   │   ├── run.do
 │   │   └── README.md

@@ -43,6 +43,7 @@ Fill `Baseline` before revision, then update `Latest`, `Last`, and `Next`.
 | Basics 40–44 — layered DUT communication | — | — | — | — | — |
 | Repair: task versus function | — | — | — | — | Existing TODO; preserve current edit |
 | Repair: Section 6 reusable-covergroup use cases | — | — | — | — | Repository repair complete: [Parts 16–21](SV%20Functional%20Coverage/Codes/README.md); learner retrieval still unmarked |
+| Repair: Section 7 sampling methods | — | — | — | — | Repository repair complete: [Parts 22–26](SV%20Functional%20Coverage/Codes/README.md); learner retrieval still unmarked |
 | SVA scheduler foundation | — | — | — | — | — |
 | SVA 01–07 | — | — | — | — | — |
 | SVA 08–14 | — | — | — | — | — |

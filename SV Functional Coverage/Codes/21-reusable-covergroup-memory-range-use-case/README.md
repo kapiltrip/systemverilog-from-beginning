@@ -1,6 +1,6 @@
 # Part 21 — Reusable Covergroup Memory-Range Use Case
 
-[← Part 20](../20-reusable-covergroup-alu-use-case/README.md) · [Functional Coverage index](../README.md)
+[← Part 20](../20-reusable-covergroup-alu-use-case/README.md) · [Functional Coverage index](../README.md) · [Part 22 →](../22-covergroup-event-sampling/README.md)
 
 | Field | Value |
 |---|---|
