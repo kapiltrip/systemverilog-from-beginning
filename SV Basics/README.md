@@ -2,7 +2,7 @@
 
 > A structured, hands-on SystemVerilog learning repository built from first principles.
 
-[All learning tracks](../README.md)
+[All learning tracks](../README.md) · [Question-to-Code Index](../QUESTION_TO_CODE_INDEX.md#sv-basics)
 
 This track is an ordered SystemVerilog practice notebook. Each numbered part preserves the user-authored code from its saved EDA Playground, records the saved identity and stable link, and adds study notes. A design file is included only when the design pane contains real lesson code; EDA Playground's untouched `// Code your design here` placeholder is not duplicated locally. The READMEs answer questions written in the source and explain observed failures without silently replacing the learning snapshot with different code.
 
@@ -12,6 +12,7 @@ The 44-part path now runs from simulation time, types, arrays, classes, copying,
 
 | I want to… | Open |
 |---|---|
+| Find a question and jump to its code/answer | [Question-to-Code Index](../QUESTION_TO_CODE_INDEX.md#sv-basics) |
 | Follow the course in order | [Canonical 44-part learning index](Codes/README.md) |
 | Find one concept quickly | [Quick concept lookup](Codes/README.md#quick-concept-lookup) |
 | Reconcile a local part with EDA Playground | [EDA/source audit](docs/internal/EDA_PLAYGROUND_AUDIT.md) |

@@ -16,20 +16,24 @@ systemverilog-from-beginning/
 │   └── README.md
 ├── SV Functional Coverage/
 │   ├── Codes/
+│   ├── Projects/
 │   ├── docs/
 │   ├── plates/
 │   ├── PLATES.md
 │   └── README.md
 ├── WORKING_REVISION_PLAN.md
 ├── REVISION_TRACKER.md
+├── QUESTION_TO_CODE_INDEX.md
 ├── REALIZATION.md
 └── README.md
 ```
 
+- [Question-to-Code Index — every recorded question, answer, and source](QUESTION_TO_CODE_INDEX.md)
 - [SV Basics](SV%20Basics/README.md)
 - [SV Assertions](SV%20Assertions/README.md)
 - [SV Functional Coverage — ordered playground lessons and simulator verification](SV%20Functional%20Coverage/README.md)
-- [Functional Coverage Section 10 — 11 remaining video boilerplates](SV%20Functional%20Coverage/PLATES.md)
+- [Functional Coverage Projects — completed RTL and coverage exercises](SV%20Functional%20Coverage/Projects/README.md)
+- [Functional Coverage Section 10 — 11 video plates](SV%20Functional%20Coverage/PLATES.md)
 - [SystemVerilog Realizations](REALIZATION.md)
 - [4-week revision and functional-coverage sprint](WORKING_REVISION_PLAN.md)
 - [Live revision tracker](REVISION_TRACKER.md)

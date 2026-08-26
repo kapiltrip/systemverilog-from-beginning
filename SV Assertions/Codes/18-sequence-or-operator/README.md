@@ -84,7 +84,7 @@ endmodule
 
 Local source: [testbench.sv](testbench.sv).
 
-## What sequence `or` means
+## What does the sequence `or` operator mean?
 
 For two sequences that start on the same assertion attempt, `s1 or s2` matches when **at least one** operand matches. It is temporal alternation, not the Boolean expression `s1 || s2` and not a requirement that both operands succeed.
 
@@ -105,7 +105,7 @@ endsequence
 - A quick failure of one branch does not fail the `or` while the other branch still has a possible match.
 - A successful branch is enough; the other branch does not also need to complete.
 
-## Why the verified assertion fails
+## Why does the verified assertion fail?
 
 The 10 ns clock has positive edges at 5, 15, 25, 35, 45 ns, and so on. `start` is assigned high at 20 ns, so `$rose(start)` is sampled at 25 ns. Because the property uses overlapped implication, both sequence alternatives start at that same 25 ns sample.
 

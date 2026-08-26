@@ -4,7 +4,16 @@
 > Riviera-PRO incident, the verified Questa `run.do` repair, and local
 > Vivado/XSim evidence.
 
-[All learning tracks](../README.md) · [Section 10 video plates](PLATES.md) · [Code index](Codes/README.md) · [Capture audit](docs/internal/EDA_PLAYGROUND_AUDIT.md) · [Revision plan](../WORKING_REVISION_PLAN.md) · [Live tracker](../REVISION_TRACKER.md)
+[All learning tracks](../README.md) · [Question-to-Code Index](../QUESTION_TO_CODE_INDEX.md#sv-functional-coverage) · [Projects](Projects/README.md) · [Section 10 video plates](PLATES.md) · [Code index](Codes/README.md) · [Capture audit](docs/internal/EDA_PLAYGROUND_AUDIT.md) · [Revision plan](../WORKING_REVISION_PLAN.md) · [Live tracker](../REVISION_TRACKER.md)
+
+## Section 10 project archive
+
+The completed V136 FIFO playground is preserved separately as
+[Project 01 — Synchronous FIFO Design and Functional Coverage](Projects/01-fifo-functional-coverage/README.md).
+It includes the exact design, stimulus, coverage model, verified 64.10% report,
+the corrected `reg`/`wire` explanation, and the elaboration-time meaning of
+`parameter` and `localparam`. V137 and V138 remain unused starter plates and
+were not copied into the project archive.
 
 ## Incident summary
 
@@ -515,6 +524,13 @@ SV Functional Coverage/
 │   │   ├── run.do
 │   │   └── README.md
 │   ├── 26-user-defined-sample-in-property/
+│   │   ├── testbench.sv
+│   │   ├── run.do
+│   │   └── README.md
+│   └── README.md
+├── Projects/
+│   ├── 01-fifo-functional-coverage/
+│   │   ├── design.sv
 │   │   ├── testbench.sv
 │   │   ├── run.do
 │   │   └── README.md
