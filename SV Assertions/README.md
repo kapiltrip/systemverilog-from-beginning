@@ -2,13 +2,14 @@
 
 > An ordered practice track for SystemVerilog Assertions (SVA).
 
-[All learning tracks](../README.md)
+[All learning tracks](../README.md) · [Question-to-Code Index](../QUESTION_TO_CODE_INDEX.md#sv-assertions)
 
 ## Start here
 
 1. Read [Foundation 00 — Event Scheduling Regions and Assertion Types](Foundations/00-event-scheduling-regions-and-assertion-types/README.md) for sampling, evaluation, pass/fail scheduling, immediate assertion types, the lecture screenshots, and all 17 event regions.
 2. Continue through the [ordered assertion playground index](Codes/README.md), beginning with Part 01.
 3. Use the separate [assertion projects index](Projects/README.md) for exercises that combine substantive RTL and verification code.
+4. Use the [question-to-code view](../QUESTION_TO_CODE_INDEX.md#sv-assertions) to jump from a recorded question to its exact source and answered discussion.
 
 The foundation note remains outside `Codes/` because it is a source-checked reference rather than a captured playground. `Codes/` now contains twenty-eight captured browser lessons in creation order. `Projects/` contains integrated RTL-and-verification work without consuming lesson numbers. Duplicate open tabs that share one stable playground ID are represented once.
 

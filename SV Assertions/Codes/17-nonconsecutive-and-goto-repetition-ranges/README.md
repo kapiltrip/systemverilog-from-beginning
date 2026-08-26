@@ -121,7 +121,7 @@ endmodule
 
 Local source: [testbench.sv](testbench.sv).
 
-## Why the exact source does not compile
+## Why does the exact source not compile?
 
 The `tb` module ends at line 66. Line 69 then begins a bare temporal expression:
 

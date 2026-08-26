@@ -105,7 +105,7 @@ req2[*3:5]          1       1       1       -> earliest success at T2
 
 The triggering sample counts as repetition number one. This is a common off-by-one source of confusion.
 
-## Answer to the source comment about exceeding the upper bound
+## Why does exceeding the repetition upper bound not cause an error?
 
 The comment says that repetition beyond the upper bound does not cause an error. For this property, that is correct.
 
