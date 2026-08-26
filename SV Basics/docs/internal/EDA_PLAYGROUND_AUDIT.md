@@ -2,9 +2,28 @@
 
 ## Current repository representation
 
-EDA Playground always displays both a design editor and a testbench editor, even when the design editor contains only `// Code your design here`. The repository now omits that default-only pane: all 42 parts keep `testbench.sv`, while `design.sv` appears only in Parts 22, 30, and 40–42, where the pane has substantive content. Part 16 also retains its additional baseline `editor_testbench.sv` capture. This gives the current repository 48 inline source blocks backed by 48 local source files.
+EDA Playground always displays both a design editor and a testbench editor, even when the design editor contains only `// Code your design here`. The repository now omits that default-only pane: all 44 parts keep `testbench.sv`, while `design.sv` appears only in Parts 22, 30, and 40–44, where the pane has substantive content. Part 16 also retains its additional baseline `editor_testbench.sv` capture, and Part 44 retains the separate `faulty-single-mailbox-testbench.sv` learning snapshot. This gives the current repository 53 inline source blocks backed by 53 local source files.
 
 The historical tables below still record both live editor panes and their fingerprints because they are evidence of what EDA Playground returned during each capture. Where an older row calls the placeholder pane `design.sv`, read that as a capture-time pane label, not as a promise that the current folder contains a placeholder file.
+
+## 2026-08-26 extension — Parts 43–44 and question tracking
+
+Parts 43 and 44 extend the ordered Basics sequence without changing the earlier
+capture evidence. This extension cross-checks their current repository
+metadata, source files, inline README renderings, index entries, and discussion
+destinations; it does not claim a new browser recapture or alter either saved
+playground.
+
+| Part | Captured Name / repository title | Short ID / code ID | Local source files | Recorded result |
+|---:|---|---|---|---|
+| 43 | Untitled at capture / `SV 43 - Polymorphic Copy for Error Injection` | [`F5HU`](https://edaplayground.com/x/F5HU) / `7366062` | `design.sv`, `testbench.sv` | Questa 2025.2 pass; 16 generated transactions and 16 zero-valued driver snapshots |
+| 44 | `all the screenshots, to be attached` / `SV 44 - Monitor and Scoreboard with Separate Mailboxes` | [`Rvwd`](https://edaplayground.com/x/Rvwd) / `7366164` | `design.sv`, `testbench.sv`, `faulty-single-mailbox-testbench.sv` | Questa 2025.2 compiles; the saved finite run drains only 8 of 16 scoreboard comparisons |
+
+The numbered directory sequence is contiguous from 01 through 44. All five
+new source files above have exact normalized matches in their README code
+blocks. Their five answered discussion questions are included in the root
+[`QUESTION_TO_CODE_INDEX.md`](../../../QUESTION_TO_CODE_INDEX.md), which also
+links back to the exact source locations when a question was written in code.
 
 ## 2026-08-18 extension — queue 000–012 renamed and mapped to parts 30–42
 
@@ -402,7 +421,7 @@ Part 16’s `editor_testbench.sv` is the byte-identical baseline duplicate of th
 ### Source and README parity
 
 - Complete live-pane comparison covered 58 design/testbench editors for Parts 01–29, with the permitted line-ending/terminal-newline normalization. Parts 04 and 05 differed only by terminal newline count; all substantive content matched. Part 22 was the sole substantive failure found and was restored from the live pane (`a>10`, preserved commented loop, active `assert`/display); its current live testbench hash is `a611dd87d922c37991712512bfc48858fb0d7b32de2b24b4ac65dfc84b83c8ea` in the canonical capture record. Placeholder-only design panes are now audit evidence rather than local files.
-- Current README/source parity covers 48 local source files and 48 matching inline source blocks, including Part 16's baseline-only `editor_testbench.sv`. No source improvement, correction, assertion, or self-checking replacement was added.
+- At this checkpoint, repository-wide README/source parity covered 48 local source files and 48 matching inline source blocks, including Part 16's baseline-only `editor_testbench.sv`. The current repository-wide total is 53/53 after the separately documented Parts 43–44 extension above. No source improvement, correction, assertion, or self-checking replacement was added by this historical audit.
 - `git diff --check` and the explicit link/source/question-ledger checks are required again after staging; no compiler or simulator artifact is part of the intended change.
 
 ### Post-message all-Edge stability evidence
