@@ -8,12 +8,25 @@
 
 ## Section 10 project archive
 
-The completed V136 FIFO playground is preserved separately as
-[Project 01 — Synchronous FIFO Design and Functional Coverage](Projects/01-fifo-functional-coverage/README.md).
-It includes the exact design, stimulus, coverage model, verified 64.10% report,
-the corrected `reg`/`wire` explanation, and the elaboration-time meaning of
-`parameter` and `localparam`. V137 and V138 remain unused starter plates and
-were not copied into the project archive.
+Namaste FPGA confirms that Section 10 is **Projects**, not another extension of
+the ordered syntax-code sequence. Its 17/17 completed course entries form five
+projects, each represented here by the single saved playground actually used:
+
+| Project | Used page | Fresh review result |
+|---|---|---|
+| [01 — FIFO](Projects/01-fifo-functional-coverage/README.md) | [Au83](https://edaplayground.com/x/Au83) | 17/26 bins; 64.10% |
+| [02 — Counter](Projects/02-counter-functional-coverage/README.md) | [h54t](https://edaplayground.com/x/h54t) | Clean 3,995 ns run; result pane printed no numeric coverage table |
+| [03 — 8:1 Mux](Projects/03-mux-8-to-1-functional-coverage/README.md) | [dMGx](https://edaplayground.com/x/dMGx) | 41/42 bins; 97.22% |
+| [04 — Priority Encoder](Projects/04-priority-encoder-functional-coverage/README.md) | [vYdX](https://edaplayground.com/x/vYdX) | Runs, but RTL/bin defects leave 6.25% |
+| [05 — SPI transitions](Projects/05-spi-transition-coverage/README.md) | [T6Uc](https://edaplayground.com/x/T6Uc) | Elaboration fails: testbench expects `spi_controller`, design defines `dac` |
+
+Every README keeps exact source plus a code/coverage discussion. The FIFO
+Discussion contains the elaboration-time explanation of `parameter` and
+`localparam` and the `reg`/`wire` answer. The SPI source request for an outer
+note is resolved here: **used Section 10 pages belong under `Projects/`, never
+under `Codes/`; a captured project may document a failing page without
+pretending it passed.** Unused V131/V132, V137/V138, and V143/V144 continuation
+plates were not duplicated into the project archive.
 
 ## Incident summary
 
@@ -530,6 +543,26 @@ SV Functional Coverage/
 │   └── README.md
 ├── Projects/
 │   ├── 01-fifo-functional-coverage/
+│   │   ├── design.sv
+│   │   ├── testbench.sv
+│   │   ├── run.do
+│   │   └── README.md
+│   ├── 02-counter-functional-coverage/
+│   │   ├── design.sv
+│   │   ├── testbench.sv
+│   │   ├── run.do
+│   │   └── README.md
+│   ├── 03-mux-8-to-1-functional-coverage/
+│   │   ├── design.sv
+│   │   ├── testbench.sv
+│   │   ├── run.do
+│   │   └── README.md
+│   ├── 04-priority-encoder-functional-coverage/
+│   │   ├── design.sv
+│   │   ├── testbench.sv
+│   │   ├── run.do
+│   │   └── README.md
+│   ├── 05-spi-transition-coverage/
 │   │   ├── design.sv
 │   │   ├── testbench.sv
 │   │   ├── run.do

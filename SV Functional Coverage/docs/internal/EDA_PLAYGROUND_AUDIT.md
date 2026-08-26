@@ -24,25 +24,38 @@ generated summary starter and contains no authored comment to migrate.
 The
 audit covers source identity, order, settings, and evidence.
 
-## 2026-08-26 extension — completed Section 10 FIFO project
+## 2026-08-26 extension — Section 10 project archive
 
-The completed V136 playground is archived outside the numbered lesson sequence
-as [Project 01 — Synchronous FIFO Design and Functional Coverage](../../Projects/01-fifo-functional-coverage/README.md).
-Its saved Name is `FC S10 V136 - FIFO P1`, its stable playground is
-[`Au83`](https://edaplayground.com/x/Au83), and its EDA code ID is `7382381`.
-The project keeps the completed `design.sv`, `testbench.sv`, and `run.do`; all
-three have exact normalized matches in the project README's rendered source
-blocks.
+The signed-in Namaste FPGA course page identifies Section 10 as **Projects**
+and reports 17/17 course entries complete. Those entries form five design
+projects. One saved page actually used for each project is archived outside the
+numbered lesson sequence:
 
-The recorded Questa 2025.2 result is 0 compile errors, 17 of 26 scored bins,
-and a 64.10% covergroup metric. The Discussion directly answers both retained
-FIFO questions: the elaboration-time meaning of `parameter`/`localparam` and
-why the procedurally assigned `raddr` is a variable rather than a wire.
+| Project | Saved Name / page | Direct Questa review |
+|---|---|---|
+| [01 — Synchronous FIFO](../../Projects/01-fifo-functional-coverage/README.md) | `FC S10 V136 - FIFO P1` / [Au83](https://edaplayground.com/x/Au83) | 0 source errors; 17/26 bins; 64.10% |
+| [02 — Counter P1](../../Projects/02-counter-functional-coverage/README.md) | `FC S10 V142 - Counter P1(1)` / [h54t](https://edaplayground.com/x/h54t) | 0 source errors; completed at 3,995 ns; result pane exposed no numeric coverage table |
+| [03 — 8:1 Mux](../../Projects/03-mux-8-to-1-functional-coverage/README.md) | `FC S10 V130 - 8-to-1 Mux P1` / [dMGx](https://edaplayground.com/x/dMGx) | 0 source errors; 41/42 bins; 97.22% |
+| [04 — Priority Encoder](../../Projects/04-priority-encoder-functional-coverage/README.md) | `FC S10 V134 - Priority Encoder` / [vYdX](https://edaplayground.com/x/vYdX) | 0 compile errors; 8/67 bins; 6.25%; reviewed RTL/bin defects retained |
+| [05 — SPI transitions](../../Projects/05-spi-transition-coverage/README.md) | `FC S10 V140 - SPI Transition Bins` / [T6Uc](https://edaplayground.com/x/T6Uc) | parsing succeeds; `vopt` fails because `spi_controller` is undefined beside a `dac` design |
 
-This extension does not promote unused starters into projects. V137, V138,
-and the other unfinished Section 10 plates remain only in the centralized
-[plate index](../../PLATES.md); `Projects/` contains only the completed V136
-archive.
+Every project directory contains the captured `design.sv`, `testbench.sv`,
+`run.do`, and a README that embeds and reviews the source. Projects 01 and
+02 retain the capture fingerprints recorded by their individual audits.
+Projects 03–05 use whitespace-insensitive SHA-256 fingerprints, which match
+their freshly captured browser panes exactly after formatting normalization.
+
+The FIFO Discussion answers the elaboration-time meaning of
+`parameter`/`localparam` and why procedurally assigned `raddr` is a variable
+rather than a wire. The Mux Discussion answers the select/input-cross question.
+The Counter Discussion answers its event-trigger question and every retained
+source marker. Priority Encoder and SPI discussions record the defects found
+during the direct run rather than converting a low or absent score into a false
+pass.
+
+Section 10 project content is never appended to `Codes/`. Unused V131/V132,
+V137/V138, and V143/V144 continuation plates remain only in the centralized
+[plate index](../../PLATES.md) and are not duplicated into `Projects/`.
 
 ## Final archive boundary
 

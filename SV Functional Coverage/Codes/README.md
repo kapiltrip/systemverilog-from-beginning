@@ -2,6 +2,11 @@
 
 [Functional Coverage home](../README.md) · [All learning tracks](../../README.md)
 
+This ordered index ends with the substantive syntax lessons from Section 9.
+Namaste FPGA Section 10 is a project track; its five used playgrounds are kept
+in the separate [Projects index](../Projects/README.md) and are never appended
+here.
+
 | Part | Topic | Main idea | Verified result | Playground |
 |---:|---|---|---|---|
 | 01 | [Basic Coverpoints](01-basic-coverpoints/README.md) | Explicit/event sampling, automatic bins, and simulator-specific report generation | Questa 2025.2 printed 100% (8/8 bins, 0 errors); Vivado/XSim also passed at 101 ns | [Y9rT](https://edaplayground.com/x/Y9rT) |
