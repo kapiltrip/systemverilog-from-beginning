@@ -1,6 +1,6 @@
 # Part 01 — Basic Coverpoints
 
-[Functional Coverage home](../../README.md) · [Ordered code index](../README.md) · [All learning tracks](../../../README.md)
+[Functional Coverage home](../../README.md) · [Ordered code index](../README.md) · [All learning tracks](../../../README.md) · [Part 02 →](../02-instance-type-goals-and-weights/README.md)
 
 ## Purpose
 

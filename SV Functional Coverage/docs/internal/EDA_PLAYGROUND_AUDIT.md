@@ -24,6 +24,26 @@ generated summary starter and contains no authored comment to migrate.
 The
 audit covers source identity, order, settings, and evidence.
 
+## 2026-08-26 extension — completed Section 10 FIFO project
+
+The completed V136 playground is archived outside the numbered lesson sequence
+as [Project 01 — Synchronous FIFO Design and Functional Coverage](../../Projects/01-fifo-functional-coverage/README.md).
+Its saved Name is `FC S10 V136 - FIFO P1`, its stable playground is
+[`Au83`](https://edaplayground.com/x/Au83), and its EDA code ID is `7382381`.
+The project keeps the completed `design.sv`, `testbench.sv`, and `run.do`; all
+three have exact normalized matches in the project README's rendered source
+blocks.
+
+The recorded Questa 2025.2 result is 0 compile errors, 17 of 26 scored bins,
+and a 64.10% covergroup metric. The Discussion directly answers both retained
+FIFO questions: the elaboration-time meaning of `parameter`/`localparam` and
+why the procedurally assigned `raddr` is a variable rather than a wire.
+
+This extension does not promote unused starters into projects. V137, V138,
+and the other unfinished Section 10 plates remain only in the centralized
+[plate index](../../PLATES.md); `Projects/` contains only the completed V136
+archive.
+
 ## Final archive boundary
 
 The preserved Chrome order is:
