@@ -171,7 +171,7 @@ class RevisionDoc(BaseDocTemplate):
         c.drawString(MARGIN, PAGE_H - 20, 'SYSTEMVERILOG REVISION  |  DATA TYPES AND OOP')
         c.drawRightString(PAGE_W - MARGIN, PAGE_H - 20, 'First & Second Revision Synthesis')
         c.line(MARGIN, 28, PAGE_W - MARGIN, 28)
-        c.drawString(MARGIN, 16, 'Core Foundations Guide  |  Excludes Section 6 Randomization')
+        c.drawString(MARGIN, 16, 'SystemVerilog Master Revision Handbook  |  Data Types, Subroutines, OOP & Randomization')
         c.drawRightString(PAGE_W - MARGIN, 16, f'Page {doc.page}')
         c.restoreState()
 
