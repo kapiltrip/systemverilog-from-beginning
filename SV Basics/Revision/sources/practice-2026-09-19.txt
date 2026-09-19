@@ -1,0 +1,809 @@
+// C1 : 
+// DAY 1 
+module tb;
+  bit a =0; // bit is a 2 state variable type , signed
+  // 2 state value will be 0 
+  // 4 state value will be x 
+
+  shortint c =0; 
+  byte b =0; 
+  longint e=0; 
+  // unsigned 
+  bit [7:0] f=  8'd0 ;
+  bit [7:0] g = 8'h13; 
+  bit [15:0] h = 16'h4221; 
+  // floating point value 
+  real i =0; 
+ 
+  
+  initial begin
+    
+  end
+endmodule 
+
+//C2 
+`timescale 1ns/1ps 
+module tb;
+  byte var = -126;  // signed 8 bit variable, q : why its called variable 
+  bit [7:0] var2 = 130; // i.e can store from 0 to 255 
+  time fix_time =0; 
+  realtime real_time = 0;   // return current simulation time in floating point format
+
+
+  initial begin
+    #10; 
+    $display("VALUE OF VAR IS : %0d , and the value of fixed time and real time is : %0t , %0t  " , var  , fixed_time , real_time );
+  end 
+endmodule
+//C3 array used in score board 
+module tb;
+ bit arr1[8] ; // 2 state unsigned variable 
+ bit arr[] = {1, 0, 1, 1};
+ bit arr3[]; // need to specify the size or need to give the values to the array 
+
+ 
+ initial begin
+   $display("size of array 1 and array arr is  %0d , %0d " , $size(arr1) , $sizeof(arr));
+   $display("Value of first, element of arr1 is : %0d " , arr1[0]) ; 
+   arr1[1]= 0; 
+   $display("value of all the elements, in the array is , %0p" , arr );
+   
+ end
+endmodule
+//C4 : initialization methods 
+module tb; 
+   // 2 state -> initialized to 0 
+  // 4 state -> initialized to unknown (Z) 
+  bit arr[5] ;  // uninitialized array 
+
+  logic arr1[5]; 
+  int arr2[5]= '{1,3,4,2,2};  //METHOD 1 : ADD A UNIQUE VALUE 
+  int arr3[5] = '{5{0}}; // 5 copies of value of 0 
+  int arr4[5] = '{default : 4 };
+  int arr5[9] = '{1,2,3,4,5,6,7,8,9};
+  
+  initial begin
+    $display("The value of the elements, in the array arr is : %0p" , arr );    // 2 state data type 
+    $display("The value of the elements, in the array arr1 is : %0p" , arr1 );  // 4 state logic 
+
+  end
+endmodule
+
+// C5: LOOPS IN ARRAY  : 1) for , 2) repeat 3) for each 
+
+module tb;
+  int arr[10];
+  initial begin
+    for(int i =0 ; i<10 ; i++)begin
+	arr[i] = i ; 
+    end
+  $display("The values of the arrays are : %0p" , arr );
+  end
+initial begin
+  foreach(arr[j])begin
+    // j will be 0 to ... 
+    arr[j]= j ; 
+    $display("the value updated is %0d " , arr[j]); 
+  end
+end
+
+initial begin  // generator class , we can find repeat for generation of stimuli 
+
+  repeat(10)begin
+    arr[i]= i ; 
+    i++; 
+  end
+  $display("the value updated is %0p " );
+end
+endmodule
+
+
+// C6 
+module tb;
+  int arr1[5]; 
+  int arr2[5]; 
+  int arr3[5] = '{1,3,2,54,3}; 
+  int arr4[5] = '{1,3,4,5,4}; 
+  int status ; 
+  initial begin
+    status = (arr3== arr4) ; 
+    $display("The status is %0d " , status );
+  end
+  initial begin
+    for(int i =0; i<5 ; i++)begin
+      arr1[i]= 5*i ; 
+    end
+  arr2= arr1; // copying the content same size and same type needed to copy arrays 
+
+  $display("The value of arr2 is %0p " , arr2 );
+  end 
+endmodule
+
+// C7 DYNAMIC ARRAY we prefer queue and also queue also provide for space management 
+
+module tb;
+  int arr[]; 
+  int fixed[30] ; 
+
+  initial begin
+    arr= new[5] ; // its not a constructor , constructor is () 
+    for(int i =0 ; i<5 ; i++)begin
+      arr[i] = i *  i ; 
+         
+    end
+    $display("The value of the array is %0p " , arr );
+    //arr.delete(); // will delete the array (dynamic array ) '
+    //arr = new[30] ;  // remove the previous data that,we have previously put i.e the loop 
+    // if i want to keep the existing data ; 
+    arr = new[30](arr) ; 
+    // to copy in the fixed size array 
+    fixed = arr; 
+
+  end 
+endmodule
+
+// C8 : QUEUES 
+
+module tb ;
+  int arr[$] ; 
+  int j ; 
+  initial begin
+    arr = {1 , 3,  4 } ; // in array i needed ' , but in queue i dont need ' 
+    $display("The elements of the queue arr is %0p "  , arr );
+    arr.push_front(7); // at 0 th index of the queue 
+    arr.push_back(9);
+    // at idx 2 
+    arr.insert(2) ; // 2 is the index number , inserting not replacing ok . 
+
+    j = arr.pop_front() ; 
+    k = arr.pop_back(); 
+    arr.delete(1); // element at index 1
+    $display("The value popped is j : %0d , and the array is : %0p " , j , arr );
+  end 
+endmodule
+
+//C9 : oops in cpp already included in cppand scripting 
+// oops in sv 
+// Task supports timing control , multiple output ports, 
+// function , not supports output ports , 
+/*
+class first ; 
+  reg [2:0] data ; // 4 state logic 
+  bit [1:0] data2; // 2 state logic 
+  
+endclass 
+// class is a dynamic object meaning 
+ 
+module tb;
+  first  f1;  // f1 is a handler of class first 
+  initial begin
+    f1 = new();  // 
+    $display("The value of the data and data2 is %0d , %0d " , f1.data, f1.data2);
+    f1.data = 3'b010; 
+    f1.data2 = 2'b11; 
+    // to deallocate memory 
+    //f1 = null ; // delete an object which was created inside initial begin block 
+    
+    
+    $display("The value of the data and data2 is %0d , %0d " , f1.data, f1.data2);
+  end 
+endmodule
+*/
+module tb;
+  /*
+  function bit [4:0] add(input [3:0] a , b ); 
+    return a + b ; 
+    
+  endfunction 
+  function void disp(); 
+    $display("values of the sum is %0d " , result);
+  endfunction
+  bit [4:0] result ; 
+  
+  initial begin
+    result = add(4'b0011 , 4'b0011);  
+    disp(); 
+    
+  end
+  */
+  bit clk = 0 ; 
+  
+  always #10 clk = ~clk ; 
+  
+  task clockTask(); 
+    @(posedge clk); 
+    a = $urandom(); 
+    b = $urandom(); 
+    add(); 
+    
+  endtask 
+  
+  bit [3:0] a , b ; 
+  bit [4:0] y ;
+  //task add (input bit  [3:0] a , input bit [3:0] b  , output bit [4:0] y); 
+  task add(); 
+    y= a + b ; 
+    $display("value of y is %0d from task at time %0t  " , y , $time );
+  endtask 
+  task stimuli(); 
+    /*
+    a = 1 ; 
+    b = 4; 
+    add(); 
+    #10; 
+    a = 3; 
+    b = 45;
+    add(); 
+    
+    #10 ;
+    */ 
+    for(int i =0 ; i< 10 ; i++)begin
+      @(posedge clk )
+      add(); 
+      
+    end
+  endtask 
+  initial begin
+    stimuli(); 
+    #110 ; 
+    $finish; 
+    
+  end
+endmodule 
+
+
+/*
+module tb ; 
+  // pass by value explain me as well an in how to speak it . 
+  task swap(input bit [1:0]a , b ) ;
+    bit [1:0] temp ; 
+    temp = a; 
+    a = b; 
+    b = temp; 
+    $display("Value of a is %0d , and b is %0d " , a , b);  
+  endtask
+  bit [1:0] c , d ; 
+  initial begin
+    c= 1; 
+    d= 2; 
+    swap(c , d);
+    $display("The value of a and b outside the task is %0d , %0d "  , c , d );
+  end
+endmodule
+*/
+
+//module tb;
+    // pass by reference explain me as well an in how to speak it . 
+  // can i use function here, ? 
+  // the use of automatic and why i use it 
+  /*
+  input bit [1:0] a;      // read-only input value/copy
+ref bit [1:0] a;        // reference to original variable, can modify it
+const ref bit [1:0] a;  // reference to original variable, but cannot modify it 
+explain me this as well 
+ 
+  */
+  /*
+  task automatic swap( ref  bit [1:0]a , b ) ;
+    bit [1:0] temp ; 
+    temp = a; 
+    a = b; 
+    b = temp; 
+    $display("Value of a is %0d , and b is %0d " , a , b);  
+  endtask
+  bit [1:0] c , d ; 
+  initial begin
+    c= 1; 
+    d= 2; 
+    swap(c , d);
+    $display("The value of a and b outside the task is %0d , %0d "  , c , d );
+  end
+endmodule 
+*/
+/*
+module tb;
+  bit [3:0] result [16]; 
+  function automatic void arrop(ref bit [3:0] a [16] );
+    for(int i =0 ; i< 16; i++ )begin
+      a[i] = i ; 
+      
+    end
+  endfunction 
+  initial begin
+    arrop(result);
+    $display("the array result is having vals as : %0p " , result) ; 
+    
+  end
+endmodule
+*/
+/*
+class first ;
+  int data; 
+  bit [7:0] data2 ; 
+  shortint data3 ; 
+  
+  function new(input int data =0 , input bit [7:0] data2=0 ,input shortint  data3=0  );
+    this.data = data ; 
+    this.data2 = data2; 
+    this.data3 = data3; 
+    
+  endfunction 
+  task displayy();
+    $display("Value of data and data2 and data3 is %0d , %0d , %0d from inside the task is :  " , data, data2, data3);
+  endtask 
+endclass 
+module tb;
+  first f ; 
+  initial begin
+    f = new(334 , 8'd4 , 16'd31); // expecting an argument the constructor  
+    //$display("The value of data member of the class first is %0d and second is %0d and third is %0d "  , f.data, f.data2, f.data3 );
+    f.displayy(); 
+    
+  end
+endmodule 
+
+
+class first ;
+  local int data = 344; // local int data = 344 (will make the data local / private )
+  
+  task display();
+    $display("Value of data is : %0d " , data);
+  endtask 
+  
+  task setter (input int data ) ;
+    this.data = data; 
+  endtask 
+  
+  function int  getter(); 
+    return data; 
+  endfunction 
+  
+endclass 
+
+class second ;
+  first f; 
+  function new();
+    f = new(); 
+  endfunction 
+  
+endclass
+
+module tb;
+  second s ; 
+  initial begin
+    s = new(); 
+    //$display("The value of data of class first is : %0d " , s.f.data ) ; 
+    s.f.display();
+    //s.f.data = 1;  // getting access to the class first . 
+    s.f.display(); 
+    s.f.setter(123); 
+    $display("The value updated is %0d " , s.f.getter()) ;
+ 
+    
+  end
+endmodule 
+
+
+*/
+/*
+class first ;
+  int data ; 
+endclass 
+
+module tb;
+  first f;
+  first f2; 
+  
+  initial begin
+    f= new(); 
+    f.data = 24; 
+    f2= new f ; 
+    // f2 will be a copy of f 
+    $display("The value copied to f1 is : %0d " , f.data);
+    $display("The value copied to f2 is : %0d " , f2.data);
+    f2.data= 33; 
+    $display("The value copied to f is : %0d " , f.data);
+    $display("The value copied to f2 is : %0d " , f2.data);
+  end
+endmodule 
+
+*/
+/*
+// shallow copy , independent variables 
+class first ;
+  int data =34  ; 
+  bit [7:0] temp = 8'h11 ; 
+  
+  function first copy();
+    copy = new(); 
+    copy.data = data ; 
+    copy.temp= temp ; 
+    
+  endfunction 
+endclass 
+
+module tb;
+  first f1;
+  first f2; 
+  */
+  /*
+  initial begin
+    f1= new();
+    f1.data = 24; 
+    
+    f2= new f1; // copy of data members 
+    $display("The value of f2 is :%0d  and f1 is %0d" , f2.data , f1.data );
+    f1.data = 344; 
+    f2.data = 555; 
+    $display("The value of f2 is :%0d  and f1 is %0d" , f2.data , f1.data );
+  end
+  */
+/*
+  initial begin
+    f1= new(); 
+    f2= new(); 
+    f2 = f1.copy(); 
+    $display("The value of f2 is :%0d  and f1 is %0d" , f2.data , f1.data );
+  end
+endmodule 
+*/
+// custom methods of copying . 
+// deep copy same handler of class was getting shared , instead of independent copy when we copy , objects . 
+/*
+class first ; 
+  int data = 12; 
+  function first copy(); 
+    copy = new(); 
+    copy.data = data ; 
+    
+  endfunction 
+endclass
+
+
+class second; 
+  int data2 = 34 ; 
+  first f1; 
+  function new(); 
+    f1= new(); 
+  endfunction 
+  function second copy2(); 
+    //f1= new(); // or i can make a separate constructor , with the help of function . // no i cant use initial beginend block here, its, in tb not in class 
+    
+    copy2 = new(); 
+    copy2.data2 = data2 ; 
+    copy2.f1 = f1.copy; // independent instance is also copied of the class f1 , to the class second along with data : 
+    
+  endfunction 
+endclass
+module tb;
+  second s1, s2 ; 
+  initial begin
+    s1 = new(); 
+    s2 = new(); 
+    s1.data2= 111; 
+    s2 = s1.copy2(); 
+    $display("Value of data2 is : %0d and value of data (class first ) is %0d   " , s2.data2 , s2.f1.data);
+    $display("Value of data2 is : %0d and value of data (class first ) is %0d   " , s1.data2 , s1.f1.data);
+    s1.data2 = 333; 
+    s1.f1.data = 1234; 
+    $display("Value of data2 is : %0d and value of data (class first ) is %0d   " , s2.data2 , s2.f1.data);
+    $display("Value of data2 is : %0d and value of data (class first ) is %0d   " , s1.data2 , s1.f1.data);
+  end
+endmodule 
+
+
+*/
+// inheritance 
+// extending instead of having a instance of another class and then access the attributes and methods 
+/*
+class first ;
+  int data = 12; 
+  function void display(); 
+    $display("Value of data is : %0d " , data );
+  endfunction 
+
+endclass
+class second extends first ; 
+  // all the attributes and methods access of class first 
+  int temp = 34 ; 
+    function void add(); 
+      $display("The value after processing Temp :  %0d  is %0d " , temp , temp+4  );
+  endfunction 
+  
+endclass
+ module tb;
+   second s ; 
+   initial begin
+     s= new(); 
+     $display("Value of data : accesses through class second is %0d " , s.data );
+     s.display(); 
+     s.add(); 
+   end
+ endmodule
+ */
+/*
+class first ;
+  int data = 12; 
+  function void display(); 
+    $display("Value of data is : %0d " , data );
+  endfunction 
+
+endclass
+
+ module tb;
+   first f1 , f2  ; 
+   initial begin
+     f1= new(); 
+     f2 = new(); 
+     f1.data = 34 ; 
+     f2 = f1 ; // is this also copying objects (shallow copy ) no , both now points to same object 
+     f2.display(); 
+     
+   end
+ endmodule
+ */
+/*
+class first ;
+  int data = 12; 
+  virtual function void display(); // if we dont overwrite, then this otherwise, the child class method will be used . 
+    $display("Value of data is : %0d and I am speaking from class first " , data );
+  endfunction 
+
+endclass
+class second extends first ; 
+  // all the attributes and methods access of class first 
+  int temp = 34 ;
+  function void display(); 
+    $display("I am speaking from class second having value : %0d " , data );
+  endfunction 
+endclass
+
+ module tb;
+   second s ; 
+   first f ; 
+   
+   initial begin
+     s = new(); 
+     f= new(); 
+     f= s;   // what this do besides copying the handler of class s to f 
+     f.display(); // parent methond will be executed 
+     
+   end
+ endmodule
+*/
+// super keyword   in case of custom constructor we will have this 
+class first ; 
+  int data ; 
+  function new(input int data ); 
+    this.data = data ; 
+    
+    
+  endfunction 
+endclass
+class second extends first ;
+  int temp ; 
+  function new(int data , int temp );  // default dir is input 
+    super.new(data); 
+    this.temp= temp ; 
+    
+  endfunction 
+endclass
+module tb;
+  second s; 
+  initial begin
+    s = new(67 , 31); // data for parent class, then child 
+    $display("Value of data is %0d  and temp is %0d " , s.data ,s.temp );
+  end
+  
+endmodule 
+
+
+
+
+// inheritance 
+// extending instead of having a instance of another class and then access the attributes and methods 
+/*
+class first ;
+  int data = 12; 
+  function void display(); 
+    $display("Value of data is : %0d " , data );
+  endfunction 
+
+endclass
+class second extends first ; 
+  // all the attributes and methods access of class first 
+  int temp = 34 ; 
+    function void add(); 
+      $display("The value after processing Temp :  %0d  is %0d " , temp , temp+4  );
+  endfunction 
+  
+endclass
+ module tb;
+   second s ; 
+   initial begin
+     s= new(); 
+     $display("Value of data : accesses through class second is %0d " , s.data );
+     s.display(); 
+     s.add(); 
+   end
+ endmodule
+ */
+/*
+class first ;
+  int data = 12; 
+  function void display(); 
+    $display("Value of data is : %0d " , data );
+  endfunction 
+
+endclass
+
+ module tb;
+   first f1 , f2  ; 
+   initial begin
+     f1= new(); 
+     f2 = new(); 
+     f1.data = 34 ; 
+     f2 = f1 ; // is this also copying objects (shallow copy ) no , both now points to same object 
+     f2.display(); 
+     
+   end
+ endmodule
+ */
+/*
+class first ;
+  int data = 12; 
+  virtual function void display(); // if we dont overwrite, then this otherwise, the child class method will be used . 
+    $display("Value of data is : %0d and I am speaking from class first " , data );
+  endfunction 
+
+endclass
+class second extends first ; 
+  // all the attributes and methods access of class first 
+  int temp = 34 ;
+  function void display(); 
+    $display("I am speaking from class second having value : %0d " , data );
+  endfunction 
+endclass
+
+ module tb;
+   second s ; 
+   first f ; 
+   
+   initial begin
+     s = new(); 
+     f= new(); 
+     f= s;   // what this do besides copying the handler of class s to f 
+     f.display(); // parent methond will be executed 
+     
+   end
+ endmodule
+*/
+// super keyword   in case of custom constructor we will have this 
+class first ; 
+  int data ; 
+  function new(input int data ); 
+    this.data = data ; 
+    
+    
+  endfunction 
+endclass
+class second extends first ;
+  int temp ; 
+  function new(int data , int temp );  // default dir is input 
+    super.new(data); 
+    this.temp= temp ; 
+    
+  endfunction 
+endclass
+module tb;
+  second s; 
+  initial begin
+    s = new(67 , 31); // data for parent class, then child 
+    $display("Value of data is %0d  and temp is %0d " , s.data ,s.temp );
+  end
+  
+endmodule 
+
+//transaction -> hold input and o/p 
+// how randomization will fail ? 
+/*
+initial begin
+  g = new();        // executable statement
+  int status = 0;   // declaration after a statement ❌
+end
+*/
+class generator ; 
+  // 2 state value 
+  rand bit [3:0] a, b;  
+  bit [3:0] y ; 
+  /*
+  //constraint data {a > 16 ; }
+  //a > 3 , a < 7 
+  constraint data_a {a > 3 ; a < 7 ; }
+  constraint data_b {b == 3 ; }
+  constraint data {
+    a inside {[0:8] , [10:11] , 15};
+    b inside {[3:11]}; 
+  }
+  // not want 3:7 and b 5 to 9 
+  */
+  // skip the ranges of values 
+  constraint data {
+    !(a inside {[3:7]});
+    !(b inside {[5:9]}); 
+  }
+endclass
+
+module tb;
+  generator g ; 
+  initial begin
+    //int status =0 ; 
+    //g = new();
+    for(int i =0 ; i< 10 ; i++ ) begin
+      g=new(); 
+      // independent object when i generate stimuli 
+      
+      //status = g.randomize(); 
+      /*
+      if(!g.randomize()) begin
+        $display("Randomization failed at time %0t " , $time );
+        $finish(); 
+      end
+      */
+      // random signal will be sent to driver 
+      // transaction obj , from gen -> drv -> dut -> monitor -> scoreboard 
+      
+      assert(g.randomize()) else begin
+        $display("Randomization failed at time %0t " , $time );
+        $finish(); 
+      end
+      $display("value of a is : %0d , and b is %0d at time %0t " , g.a , g.b , $time );
+      #10 ; 
+    end
+  end
+  
+endmodule 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

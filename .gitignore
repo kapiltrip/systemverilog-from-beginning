@@ -12,5 +12,6 @@ vivado-run/
 
 # Local browser-control captures (not study material)
 /.playwright-cli/
-/output/playwright/
+/output/
+SV_Labs.zip
 
