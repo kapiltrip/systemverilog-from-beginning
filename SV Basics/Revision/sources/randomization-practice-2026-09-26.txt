@@ -1,0 +1,362 @@
+//transaction -> hold input and o/p 
+// how randomization will fail ? 
+/*
+initial begin
+  g = new();        // executable statement
+  int status = 0;   // declaration after a statement ❌
+end
+*/
+class generator ; 
+  // 2 state value 
+  rand bit [3:0] a, b;  
+  bit [3:0] y ; 
+  /*
+  //constraint data {a > 16 ; }
+  //a > 3 , a < 7 
+  constraint data_a {a > 3 ; a < 7 ; }
+  constraint data_b {b == 3 ; }
+  constraint data {
+    a inside {[0:8] , [10:11] , 15};
+    b inside {[3:11]}; 
+  }
+  // not want 3:7 and b 5 to 9 
+  */
+  // skip the ranges of values 
+  constraint data {
+    !(a inside {[3:7]});
+    !(b inside {[5:9]}); 
+  }
+endclass
+
+module tb;
+  generator g ; 
+  initial begin
+    //int status =0 ; 
+    //g = new();
+    for(int i =0 ; i< 10 ; i++ ) begin
+      g=new(); 
+      // independent object when i generate stimuli 
+      
+      //status = g.randomize(); 
+      /*
+      if(!g.randomize()) begin
+        $display("Randomization failed at time %0t " , $time );
+        $finish(); 
+      end
+      */
+      // random signal will be sent to driver 
+      // transaction obj , from gen -> drv -> dut -> monitor -> scoreboard 
+      
+      assert(g.randomize()) else begin
+        $display("Randomization failed at time %0t " , $time );
+        $finish(); 
+      end
+      $display("value of a is : %0d , and b is %0d at time %0t " , g.a , g.b , $time );
+      #10 ; 
+    end
+  end
+  
+endmodule 
+
+class generator ; 
+  rand bit [3:0] a, b;  
+  bit [3:0] y ; 
+  extern constraint data; 
+  extern function void display();
+endclass
+    function void generator::display(); 
+      $display("Value of a is : %0d and b is %0d from function display " , a, b );
+    endfunction 
+      
+constraint generator::data {
+  a inside {[0:3]}; 
+  b inside {[12:15]} ; 
+  
+};
+
+module tb;
+  generator g ; 
+  initial begin
+    for(int i =0 ; i< 10 ; i++ ) begin
+      g=new(); 
+      assert(g.randomize()) else begin
+        $display("Randomization failed at time %0t " , $time );
+        $finish(); 
+      end
+      $display("value of a is : %0d , and b is %0d at time %0t " , g.a , g.b , $time );
+      #10 ; 
+      g.display(); 
+      
+    end
+  end
+  
+endmodule 
+
+// constraint outside the class 
+// pre randomize and post randomize 
+// randc will create a bucket for constraints, so it doesnt repeat .
+// if i change the constraint , then we create a new bucket and start generating from new bucket .
+// changing constraint in run time 
+
+class generator ; 
+  randc bit [3:0] a , b ; 
+  bit [3:0] y ; // 
+  int min ; 
+  int max ; 
+  
+  function void pre_randomized(input int min , input int max); // min / max range for randomization 
+    this.min= min ; 
+    this.max= max ; 
+  endfunction 
+  
+  constraint data {
+    a inside {[min:max]} ; 
+    b inside {[min:max]} ; 
+  }
+  
+  function void post_randomized(); 
+    $display("value of a is : %0d and b is %0d " , a , b);
+  endfunction 
+  
+endclass 
+module tb;
+  generator g ; 
+  initial begin
+  for(int i =0 ; i< 10 ;i++)begin
+    g = new(); // discussion around if i need it inside, or outside the for loop 
+    //g.pre_randomized(12,30); if i am not using this , min / max is a 2 state logic so value is 0 . 
+    g.pre_randomized(12,33);
+    if(!g.randomize())begin
+      $display("Randomization failed at time %0t " , $time );
+    end
+    g.post_randomized(); 
+    #10 ; 
+  end
+  end 
+endmodule 
+
+
+// external constraint 
+// pre and post randomization 
+// pre_randomize(); post_randomize 
+class generator ; 
+  randc bit [3:0] a , b ; 
+  bit [3:0] y ; 
+  /*
+  constraint data_a {a > 3 ;  a < 7 ; }
+  constraint data_b {b == 3 ; }
+  constraint data { a inside {[0:8] , [10:11] , 15 } ; 
+                   b inside {[3:11]} ; // 3 to 11 range  
+                  }
+  // a 3:7 
+  // b 5 to 9 
+  constraint dataab{
+    !(a inside {[3:7]}) ;
+    !(b inside {[5:9]}) ; 
+    
+  }
+  */
+  extern constraint data; 
+  extern function void display(); 
+    
+endclass 
+// external constraint 
+
+constraint generator::data {
+  a inside {[0:4]} ; 
+  b inside {[12:15]} ; 
+  
+}; 
+    function void generator::display(); 
+      $display("Value of a is : %0d , and b is %0d " , a , b );
+    endfunction 
+module tb;
+  generator g ; 
+  int status=0; 
+  initial begin
+    for(int i =0 ; i< 10 ; i++ )begin
+      g = new(); 
+      assert(g.randomize()) else $display("Randomization failed ");
+      g.display(); 
+      
+      //$display("value of a is : %0d , and b is : %0d " , g.a  , g.b ); 
+      #10 ; 
+      
+    end
+  end
+endmodule 
+
+// external constraint 
+// pre and post randomization 
+// pre_randomize(); post_randomize 
+// bucket and rand c behaviour , after i change the constraint in run time 
+// modification of constraint will change the bucket and simulator will not keep track of the values 
+//:= :/ 0:/ 10 ; 1:/ 90 
+// := equal weight to all the values in side range 
+// :/ dive weight equally inside the range 
+// sel [1:0] [1:3] :/ 60 
+// equally divided in the range so 1 -> 20 , 2-> 20 , 3 -> 20 , its going to divide inside the range 
+
+class generator ; 
+  randc bit [3:0] a , b ; 
+  bit [3:0] y ; 
+  int min =0 ; 
+  int max =0; 
+  
+  function void pre_randomized(input int min, input int max);
+    this.min = min ; 
+    this.max = max ; 
+    
+  endfunction
+  constraint limitss {
+    a inside {[min:max]} ; 
+    b inside {[min:max]} ; 
+  }
+  function void post_randomized(); 
+    $display("value of a is %0d  ,and b is %0d " , a, b);
+    
+  endfunction 
+endclass 
+
+module tb;
+  generator g ; 
+  int status=0; 
+  initial begin
+    g = new();
+    $display("SPACE 1 "); 
+    g.pre_randomized(2,11);
+    for(int i =0 ; i< 10 ; i++ )begin
+      g.pre_randomized(2, 11); 
+      assert(g.randomize()) else $display("Randomization failed ");
+      //g.display(); 
+      g.post_randomized(); 
+      #10 ; 
+      
+    end
+    $display("SPACE 2 "); 
+    g.pre_randomized(2,11);
+    for(int i =0 ; i< 10 ; i++ )begin
+      g.pre_randomized(2, 11); 
+      assert(g.randomize()) else $display("Randomization failed ");
+      //g.display(); 
+      g.post_randomized(); 
+      #10 ; 
+      
+    end
+    
+  end
+endmodule 
+
+// -> implication operator 2) equavalence operator 3 if else 
+// enabling and disabling a constraint 
+
+/*
+class first ; 
+  rand bit wr; 
+  rand bit rd ; 
+  rand bit [1:0] var1 , var2 ; 
+  constraint data {
+    var1 dist {0 := 30 , [1:3] := 70} ; 
+    var2 dist {0:/ 30 , [1:3] :/90 } ; 
+    
+  }
+  
+  constraint control {
+    wr dist {0 := 30 , 1 := 70};
+    rd dist {0 :/ 30 , 1:/ 70} ; 
+  }
+
+endclass 
+module tb;
+  first f ; 
+  initial begin
+    f = new(); 
+    for(int i =0 ; i< 15 ; i++)begin
+      f.randomize(); 
+      $display("The value of write, is %0d and read is %0d and var1 (:=) is %0d and var2 is(:/) %0d " , f.wr, f.rd , f.var1, f.var2 );
+    end
+  end
+endmodule 
+*/
+class generator ; 
+  randc bit [3:0] a; 
+  rand bit ce ; 
+  rand bit rst ; 
+  rand bit wr; 
+  rand bit oe ; 
+  rand bit [3:0 ] raddr , waddr ; 
+  
+  constraint control_rst{
+    rst dist {0:= 40 , 1 := 60 };
+    
+  }
+  constraint control_ce {
+    ce dist {1:= 80 , 0 := 20 }; 
+  }
+  constraint control_rst_ce {
+    (rst == 0) -> (ce == 1) ; 
+    
+  }
+  constraint value_wr {
+    wr dist {0 := 50 , 1 := 50 } ; 
+    
+  }
+  constraint value_oe {
+    oe dist {0 := 50 , 1 := 50 } ; 
+  }
+  constraint equivalence_const {
+    (wr==1 ) <-> (oe == 0 );
+  }
+  /*
+  constraint write_read {
+    if(wr==1){
+      waddr inside {[11:15]}; 
+      raddr == 0 ; 
+    }else {
+      raddr inside {[11:15]} ; 
+    }
+  }
+    */
+  
+endclass
+module tb;
+  generator g ; 
+  initial begin
+    g = new();
+    g.equivalence_const.constraint_mode(0); // 0 means constraint is off 
+    for(int i =0 ; i< 10 ; i++)begin
+      assert(g.randomize()) else $display("randomization failed ");
+      //$display("Value of reset is %0b and ce is %0b " , g.rst , g.ce );
+      //$display("Value of wr is %0b and oe is %0b " , g.wr , g.oe);
+      $display("status of the constraint equivalence_const is : %0d " , g.equivalence_const.constraint_mode());
+    end
+  end
+endmodule 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

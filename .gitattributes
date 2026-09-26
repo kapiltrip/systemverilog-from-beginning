@@ -1,6 +1,10 @@
 # EDA editor panes and their verbatim README renderings retain user-authored
 # trailing spaces; whitespace checks must not rewrite captured source.
+*.pdf binary
 "SV Basics/Codes/**/*.sv" -whitespace
 "SV Basics/Codes/**/README.md" -whitespace
 "SV Assertions/Codes/**/*.sv" -whitespace
 "SV Assertions/Codes/**/README.md" -whitespace
+
+# Keep the attached Section 6 practice archive byte-for-byte, including CRLF.
+"SV Basics/Revision/sources/randomization-practice-2026-09-26.txt" -text -whitespace

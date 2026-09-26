@@ -12,6 +12,8 @@ The 44-part path now runs from simulation time, types, arrays, classes, copying,
 
 | I want to… | Open |
 |---|---|
+| Revise completed data types and OOP | [Definitions, worked explanations, and printable revision guide](Revision/README.md) |
+| Revise Section 6 randomization | [Detailed guide, code, pronunciation, and worked answers](Revision/Section-6-Randomization.md) · [PDF](Revision/Section-6-Randomization.pdf) |
 | Find a question and jump to its code/answer | [Question-to-Code Index](../QUESTION_TO_CODE_INDEX.md#sv-basics) |
 | Follow the course in order | [Canonical 44-part learning index](Codes/README.md) |
 | Find one concept quickly | [Quick concept lookup](Codes/README.md#quick-concept-lookup) |

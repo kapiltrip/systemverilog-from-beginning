@@ -30,6 +30,7 @@ systemverilog-from-beginning/
 
 - [Question-to-Code Index — every recorded question, answer, and source](QUESTION_TO_CODE_INDEX.md)
 - [SV Basics](SV%20Basics/README.md)
+- [SV Basics revision guides: Data Types and OOP, then Section 6 Randomization](SV%20Basics/Revision/README.md)
 - [SV Assertions](SV%20Assertions/README.md)
 - [SV Functional Coverage — ordered playground lessons and simulator verification](SV%20Functional%20Coverage/README.md)
 - [Functional Coverage Projects — five reviewed Namaste FPGA Section 10 projects](SV%20Functional%20Coverage/Projects/README.md)
